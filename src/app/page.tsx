@@ -1,13 +1,16 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from './page.module.css'
+import Image from 'next/image';
+import { Inter } from 'next/font/google';
+import styles from './page.module.css';
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
+import Login from '@components/auth';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
   return (
     <main className={styles.main}>
       <div className={styles.description}>
+        <Login />
         <p>
           Get started by editing&nbsp;
           <code className={styles.code}>src/app/page.tsx</code>
@@ -87,5 +90,5 @@ export default function Home() {
         </a>
       </div>
     </main>
-  )
+  );
 }
