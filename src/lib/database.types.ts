@@ -7,134 +7,274 @@ export type Json =
   | Json[]
 
 export interface Database {
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          operationName?: string
-          query?: string
-          variables?: Json
-          extensions?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
   public: {
     Tables: {
-      Competition: {
+      competition: {
         Row: {
           competition_id: number
-          competition_short: string
-          identifier: string
+          competition_unique: string
+          daterange: unknown
+          identifier: string | null
           round_count: number
+          season: string | null
         }
         Insert: {
           competition_id?: number
-          competition_short: string
-          identifier: string
+          competition_unique: string
+          daterange: unknown
+          identifier?: string | null
           round_count: number
+          season?: string | null
         }
         Update: {
           competition_id?: number
-          competition_short?: string
-          identifier?: string
+          competition_unique?: string
+          daterange?: unknown
+          identifier?: string | null
           round_count?: number
+          season?: string | null
         }
       }
-      CompetitionDetails: {
+      competitionmeta: {
         Row: {
-          competition_short: string
+          competition_unique: string
           display_name: string
           league_unique: string
           official_name: string
         }
         Insert: {
-          competition_short: string
+          competition_unique: string
           display_name: string
           league_unique: string
           official_name: string
         }
         Update: {
-          competition_short?: string
+          competition_unique?: string
           display_name?: string
           league_unique?: string
           official_name?: string
         }
       }
-      Game: {
+      competitionround: {
+        Row: {
+          competition_id: number
+          round_end: string
+          round_name: string | null
+          round_num: number
+          round_start: string
+          teams_remaining: number | null
+        }
+        Insert: {
+          competition_id?: number
+          round_end: string
+          round_name?: string | null
+          round_num: number
+          round_start: string
+          teams_remaining?: number | null
+        }
+        Update: {
+          competition_id?: number
+          round_end?: string
+          round_name?: string | null
+          round_num?: number
+          round_start?: string
+          teams_remaining?: number | null
+        }
+      }
+      conference: {
+        Row: {
+          conference_name: string
+          conference_unique: string
+          league_unique: string
+        }
+        Insert: {
+          conference_name: string
+          conference_unique: string
+          league_unique: string
+        }
+        Update: {
+          conference_name?: string
+          conference_unique?: string
+          league_unique?: string
+        }
+      }
+      game: {
         Row: {
           competition_id: number
           game_date: string
           game_id: number
           game_time: string | null
+          league_unique: string
+          league_unique_1: string
           round_num: number
           team_1_id: string
           team_2_id: string
+          winner: string
         }
         Insert: {
           competition_id?: number
           game_date: string
           game_id?: number
           game_time?: string | null
+          league_unique: string
+          league_unique_1: string
           round_num: number
           team_1_id: string
           team_2_id: string
+          winner: string
         }
         Update: {
           competition_id?: number
           game_date?: string
           game_id?: number
           game_time?: string | null
+          league_unique?: string
+          league_unique_1?: string
           round_num?: number
           team_1_id?: string
           team_2_id?: string
+          winner?: string
         }
       }
-      Group: {
-        Row: {
-          admin_user_id: string
-          group_id: number
-          group_name: string
-        }
-        Insert: {
-          admin_user_id: string
-          group_id?: number
-          group_name: string
-        }
-        Update: {
-          admin_user_id?: string
-          group_id?: number
-          group_name?: string
-        }
-      }
-      League: {
+      league: {
         Row: {
           league_name: string
           league_unique: string
+          sport: string
+          womens: boolean | null
         }
         Insert: {
           league_name: string
           league_unique: string
+          sport: string
+          womens?: boolean | null
         }
         Update: {
           league_name?: string
           league_unique?: string
+          sport?: string
+          womens?: boolean | null
         }
       }
-      MVP: {
+      player: {
+        Row: {
+          birthdate: string | null
+          player_name: string
+          player_unique: string
+          position: string | null
+        }
+        Insert: {
+          birthdate?: string | null
+          player_name: string
+          player_unique: string
+          position?: string | null
+        }
+        Update: {
+          birthdate?: string | null
+          player_name?: string
+          player_unique?: string
+          position?: string | null
+        }
+      }
+      player_competition: {
+        Row: {
+          competition_id: number
+          inactive: boolean
+          league_unique: string
+          note: string | null
+          player_unique: string
+          team_unique: string
+        }
+        Insert: {
+          competition_id?: number
+          inactive: boolean
+          league_unique: string
+          note?: string | null
+          player_unique: string
+          team_unique: string
+        }
+        Update: {
+          competition_id?: number
+          inactive?: boolean
+          league_unique?: string
+          note?: string | null
+          player_unique?: string
+          team_unique?: string
+        }
+      }
+      player_game: {
+        Row: {
+          assists: number
+          blocks: number
+          game_id: number
+          player_unique: string
+          points: number
+          rebounds: number
+        }
+        Insert: {
+          assists: number
+          blocks: number
+          game_id?: number
+          player_unique: string
+          points: number
+          rebounds: number
+        }
+        Update: {
+          assists?: number
+          blocks?: number
+          game_id?: number
+          player_unique?: string
+          points?: number
+          rebounds?: number
+        }
+      }
+      pool: {
+        Row: {
+          competition_id: number
+          currency: string
+          draft_time: string
+          point_value: number
+          pool_id: number
+          poolmeta_id: number
+          roster_count: number
+        }
+        Insert: {
+          competition_id?: number
+          currency: string
+          draft_time: string
+          point_value: number
+          pool_id?: number
+          poolmeta_id?: number
+          roster_count: number
+        }
+        Update: {
+          competition_id?: number
+          currency?: string
+          draft_time?: string
+          point_value?: number
+          pool_id?: number
+          poolmeta_id?: number
+          roster_count?: number
+        }
+      }
+      poolmeta: {
+        Row: {
+          admin_user_id: string
+          pool_name: string
+          poolmeta_id: number
+        }
+        Insert: {
+          admin_user_id: string
+          pool_name: string
+          poolmeta_id?: number
+        }
+        Update: {
+          admin_user_id?: string
+          pool_name?: string
+          poolmeta_id?: number
+        }
+      }
+      poolrule_mvp: {
         Row: {
           mvp_round_end: number
           mvp_round_start: number
@@ -154,102 +294,7 @@ export interface Database {
           pool_id?: number
         }
       }
-      Player: {
-        Row: {
-          player_name: string
-          player_unique: string
-          position: string
-        }
-        Insert: {
-          player_name: string
-          player_unique: string
-          position: string
-        }
-        Update: {
-          player_name?: string
-          player_unique?: string
-          position?: string
-        }
-      }
-      Player_Competition: {
-        Row: {
-          competition_id: number
-          inactive: boolean
-          note: string | null
-          player_unique: string
-          team_id: string
-        }
-        Insert: {
-          competition_id?: number
-          inactive: boolean
-          note?: string | null
-          player_unique: string
-          team_id: string
-        }
-        Update: {
-          competition_id?: number
-          inactive?: boolean
-          note?: string | null
-          player_unique?: string
-          team_id?: string
-        }
-      }
-      Player_Game: {
-        Row: {
-          assists: number
-          game_id: number
-          player_id: string
-          points: number
-          rebounds: number
-        }
-        Insert: {
-          assists: number
-          game_id?: number
-          player_id: string
-          points: number
-          rebounds: number
-        }
-        Update: {
-          assists?: number
-          game_id?: number
-          player_id?: string
-          points?: number
-          rebounds?: number
-        }
-      }
-      Pool: {
-        Row: {
-          competition_id: number
-          currency: string
-          draft_time: string
-          group_id: number
-          point_value: number
-          pool_id: number
-          pool_name: string
-          roster_count: number
-        }
-        Insert: {
-          competition_id?: number
-          currency: string
-          draft_time: string
-          group_id?: number
-          point_value: number
-          pool_id?: number
-          pool_name: string
-          roster_count: number
-        }
-        Update: {
-          competition_id?: number
-          currency?: string
-          draft_time?: string
-          group_id?: number
-          point_value?: number
-          pool_id?: number
-          pool_name?: string
-          roster_count?: number
-        }
-      }
-      PrizeSplit: {
+      poolrule_prizesplit: {
         Row: {
           percent_split: number
           pool_id: number
@@ -266,47 +311,30 @@ export interface Database {
           recipient?: string
         }
       }
-      Ranking: {
-        Row: {
-          draft_num: number
-          player_unique: string
-          ranking: number
-          roster_id: number
-        }
-        Insert: {
-          draft_num: number
-          player_unique: string
-          ranking: number
-          roster_id: number
-        }
-        Update: {
-          draft_num?: number
-          player_unique?: string
-          ranking?: number
-          roster_id?: number
-        }
-      }
-      Redraft: {
+      poolrule_redraft: {
         Row: {
           pool_id: number
           redraft_count: number
+          redraft_order: number | null
           redraft_time: string
           round_num: number
         }
         Insert: {
           pool_id?: number
           redraft_count: number
+          redraft_order?: number | null
           redraft_time: string
           round_num: number
         }
         Update: {
           pool_id?: number
           redraft_count?: number
+          redraft_order?: number | null
           redraft_time?: string
           round_num?: number
         }
       }
-      Roster: {
+      roster: {
         Row: {
           draft_order: number
           pool_id: number
@@ -329,7 +357,7 @@ export interface Database {
           user_id?: string
         }
       }
-      Roster_Player: {
+      roster_player: {
         Row: {
           player_unique: string
           roster_id: number
@@ -349,73 +377,169 @@ export interface Database {
           round_start?: number
         }
       }
-      Round: {
+      rosterranking: {
         Row: {
-          competition_id: number
-          round_end: string
-          round_name: string | null
-          round_num: number
-          round_start: string
+          draft_num: number
+          player_unique: string
+          ranking: number
+          roster_id: number
         }
         Insert: {
-          competition_id?: number
-          round_end: string
-          round_name?: string | null
-          round_num: number
-          round_start: string
+          draft_num: number
+          player_unique: string
+          ranking: number
+          roster_id: number
         }
         Update: {
-          competition_id?: number
-          round_end?: string
-          round_name?: string | null
-          round_num?: number
-          round_start?: string
+          draft_num?: number
+          player_unique?: string
+          ranking?: number
+          roster_id?: number
         }
       }
-      Team: {
+      stats_player_precompetitionsnapshot_basketball: {
+        Row: {
+          additional_player_stats: Json | null
+          assists: number
+          blocks: number
+          competition_id: number
+          games_played: number
+          player_unique: string
+          points: number
+          rebounds: number
+          thru: string
+        }
+        Insert: {
+          additional_player_stats?: Json | null
+          assists: number
+          blocks: number
+          competition_id: number
+          games_played: number
+          player_unique: string
+          points: number
+          rebounds: number
+          thru: string
+        }
+        Update: {
+          additional_player_stats?: Json | null
+          assists?: number
+          blocks?: number
+          competition_id?: number
+          games_played?: number
+          player_unique?: string
+          points?: number
+          rebounds?: number
+          thru?: string
+        }
+      }
+      stats_team_precompetitionsnapshot_basketball: {
+        Row: {
+          additional_team_stats: Json | null
+          competition_id: number
+          conference_losses: number
+          conference_unique: string
+          conference_wins: number
+          games_played: number
+          league_unique: string
+          losses: number
+          team_unique: string
+          thru: string
+          ties: number | null
+          wins: number
+        }
+        Insert: {
+          additional_team_stats?: Json | null
+          competition_id: number
+          conference_losses: number
+          conference_unique: string
+          conference_wins: number
+          games_played: number
+          league_unique: string
+          losses: number
+          team_unique: string
+          thru: string
+          ties?: number | null
+          wins: number
+        }
+        Update: {
+          additional_team_stats?: Json | null
+          competition_id?: number
+          conference_losses?: number
+          conference_unique?: string
+          conference_wins?: number
+          games_played?: number
+          league_unique?: string
+          losses?: number
+          team_unique?: string
+          thru?: string
+          ties?: number | null
+          wins?: number
+        }
+      }
+      team: {
         Row: {
           league_unique: string
-          team_id: string
           team_name: string
+          team_unique: string
         }
         Insert: {
           league_unique: string
-          team_id: string
           team_name: string
+          team_unique: string
         }
         Update: {
           league_unique?: string
-          team_id?: string
           team_name?: string
+          team_unique?: string
         }
       }
-      Team_Competition: {
+      team_competition: {
         Row: {
           competition_id: number
+          league_unique: string
           overall_seed: number | null
           region: string | null
           round_eliminated: number | null
+          round_started: number | null
           seed: number
-          team_id: string
+          team_unique: string
         }
         Insert: {
           competition_id?: number
+          league_unique: string
           overall_seed?: number | null
           region?: string | null
           round_eliminated?: number | null
+          round_started?: number | null
           seed: number
-          team_id: string
+          team_unique: string
         }
         Update: {
           competition_id?: number
+          league_unique?: string
           overall_seed?: number | null
           region?: string | null
           round_eliminated?: number | null
+          round_started?: number | null
           seed?: number
-          team_id?: string
+          team_unique?: string
         }
       }
-      User: {
+      user_pool: {
+        Row: {
+          pool_id: number
+          user_id: string
+        }
+        Insert: {
+          pool_id: number
+          user_id: string
+        }
+        Update: {
+          pool_id?: number
+          user_id?: string
+        }
+      }
+      userprofile: {
         Row: {
           avatar_url: string | null
           full_name: string | null
@@ -438,190 +562,12 @@ export interface Database {
           username?: string | null
         }
       }
-      User_Group: {
-        Row: {
-          group_id: number
-          user_id: string
-        }
-        Insert: {
-          group_id: number
-          user_id: string
-        }
-        Update: {
-          group_id?: number
-          user_id?: string
-        }
-      }
-      User_Pool: {
-        Row: {
-          pool_id: number
-          user_id: string
-        }
-        Insert: {
-          pool_id: number
-          user_id: string
-        }
-        Update: {
-          pool_id?: number
-          user_id?: string
-        }
-      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
       [_ in never]: never
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
-  storage: {
-    Tables: {
-      buckets: {
-        Row: {
-          allowed_mime_types: string[] | null
-          avif_autodetection: boolean | null
-          created_at: string | null
-          file_size_limit: number | null
-          id: string
-          name: string
-          owner: string | null
-          public: boolean | null
-          updated_at: string | null
-        }
-        Insert: {
-          allowed_mime_types?: string[] | null
-          avif_autodetection?: boolean | null
-          created_at?: string | null
-          file_size_limit?: number | null
-          id: string
-          name: string
-          owner?: string | null
-          public?: boolean | null
-          updated_at?: string | null
-        }
-        Update: {
-          allowed_mime_types?: string[] | null
-          avif_autodetection?: boolean | null
-          created_at?: string | null
-          file_size_limit?: number | null
-          id?: string
-          name?: string
-          owner?: string | null
-          public?: boolean | null
-          updated_at?: string | null
-        }
-      }
-      migrations: {
-        Row: {
-          executed_at: string | null
-          hash: string
-          id: number
-          name: string
-        }
-        Insert: {
-          executed_at?: string | null
-          hash: string
-          id: number
-          name: string
-        }
-        Update: {
-          executed_at?: string | null
-          hash?: string
-          id?: number
-          name?: string
-        }
-      }
-      objects: {
-        Row: {
-          bucket_id: string | null
-          created_at: string | null
-          id: string
-          last_accessed_at: string | null
-          metadata: Json | null
-          name: string | null
-          owner: string | null
-          path_tokens: string[] | null
-          updated_at: string | null
-        }
-        Insert: {
-          bucket_id?: string | null
-          created_at?: string | null
-          id?: string
-          last_accessed_at?: string | null
-          metadata?: Json | null
-          name?: string | null
-          owner?: string | null
-          path_tokens?: string[] | null
-          updated_at?: string | null
-        }
-        Update: {
-          bucket_id?: string | null
-          created_at?: string | null
-          id?: string
-          last_accessed_at?: string | null
-          metadata?: Json | null
-          name?: string | null
-          owner?: string | null
-          path_tokens?: string[] | null
-          updated_at?: string | null
-        }
-      }
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      extension: {
-        Args: {
-          name: string
-        }
-        Returns: string
-      }
-      filename: {
-        Args: {
-          name: string
-        }
-        Returns: string
-      }
-      foldername: {
-        Args: {
-          name: string
-        }
-        Returns: string[]
-      }
-      get_size_by_bucket: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          size: number
-          bucket_id: string
-        }[]
-      }
-      search: {
-        Args: {
-          prefix: string
-          bucketname: string
-          limits?: number
-          levels?: number
-          offsets?: number
-          search?: string
-          sortcolumn?: string
-          sortorder?: string
-        }
-        Returns: {
-          name: string
-          id: string
-          updated_at: string
-          created_at: string
-          last_accessed_at: string
-          metadata: Json
-        }[]
-      }
     }
     Enums: {
       [_ in never]: never
@@ -631,4 +577,3 @@ export interface Database {
     }
   }
 }
-

@@ -1,9 +1,10 @@
 import 'server-only';
 
-import SupabaseListener from '@components/supabase-listener';
-import SupabaseProvider from '@components/supabase-provider';
+import SupabaseListener from '@/components/supabase-listener';
+import SupabaseProvider from '@/components/supabase-provider';
 import './globals.css';
 import { createClient } from '@utils/supabase-server';
+import Login from '@components/auth';
 
 export const revalidate = 0;
 export const metadata = {
@@ -31,6 +32,7 @@ export default async function RootLayout({
       <body>
         <SupabaseProvider>
           <SupabaseListener serverAccessToken={session?.access_token} />
+          <Login />
           {children}
         </SupabaseProvider>
       </body>

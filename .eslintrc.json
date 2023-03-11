@@ -23,6 +23,13 @@
       2,
       { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
     ],
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/naming-convention": [
+      "warn",
+      {
+        "selector": "variable",
+        "format": ["camelCase", "snake_case", "UPPER_CASE", "PascalCase"]
+      }
+    ]
   }
 }
