@@ -232,29 +232,23 @@ export interface Database {
         Row: {
           competition_id: number
           currency: string
-          draft_time: string
           point_value: number
           pool_id: number
           poolmeta_id: number
-          roster_count: number
         }
         Insert: {
           competition_id?: number
           currency: string
-          draft_time: string
           point_value: number
           pool_id?: number
           poolmeta_id?: number
-          roster_count: number
         }
         Update: {
           competition_id?: number
           currency?: string
-          draft_time?: string
           point_value?: number
           pool_id?: number
           poolmeta_id?: number
-          roster_count?: number
         }
       }
       poolmeta: {
@@ -272,6 +266,29 @@ export interface Database {
           admin_user_id?: string
           pool_name?: string
           poolmeta_id?: number
+        }
+      }
+      poolrule_draft: {
+        Row: {
+          draft_order: number | null
+          draft_time: string
+          pool_id: number
+          roster_count: number
+          round_num: number
+        }
+        Insert: {
+          draft_order?: number | null
+          draft_time: string
+          pool_id?: number
+          roster_count: number
+          round_num: number
+        }
+        Update: {
+          draft_order?: number | null
+          draft_time?: string
+          pool_id?: number
+          roster_count?: number
+          round_num?: number
         }
       }
       poolrule_mvp: {
@@ -309,29 +326,6 @@ export interface Database {
           percent_split?: number
           pool_id?: number
           recipient?: string
-        }
-      }
-      poolrule_redraft: {
-        Row: {
-          pool_id: number
-          redraft_count: number
-          redraft_order: number | null
-          redraft_time: string
-          round_num: number
-        }
-        Insert: {
-          pool_id?: number
-          redraft_count: number
-          redraft_order?: number | null
-          redraft_time: string
-          round_num: number
-        }
-        Update: {
-          pool_id?: number
-          redraft_count?: number
-          redraft_order?: number | null
-          redraft_time?: string
-          round_num?: number
         }
       }
       roster: {

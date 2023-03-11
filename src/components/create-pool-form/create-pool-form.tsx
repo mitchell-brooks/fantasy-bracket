@@ -52,27 +52,29 @@ const CreatePoolForm: React.FC<CreatePoolFormProps> = ({
     watch,
     formState: { errors },
   } = useForm();
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const defaultValues = { currency: 'USD' };
     const { pool_name, poolrule_prizesplit, ...poolOptions } = data;
+    // TODO: add error handling
+    // TODO: extract all of these into api calls
     if (user_id) {
-      supabase
-        .from('poolmeta')
-        .insert({ pool_name, admin_user_id: user_id })
-        .select('poolmeta_id')
-        .then(({ data: res, error }) => {
-          if (res?.[0]?.poolmeta_id) {
-            const poolmeta_id = Number(res[0].poolmeta_id);
-            supabase
-              .from('pool')
-              .insert(
-                preparePoolOptions({ poolOptions, poolmeta_id, competition_id })
-              )
-              .then(({ data: pool_res, error }) => {
-                console.log(':::pool_res', pool_res);
-              });
-          }
-        });
+      const poolmeta_id = await poolmeta_id;
+
+      if (poolmeta_id) {
+        const pool_id = pool_res?.[0].pool_id;
+
+        if (pool_id) {
+          const { data: pool_user_res, error } = await supabase
+            .from('user_pool')
+            .insert({ pool_id, user_id });
+          const { data: poolrule_draft_res, error } = await supabase
+            .from('poolrule_draft')
+            .insert({ pool_id, draft_time: poolOptions.draft_time });
+          const { data: poolrule_prizesplit_res, error } = await supabase
+            .from('poolrule_prizesplit')
+            .insert({ pool_id, ...poolrule_prizesplit });
+        }
+      }
     }
   };
 
