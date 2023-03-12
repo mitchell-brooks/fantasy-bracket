@@ -1,9 +1,11 @@
-import { PoolRule_PrizeSplitRow, WithSupabaseClient } from '@lib/api/types.ts';
+import { PoolRule_PrizeSplitRow, SingleOrArray } from '@lib/api/types';
 
 export const create = async ({
   supabase,
   ...rowData
-}: WithSupabaseClient<PoolRule_PrizeSplitRow>): Promise<PoolRule_PrizeSplitRow> => {
+}: SingleOrArray<
+  PoolRule_PrizeSplitRow | { rows: PoolRule_PrizeSplitRow[] }
+>): Promise<PoolRule_PrizeSplitRow> => {
   const { data, error } = await supabase
     .from('poolrule_prizesplit')
     .insert(rowData)

@@ -2,6 +2,13 @@
 import { useSupabase } from '@components/supabase-provider';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { Database } from '@lib/database.types';
+import * as api from '@lib/api';
+import {
+  PoolMetaRow,
+  PoolRow,
+  PoolRule_DraftRow,
+  PoolRule_PrizeSplitRow,
+} from '@lib/api';
 
 type PoolOptions = Database['public']['Tables']['pool']['Row'];
 interface PoolForm extends PoolOptions {
@@ -24,20 +31,16 @@ interface PreparePoolOptionsArgs {
   poolmeta_id: number;
 }
 const preparePoolOptions = ({
-  poolOptions,
   competition_id,
   poolmeta_id,
-}: PreparePoolOptionsArgs): Omit<PoolOptions, 'pool_id'> => {
-  if (poolOptions.draft_time) {
-    poolOptions.draft_time = new Date(poolOptions.draft_time).toISOString();
-  }
-  const rowValues = {
+  ...poolOptions
+}: Omit<PoolRow, 'pool_id' | 'currency'>): Omit<PoolRow, 'pool_id'> => {
+  return {
     currency: 'USD',
+    ...poolOptions,
     competition_id,
     poolmeta_id,
-    ...poolOptions,
   };
-  return rowValues;
 };
 
 const CreatePoolForm: React.FC<CreatePoolFormProps> = ({
@@ -52,31 +55,72 @@ const CreatePoolForm: React.FC<CreatePoolFormProps> = ({
     watch,
     formState: { errors },
   } = useForm();
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+
+  type FormValues = Omit<PoolMetaRow, 'poolmeta_id'> &
+    Omit<PoolRow, 'pool_id'> &
+    PoolRule_DraftRow & { poolrule_prizesplit: [number] }; // [PoolRule_PrizeSplitRow] &
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const defaultValues = { currency: 'USD' };
-    const { pool_name, poolrule_prizesplit, ...poolOptions } = data;
+    const {
+      pool_name,
+      point_value,
+      roster_count,
+      draft_time,
+      poolrule_prizesplit,
+    } = data;
     // TODO: add error handling
     // TODO: extract all of these into api calls
     if (user_id) {
-      const poolmeta_id = await poolmeta_id;
-
-      if (poolmeta_id) {
-        const pool_id = pool_res?.[0].pool_id;
-
-        if (pool_id) {
-          const { data: pool_user_res, error } = await supabase
-            .from('user_pool')
-            .insert({ pool_id, user_id });
-          const { data: poolrule_draft_res, error } = await supabase
-            .from('poolrule_draft')
-            .insert({ pool_id, draft_time: poolOptions.draft_time });
-          const { data: poolrule_prizesplit_res, error } = await supabase
-            .from('poolrule_prizesplit')
-            .insert({ pool_id, ...poolrule_prizesplit });
+      const { poolmeta_id } = await api.supabase.create<
+        PoolMetaRow,
+        'poolmeta_id'
+      >(supabase, 'poolmeta', {
+        pool_name,
+        admin_user_id: user_id,
+      });
+      const { pool_id } = await api.supabase.create<PoolRow, 'pool_id'>(
+        supabase,
+        'pool',
+        {
+          currency: 'USD',
+          competition_id,
+          poolmeta_id,
+          point_value,
         }
-      }
-    }
-  };
+      );
+      const poolrule_draft_res = await api.supabase.create<PoolRule_DraftRow>(
+        supabase,
+        'poolrule_draft',
+        {
+          pool_id,
+          draft_time,
+          roster_count,
+          draft_order: 0,
+          round_num: 1,
+        }
+      );
+
+      const poolrule_prizesplit_row = poolrule_prizesplit?.map(
+        (percent, idx) => ({
+          percent_split: percent,
+          recipient: (idx + 1).toString(),
+          pool_id,
+        })
+      );
+      if (poolrule_prizesplit_row.length > 0) {
+        const poolrule_prizesplit_res =
+          await api.supabase.create<PoolRule_PrizeSplitRow>(
+            supabase,
+            'poolrule_prizesplit',
+            poolrule_prizesplit_row
+          )
+          }
+
+      // if (poolmeta_id) {
+
+      // if (pool_id) {
+
+
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>

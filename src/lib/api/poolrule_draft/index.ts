@@ -1,9 +1,10 @@
-import { PoolRule_DraftRow, WithSupabaseClient } from '@lib/api/types.ts';
+import { PoolRule_DraftRow, SingleOrArray } from '@lib/api/types';
+import { SupabaseClient } from '@supabase/auth-helpers-nextjs';
 
-export const create = async ({
-  supabase,
-  ...rowData
-}: WithSupabaseClient<PoolRule_DraftRow>): Promise<PoolRule_DraftRow> => {
+export const create = async (
+  supabase: SupabaseClient,
+  rowData: PoolRule_DraftRow | PoolRule_DraftRow[]
+): Promise<PoolRule_DraftRow> => {
   const { data, error } = await supabase
     .from('poolrule_draft')
     .insert(rowData)

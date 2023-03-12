@@ -9,3 +9,11 @@ export type PoolRule_PrizeSplitRow =
 export type User_PoolRow = Database['public']['Tables']['user_pool']['Row'];
 export type PoolRow = Database['public']['Tables']['pool']['Row'];
 export type PoolMetaRow = Database['public']['Tables']['poolmeta']['Row'];
+
+export type SingleOrArray<T> = T extends Array<infer U> ? U[] : T;
+export type RowCreateBase<T, K, V = K extends keyof T ? Omit<T, K> : T> = (
+  supabase: SupabaseClient,
+  rowData: SingleOrArray<V>
+) => Promise<SingleOrArray<T>>;
+
+export type RowCreate<T, K = void> = RowCreateBase<T, K>;
