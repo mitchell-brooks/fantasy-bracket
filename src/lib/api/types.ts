@@ -9,6 +9,12 @@ export type PoolRule_PrizeSplitRow =
 export type User_PoolRow = Database['public']['Tables']['user_pool']['Row'];
 export type PoolRow = Database['public']['Tables']['pool']['Row'];
 export type PoolMetaRow = Database['public']['Tables']['poolmeta']['Row'];
+export type Player_CompetitionRow =
+  Database['public']['Tables']['player_competition']['Row'];
+export type Team_CompetitionRow =
+  Database['public']['Tables']['team_competition']['Row'];
+export type PlayerRow = Database['public']['Tables']['player']['Row'];
+export type TeamRow = Database['public']['Tables']['team']['Row'];
 
 export type SingleOrArray<T> = T extends Array<infer U> ? U[] : T;
 export type RowCreateBase<T, K, V = K extends keyof T ? Omit<T, K> : T> = (

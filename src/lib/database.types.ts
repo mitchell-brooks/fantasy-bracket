@@ -158,19 +158,16 @@ export interface Database {
       }
       player: {
         Row: {
-          birthdate: string | null
           player_name: string
           player_unique: string
           position: string | null
         }
         Insert: {
-          birthdate?: string | null
           player_name: string
           player_unique: string
           position?: string | null
         }
         Update: {
-          birthdate?: string | null
           player_name?: string
           player_unique?: string
           position?: string | null
@@ -182,7 +179,9 @@ export interface Database {
           inactive: boolean
           league_unique: string
           note: string | null
+          player_stats: Json | null
           player_unique: string
+          stats_thru: string | null
           team_unique: string
         }
         Insert: {
@@ -190,7 +189,9 @@ export interface Database {
           inactive: boolean
           league_unique: string
           note?: string | null
+          player_stats?: Json | null
           player_unique: string
+          stats_thru?: string | null
           team_unique: string
         }
         Update: {
@@ -198,7 +199,9 @@ export interface Database {
           inactive?: boolean
           league_unique?: string
           note?: string | null
+          player_stats?: Json | null
           player_unique?: string
+          stats_thru?: string | null
           team_unique?: string
         }
       }
@@ -270,25 +273,28 @@ export interface Database {
       }
       poolrule_draft: {
         Row: {
+          draft_num: number
           draft_order: number | null
           draft_time: string
           pool_id: number
           roster_count: number
-          round_num: number
+          round_num: number | null
         }
         Insert: {
+          draft_num?: number
           draft_order?: number | null
           draft_time: string
           pool_id?: number
           roster_count: number
-          round_num: number
+          round_num?: number | null
         }
         Update: {
+          draft_num?: number
           draft_order?: number | null
           draft_time?: string
           pool_id?: number
           roster_count?: number
-          round_num?: number
+          round_num?: number | null
         }
       }
       poolrule_mvp: {
@@ -391,85 +397,6 @@ export interface Database {
           roster_id?: number
         }
       }
-      stats_player_precompetitionsnapshot_basketball: {
-        Row: {
-          additional_player_stats: Json | null
-          assists: number
-          blocks: number
-          competition_id: number
-          games_played: number
-          player_unique: string
-          points: number
-          rebounds: number
-          thru: string
-        }
-        Insert: {
-          additional_player_stats?: Json | null
-          assists: number
-          blocks: number
-          competition_id: number
-          games_played: number
-          player_unique: string
-          points: number
-          rebounds: number
-          thru: string
-        }
-        Update: {
-          additional_player_stats?: Json | null
-          assists?: number
-          blocks?: number
-          competition_id?: number
-          games_played?: number
-          player_unique?: string
-          points?: number
-          rebounds?: number
-          thru?: string
-        }
-      }
-      stats_team_precompetitionsnapshot_basketball: {
-        Row: {
-          additional_team_stats: Json | null
-          competition_id: number
-          conference_losses: number
-          conference_unique: string
-          conference_wins: number
-          games_played: number
-          league_unique: string
-          losses: number
-          team_unique: string
-          thru: string
-          ties: number | null
-          wins: number
-        }
-        Insert: {
-          additional_team_stats?: Json | null
-          competition_id: number
-          conference_losses: number
-          conference_unique: string
-          conference_wins: number
-          games_played: number
-          league_unique: string
-          losses: number
-          team_unique: string
-          thru: string
-          ties?: number | null
-          wins: number
-        }
-        Update: {
-          additional_team_stats?: Json | null
-          competition_id?: number
-          conference_losses?: number
-          conference_unique?: string
-          conference_wins?: number
-          games_played?: number
-          league_unique?: string
-          losses?: number
-          team_unique?: string
-          thru?: string
-          ties?: number | null
-          wins?: number
-        }
-      }
       team: {
         Row: {
           league_unique: string
@@ -496,7 +423,10 @@ export interface Database {
           round_eliminated: number | null
           round_started: number | null
           seed: number
+          stats_thru: string | null
+          team_stats: Json | null
           team_unique: string
+          team_win_loss: Json | null
         }
         Insert: {
           competition_id?: number
@@ -506,7 +436,10 @@ export interface Database {
           round_eliminated?: number | null
           round_started?: number | null
           seed: number
+          stats_thru?: string | null
+          team_stats?: Json | null
           team_unique: string
+          team_win_loss?: Json | null
         }
         Update: {
           competition_id?: number
@@ -516,7 +449,10 @@ export interface Database {
           round_eliminated?: number | null
           round_started?: number | null
           seed?: number
+          stats_thru?: string | null
+          team_stats?: Json | null
           team_unique?: string
+          team_win_loss?: Json | null
         }
       }
       user_pool: {
@@ -558,7 +494,28 @@ export interface Database {
       }
     }
     Views: {
-      [_ in never]: never
+      draft_view: {
+        Row: {
+          competition_id: number | null
+          inactive: boolean | null
+          note: string | null
+          overall_seed: number | null
+          player_name: string | null
+          player_stats: Json | null
+          player_stats_thru: string | null
+          player_unique: string | null
+          position: string | null
+          region: string | null
+          round_eliminated: number | null
+          round_started: number | null
+          seed: number | null
+          team_name: string | null
+          team_stats: Json | null
+          team_stats_thru: string | null
+          team_unique: string | null
+          team_win_loss: Json | null
+        }
+      }
     }
     Functions: {
       [_ in never]: never

@@ -12,7 +12,15 @@
   },
   "plugins": ["@typescript-eslint", "import", "prettier"],
   "rules": {
-    "no-unused-vars": "warn",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "warn", // or "error"
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ],
     "no-console": "off",
     "func-names": "off",
     "no-process-exit": "off",
@@ -29,6 +37,12 @@
       {
         "selector": "variable",
         "format": ["camelCase", "snake_case", "UPPER_CASE", "PascalCase"]
+      },
+      {
+        "selector": "variable",
+        "format": ["camelCase", "snake_case", "UPPER_CASE", "PascalCase"],
+        "modifiers": ["unused"],
+        "leadingUnderscore": "allow"
       }
     ]
   }

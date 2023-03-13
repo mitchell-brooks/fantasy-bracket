@@ -32,8 +32,12 @@ export default async function RootLayout({
       <body>
         <SupabaseProvider>
           <SupabaseListener serverAccessToken={session?.access_token} />
-          <Login />
-          {children}
+          <div className="header">
+            <Login />
+          </div>
+          <div className="main">
+            {children}
+          </div>
         </SupabaseProvider>
       </body>
     </html>
