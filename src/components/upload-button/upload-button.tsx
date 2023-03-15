@@ -2,9 +2,11 @@
 import Papa, { ParseStepResult } from 'papaparse';
 import React from 'react';
 import { _ } from 'react-hook-form/dist/__typetest__/__fixtures__';
+import { DraftViewRow } from '@lib/api';
 
 interface UploadButtonProps {
   onUpload: (data: any) => void;
+  allDraftablePlayers: Set<string | null>;
 }
 
 // we already match the header, all required key is present
@@ -13,25 +15,24 @@ function processRow<T>(
   row: ParseStepResult<T>,
   rankings: Array<Record<string, number>>
 ) {
-  let duplicateRanking = false;
+  let rowError = '';
   const { player_unique, ranking, team_name, seed, points, player_name } =
     row.data as unknown as Record<string, any>;
   const rankNum = Number(ranking);
+  if (isNaN(rankNum)) {
+    rowError = `Encountered an error trying to process ranking ${ranking}. Please check your csv file and try again.`;
+  }
   if (rankings[rankNum]) {
     // Duplicate ranking
-    duplicateRanking = true;
+    rowError = `Duplicate ranking found at ${ranking}. Please check your csv file and try again.`;
   }
-  if (ranking && !isNaN(rankNum)) {
+  if (ranking && !rowError) {
     rankings[rankNum] = {
-      player_unique,
-      player_name,
       ranking: rankNum,
-      team_name,
-      seed,
-      points,
+      ...ranking,
     };
   }
-  return duplicateRanking;
+  return rowError;
 }
 
 export const UploadButton: React.FC<UploadButtonProps> = ({ onUpload }) => {
@@ -40,7 +41,7 @@ export const UploadButton: React.FC<UploadButtonProps> = ({ onUpload }) => {
     if (file) {
       let headersMatch = false;
       const rankings: Array<Record<string, number>> = [];
-      Papa.parse(file, {
+      Papa.parse<DraftViewRow>(file, {
         header: true,
         skipEmptyLines: true,
         step: function (row, parser) {
@@ -69,11 +70,10 @@ export const UploadButton: React.FC<UploadButtonProps> = ({ onUpload }) => {
           } else {
             // we already match the header, all required key is present
             // Do the Data processing here
-            const duplicateRanking = processRow(row, rankings);
-            if (duplicateRanking) {
-              window.alert(
-                `Duplicate ranking found at ${row?.data?.ranking}. Please check your csv file and try again.`
-              );
+            const rowError = processRow(row, rankings);
+            if (rowError) {
+              // TODO: Error handling
+              window.alert(rowError);
               parser.abort();
             }
           }

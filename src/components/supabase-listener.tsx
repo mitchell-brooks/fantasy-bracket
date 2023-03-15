@@ -16,7 +16,14 @@ export default function SupabaseListener({
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log(
+        ':::inside onAuthStateChange:::',
+        event,
+        session?.access_token,
+        serverAccessToken
+      );
       if (session?.access_token !== serverAccessToken) {
+        console.log('---inside new serveraccess token---');
         router.refresh();
       }
     });

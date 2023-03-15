@@ -104,8 +104,6 @@ export interface Database {
           game_date: string
           game_id: number
           game_time: string | null
-          league_unique: string
-          league_unique_1: string
           round_num: number
           team_1_id: string
           team_2_id: string
@@ -116,8 +114,6 @@ export interface Database {
           game_date: string
           game_id?: number
           game_time?: string | null
-          league_unique: string
-          league_unique_1: string
           round_num: number
           team_1_id: string
           team_2_id: string
@@ -128,8 +124,6 @@ export interface Database {
           game_date?: string
           game_id?: number
           game_time?: string | null
-          league_unique?: string
-          league_unique_1?: string
           round_num?: number
           team_1_id?: string
           team_2_id?: string
@@ -336,41 +330,61 @@ export interface Database {
       }
       roster: {
         Row: {
-          draft_order: number
           pool_id: number
           roster_id: number
-          roster_name: string
+          roster_name: string | null
           user_id: string
         }
         Insert: {
-          draft_order: number
           pool_id?: number
           roster_id?: number
-          roster_name: string
+          roster_name?: string | null
           user_id: string
         }
         Update: {
-          draft_order?: number
           pool_id?: number
           roster_id?: number
-          roster_name?: string
+          roster_name?: string | null
           user_id?: string
+        }
+      }
+      roster_draftorder: {
+        Row: {
+          created_at: string | null
+          draft_num: number
+          draft_order: number
+          roster_id: number
+        }
+        Insert: {
+          created_at?: string | null
+          draft_num: number
+          draft_order: number
+          roster_id?: number
+        }
+        Update: {
+          created_at?: string | null
+          draft_num?: number
+          draft_order?: number
+          roster_id?: number
         }
       }
       roster_player: {
         Row: {
+          pick_number: number
           player_unique: string
           roster_id: number
           round_end: number
           round_start: number
         }
         Insert: {
+          pick_number: number
           player_unique: string
           roster_id?: number
           round_end: number
           round_start: number
         }
         Update: {
+          pick_number?: number
           player_unique?: string
           roster_id?: number
           round_end?: number
@@ -455,20 +469,6 @@ export interface Database {
           team_win_loss?: Json | null
         }
       }
-      user_pool: {
-        Row: {
-          pool_id: number
-          user_id: string
-        }
-        Insert: {
-          pool_id: number
-          user_id: string
-        }
-        Update: {
-          pool_id?: number
-          user_id?: string
-        }
-      }
       userprofile: {
         Row: {
           avatar_url: string | null
@@ -514,6 +514,64 @@ export interface Database {
           team_stats_thru: string | null
           team_unique: string | null
           team_win_loss: Json | null
+        }
+      }
+      pool_full_view: {
+        Row: {
+          admin_user_id: string | null
+          admin_username: string | null
+          competition_id: number | null
+          competition_unique: string | null
+          currency: string | null
+          daterange: unknown | null
+          display_name: string | null
+          identifier: string | null
+          league_name: string | null
+          league_unique: string | null
+          official_name: string | null
+          point_value: number | null
+          pool_id: number | null
+          pool_name: string | null
+          poolmeta_id: number | null
+          round_count: number | null
+          season: string | null
+          sport: string | null
+          total_draft_count: number | null
+          total_roster_count: number | null
+          womens: boolean | null
+        }
+      }
+      ranking_full_view: {
+        Row: {
+          assists: Json | null
+          competition_id: number | null
+          conference: Json | null
+          conference_losses: Json | null
+          conference_wins: Json | null
+          draft_num: number | null
+          inactive: boolean | null
+          losses: Json | null
+          note: string | null
+          overall_seed: number | null
+          player_name: string | null
+          player_stats: Json | null
+          player_stats_thru: string | null
+          player_unique: string | null
+          points: Json | null
+          position: string | null
+          ranking: number | null
+          rebounds: Json | null
+          region: string | null
+          roster_id: number | null
+          round_eliminated: number | null
+          round_started: number | null
+          seed: number | null
+          team_name: string | null
+          team_stats: Json | null
+          team_stats_thru: string | null
+          team_unique: string | null
+          team_win_loss: Json | null
+          wins: Json | null
         }
       }
     }

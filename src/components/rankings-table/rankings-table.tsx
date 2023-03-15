@@ -2,93 +2,73 @@ import { useTable } from 'react-table';
 import React from 'react';
 
 interface RankingsTableProps {
-  data: Record<string, any>[];
+  rankings: RankingsTableData[];
 }
-export const RankingsTable: React.FC<RankingsTableProps> = ({ data }) => {
+
+export type RankingsTableData = {
+  ranking: number;
+  player_name: string;
+  team_name: string;
+  seed: number;
+  points: number;
+};
+export const RankingsTable: React.FC<RankingsTableProps> = ({ rankings }) => {
   const columns = React.useMemo(
     () => [
       {
-        Header: 'Ranking',
-        accessor: 'ranking', // accessor is the "key" in the data
+        Header: 'Player',
+        columns: [
+          { Header: 'Ranking', accessor: 'ranking' },
+          { Header: 'Name', accessor: 'player_name' },
+          { Header: 'Pts. Reg. Season', accessor: 'points' },
+        ],
       },
       {
-        Header: 'Name',
-        accessor: 'player_name',
+        Header: 'Team',
+        columns: [
+          { Header: 'Team', accessor: 'team_name' },
+          { Header: 'Seed', accessor: 'seed' },
+        ],
       },
-      { Header: 'Team', accessor: 'team_name' },
-      { Header: 'Seed', accessor: 'seed' },
-      { Header: 'Reg. Season Points', accessor: 'points' },
     ],
     []
   );
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data });
+    useTable({ columns, data: rankings });
 
   return (
-    <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
+
+    <table {...getTableProps()}>
       <thead>
-        {headerGroups.map(
-          (headerGroup: {
-            getHeaderGroupProps: () => JSX.IntrinsicAttributes &
-              React.ClassAttributes<HTMLTableRowElement> &
-              React.HTMLAttributes<HTMLTableRowElement>;
-            headers: any[];
-          }) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th
-                  {...column.getHeaderProps()}
-                  style={{
-                    borderBottom: 'solid 3px red',
-
-                    background: 'aliceblue',
-
-                    color: 'black',
-
-                    fontWeight: 'bold',
-                  }}
-                >
-                  {column.render('Header')}
-                </th>
-              ))}
-            </tr>
-          )
-        )}
+        {headerGroups.map((headerGroup) => (
+          <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
+            {headerGroup.headers.map((column) => (
+              <th {...column.getHeaderProps()} key={column.id}>
+                {column.render('Header')}
+              </th>
+            ))}
+          </tr>
+        ))}
       </thead>
-
       <tbody {...getTableBodyProps()}>
-        {rows.map(
-          (row: {
-            getRowProps: () => JSX.IntrinsicAttributes &
-              React.ClassAttributes<HTMLTableRowElement> &
-              React.HTMLAttributes<HTMLTableRowElement>;
-            cells: any[];
-          }) => {
-            prepareRow(row);
-
-            return (
-              <tr key={`${row.player_unique}-row`} {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return (
-                    <td
-                      {...cell.getCellProps()}
-                      style={{
-                        padding: '10px',
-
-                        border: 'solid 1px gray',
-
-                        background: 'papayawhip',
-                      }}
-                    >
-                      {cell.render('Cell')}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          }
-        )}
+        {rows.map((row, i) => {
+          prepareRow(row);
+          return (
+            <tr {...row.getRowProps()} key={row.id}>
+              {row.cells.map((cell) => {
+                return (
+                  <td
+                    {...cell.getCellProps()}
+                    key={`${cell.row}${cell.column}`}
+                  >
+                    {cell.render('Cell')}
+                  </td>
+                );
+              })}
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );

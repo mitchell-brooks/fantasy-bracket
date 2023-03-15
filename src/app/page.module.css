@@ -3,9 +3,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  margin: 10rem auto;
-  padding: 6rem;
-  /*min-height: 100vh;*/
+  padding-top: 60px;
   height: 100%;
 }
 

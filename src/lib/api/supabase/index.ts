@@ -16,7 +16,6 @@ export async function create<
   tableName: keyof Database['public']['Tables'],
   rowData: V
 ) {
-  console.log(':::create', tableName);
   const { data, error } = await supabase
     .from(tableName)
     .insert(rowData)
@@ -25,13 +24,11 @@ export async function create<
   else return data as unknown as Promise<T[]>;
 }
 
-export async function get<T>(
-  supabase: SupabaseClient,
-  tableName: keyof Database['public']['Tables'],
-  columns?: T
-) {
-  console.log(':::get', tableName);
-  const { data, error } = await supabase.from(tableName).select().eq(rowData);
-  if (error) throw Error(error.message);
-  else return data as unknown as Promise<T[]>;
+export async function getUser(supabase: SupabaseClient) {
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+  // if (error) throw Error(error.message);
+  return user;
 }

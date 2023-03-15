@@ -1,10 +1,31 @@
 import 'server-only';
 
+import './theme.css';
+import './globals.css';
+import styles from './layout.module.css';
+
+import localFont from 'next/font/local';
+import { Vollkorn } from 'next/font/google';
+
 import SupabaseListener from '@/components/supabase-listener';
 import SupabaseProvider from '@/components/supabase-provider';
-import './globals.css';
 import { createClient } from '@utils/supabase-server';
 import Login from '@components/auth';
+import { Redirect } from '@components/redirect/redirect';
+import { AuthCheck } from '@components/auth-check/auth-check';
+import { Header } from '@components/header/header';
+
+const tiltWarp = localFont({
+  src: '../assets/fonts/TiltWarp-Regular.ttf',
+  variable: '--font-tilt-warp',
+  display: 'swap',
+});
+
+const vollkorn = Vollkorn({
+  variable: '--font-vollkorn',
+  display: 'swap',
+  subsets: ['latin'],
+});
 
 export const revalidate = 0;
 export const metadata = {
@@ -23,8 +44,13 @@ export default async function RootLayout({
     data: { session },
   } = await supabase.auth.getSession();
 
+  const user_id = session?.user?.id;
+  console.log('::: user_id', user_id);
+
+  console.log('::: session', session);
+
   return (
-    <html lang="en">
+    <html lang="en" className={`${tiltWarp.variable} ${vollkorn.variable}`}>
       {/*
       <head /> will contain the components returned by the nearest parent
       head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
@@ -32,13 +58,14 @@ export default async function RootLayout({
       <body>
         <SupabaseProvider>
           <SupabaseListener serverAccessToken={session?.access_token} />
-          <div className="header">
-            <Login />
-          </div>
-          <div className="main">
+          <Header user_id={user_id} />
+          {/*<div className={styles['nav-spacer']} />*/}
+          <AuthCheck user_id={user_id} />
+          <div style={{ paddingTop: '60px' }} className="main">
             {children}
           </div>
         </SupabaseProvider>
+        <div className="paperOverlay" />
       </body>
     </html>
   );
