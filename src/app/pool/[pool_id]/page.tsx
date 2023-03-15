@@ -1,4 +1,5 @@
 import { createClient } from '@utils/supabase-server';
+import styles from './page.module.css';
 import { PoolFullViewRow } from '@lib/api';
 
 export default async function PoolIdPage({
@@ -35,7 +36,7 @@ export default async function PoolIdPage({
   } = (pool_data?.[0] as PoolFullViewRow) || {};
   return (
     <>
-      <h1>Pool Page</h1>
+      <h3>Pool Page</h3>
       <p>Pool ID: {pool_id}</p>
       <p>Pool Name: {pool_name}</p>
       {admin_username ? <p>Admin: {admin_username}</p> : null}

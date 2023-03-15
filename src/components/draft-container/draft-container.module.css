@@ -1,0 +1,35 @@
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 1rem;
+}
+
+.buttonContainer input[type='file'] {
+  display: none;
+}
+
+/*Creating a style for a button with rounded corners and a 2px solid black border*/
+.buttonContainer button {
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  background-color: white;
+  font-family: var(--font-tilt-warp);
+  font-size: 1rem;
+}
+
+.buttonContainer label {
+  cursor: pointer;
+}
+
+.line {
+  border: 2px dashed black;
+  /*margin: 1rem;*/
+  width: 100%;
+}
+
+.confirm {
+  padding: 1rem;
+}

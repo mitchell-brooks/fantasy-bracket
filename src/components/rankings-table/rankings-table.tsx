@@ -1,5 +1,6 @@
 import { useTable } from 'react-table';
 import React from 'react';
+import styles from './rankings-table.module.css';
 
 interface RankingsTableProps {
   rankings: RankingsTableData[];
@@ -38,8 +39,7 @@ export const RankingsTable: React.FC<RankingsTableProps> = ({ rankings }) => {
     useTable({ columns, data: rankings });
 
   return (
-
-    <table {...getTableProps()}>
+    <table className={styles.table} {...getTableProps()}>
       <thead>
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>

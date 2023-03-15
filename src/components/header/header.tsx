@@ -11,12 +11,14 @@ export const Header: React.FC<HeaderProps> = ({ user_id }) => {
   return (
     <>
       <nav className={styles.navcontainer}>
-        <div className={styles.login}>
+        <div className={styles.logo}>
           <Link className={styles.headerlink} href={'/'}>
             Bracketude
           </Link>
         </div>
-        <LogoutLink user_id={user_id} />
+        <div className={styles.login}>
+          <LogoutLink user_id={user_id} />
+        </div>
       </nav>
     </>
   );

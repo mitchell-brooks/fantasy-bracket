@@ -29,7 +29,7 @@ function processRow<T>(
   if (ranking && !rowError) {
     rankings[rankNum] = {
       ranking: rankNum,
-      ...ranking,
+      ...row.data,
     };
   }
   return rowError;
@@ -91,11 +91,25 @@ export const UploadButton: React.FC<UploadButtonProps> = ({ onUpload }) => {
   };
 
   return (
-    <input
-      type={'file'}
-      id={'csvFileInput'}
-      accept={'.csv'}
-      onChange={handleOnChange}
-    />
+    <>
+      <button
+        onClick={() => {
+          if (document && document.getElementById('csvFileInput') != null) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            document.getElementById('csvFileInput').click();
+          }
+        }}
+      >
+        Upload Your Rankings
+      </button>
+      <input
+        type={'file'}
+        id={'csvFileInput'}
+        accept={'.csv'}
+        value={''}
+        onChange={handleOnChange}
+      />
+    </>
   );
 };

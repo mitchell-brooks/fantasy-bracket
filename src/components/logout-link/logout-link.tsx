@@ -13,18 +13,14 @@ export const LogoutLink = ({ user_id }: { user_id: string | undefined }) => {
   };
   if (!user_id) {
     return (
-      <div>
-        <Link className={styles.headerlink} href="/login">
-          Log in
-        </Link>
-      </div>
+      <Link className={styles.headerlink} href="/login">
+        Log in
+      </Link>
     );
   }
   return (
-    <div>
-      <a className={styles.headerlink} onClick={signOut}>
-        Log out
-      </a>
-    </div>
+    <a className={styles.headerlink} onClick={signOut}>
+      Log out
+    </a>
   );
 };

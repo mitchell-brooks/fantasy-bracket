@@ -12,17 +12,14 @@
   align-items: center;
 }
 
-.navlist {
-}
-.login {
-  /*align-self: center;*/
-}
-.login > a:hover {
-  cursor: pointer;
+.logo a {
+  font-size: 48px;
+  font-weight: 600;
 }
 
-.logocontainer {
-  display: flex;
+.login a {
+  font-size: 18px;
+  font-weight: 400;
 }
 
 .headerlink {

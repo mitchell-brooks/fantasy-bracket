@@ -9,7 +9,7 @@
   --white: white;
 
   /* FONTS */
-  --font-body: var(--font-vollkorn), Georgia, serif;
+  --font-body: var(--font-quicksand), Georgia, serif;
   --font-header: var(--font-tilt-warp), Impact, Helvetica, Arial, serif;
 
   /* SPACING */

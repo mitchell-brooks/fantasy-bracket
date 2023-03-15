@@ -3,6 +3,7 @@ import { createClient } from '@utils/supabase-server';
 import React from 'react';
 import Link from 'next/link';
 import { getUser } from '@lib/api/supabase';
+import { Grid } from '@components/grid/grid';
 
 export const revalidate = 0;
 
@@ -13,9 +14,9 @@ export default async function Home() {
   console.log('user', user);
   if (!user) {
     return (
-      <>
-        <h2>Log in or sign up.</h2>
-      </>
+      // <Grid leftContent={
+      <h2>Log in or sign up.</h2>
+      // } />
     );
   }
   const user_id = user.id;
@@ -37,10 +38,13 @@ export default async function Home() {
     );
   });
   return (
+    // <Grid leftContent={
     <main className={styles.main}>
       <h2>Your pools:</h2>
       <ul>{poolLinks}</ul>
-      <Link href="/pool/create">Create a new pool</Link>
+      {/*<Link href="/pool/create">Create a new pool</Link>*/}
     </main>
+    // }
+    // />
   );
 }

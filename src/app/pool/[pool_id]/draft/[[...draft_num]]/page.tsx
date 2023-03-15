@@ -98,6 +98,7 @@ export default async function PoolIdDraftPage({
   const csv = createCsv(players);
   return (
     <>
+      <h1>Draft {draft_num} Rankings</h1>
       <DraftContainer
         pool_id={pool_id}
         draft_num={draft_num}

@@ -1,6 +1,8 @@
-// 'use client'; according to https://github.com/vercel/next.js/discussions/46795
+'use client';
+// according to https://github.com/vercel/next.js/discussions/46795
 // use client should only be used at boundaries e.g. the top client component under a server component in the tree
 import React, { useCallback } from 'react';
+import styles from './draft-container.module.css';
 import { DownloadButton } from '@components/download-button/download-button';
 import { UploadButton } from '@components/upload-button/upload-button';
 import { RankingsTable } from '@components/rankings-table/rankings-table';
@@ -37,7 +39,7 @@ const processRankingsForTable = (
   allDraftablePlayers: Set<string | null>,
   sorted = false
 ) => {
-  console.log('inside process rankings', allDraftablePlayers);
+  console.log('inside process rankings', unprocessedRankings);
   if (!unprocessedRankings || !unprocessedRankings.length) return [];
   if (!sorted) unprocessedRankings.sort((a, b) => a.ranking - b.ranking);
   return unprocessedRankings
@@ -56,6 +58,7 @@ const processRankingsForTable = (
         'seed',
         'points',
       ] as const;
+      console.log('inside player', player.player_unique);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       return pick(player, desiredFields);
@@ -78,21 +81,22 @@ export const DraftContainer: React.FC<DraftContainerProps> = ({
     () =>
       processRankingsForTable(existingRankings || [], allDraftablePlayers) || []
   );
+  const [newRankings, setNewRankings] = React.useState(false);
   const insertRankings = async (rankingsFromCsv: Record<string, any>[]) => {
     const rankingRows = generateRankingRows(
       roster_id,
       draft_num,
       rankingsFromCsv
     );
-    const result = await api.supabase.create(
-      supabase,
-      'rosterranking',
-      rankingRows
-    );
+    const result = await supabase.from('rosterranking').upsert(rankingRows, {
+      onConflict: 'player_unique,roster_id,draft_num',
+      ignoreDuplicates: false,
+    });
     return result;
   };
 
   const saveRankingsToState = useCallback((rankingsFromCsv: any) => {
+    setNewRankings(true);
     setRankings(
       processRankingsForTable(rankingsFromCsv, allDraftablePlayers, true)
     );
@@ -100,28 +104,48 @@ export const DraftContainer: React.FC<DraftContainerProps> = ({
 
   return (
     <>
-      <div>
+      <div className={styles.buttonContainer}>
         <DownloadButton
           buttonText="Get Ranking Template"
           tooltipText="Download player data and a ranking template as a csv file"
           filename="ranking_template.csv"
           data={csv}
         />
+      </div>
+      <div className={styles.buttonContainer}>
         <UploadButton
           onUpload={saveRankingsToState}
           allDraftablePlayers={allDraftablePlayers}
         />
-        <br />
-        <br />
+      </div>
+      <hr className={styles.line} />
+      <div>
         {rankings.length ? (
-          <>
-            <button onClick={() => insertRankings(rankings)}>
-              Upload Rankings
-            </button>
-            <br />
-            <br />
+          <div className={styles.confirm}>
+            {newRankings ? (
+              <>
+                <p>
+                  Double check your rankings below to make sure they look right
+                  before submitting.
+                </p>
+                <div className={styles.buttonContainer}>
+                  <button
+                    onClick={() => insertRankings(rankings)}
+                    disabled={!newRankings}
+                  >
+                    Submit Rankings
+                  </button>
+                </div>
+              </>
+            ) : (
+              <p>
+                The rankings you submitted for Draft {draft_num} are listed
+                below. If you would like to change them, upload a new csv file
+                and then submit.
+              </p>
+            )}
             <RankingsTable rankings={rankings} />
-          </>
+          </div>
         ) : null}
       </div>
     </>
