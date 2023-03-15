@@ -1,4 +1,5 @@
-'use client';
+// 'use client'; according to https://github.com/vercel/next.js/discussions/46795
+// use client should only be used at boundaries e.g. the top client component under a server component in the tree
 import React, { useCallback } from 'react';
 import { DownloadButton } from '@components/download-button/download-button';
 import { UploadButton } from '@components/upload-button/upload-button';
@@ -42,7 +43,9 @@ const processRankingsForTable = (
   return unprocessedRankings
     .filter(
       (player) =>
-        player && player.player_unique && player.player_unique in allDraftablePlayers
+        player &&
+        player.player_unique &&
+        player.player_unique in allDraftablePlayers
     )
     .map((player) => {
       const desiredFields = [
@@ -66,10 +69,14 @@ export const DraftContainer: React.FC<DraftContainerProps> = ({
   existingRankings,
   allDraftablePlayers,
 }) => {
-  console.log(':::allDraftablePlayers inside draft container:::', allDraftablePlayers);
+  console.log(
+    ':::allDraftablePlayers inside draft container:::',
+    allDraftablePlayers
+  );
   const { supabase } = useSupabase();
   const [rankings, setRankings] = React.useState<any[]>(
-    () => processRankingsForTable(existingRankings || [], allDraftablePlayers) || []
+    () =>
+      processRankingsForTable(existingRankings || [], allDraftablePlayers) || []
   );
   const insertRankings = async (rankingsFromCsv: Record<string, any>[]) => {
     const rankingRows = generateRankingRows(
@@ -86,7 +93,9 @@ export const DraftContainer: React.FC<DraftContainerProps> = ({
   };
 
   const saveRankingsToState = useCallback((rankingsFromCsv: any) => {
-    setRankings(processRankingsForTable(rankingsFromCsv, allDraftablePlayers, true));
+    setRankings(
+      processRankingsForTable(rankingsFromCsv, allDraftablePlayers, true)
+    );
   }, []);
 
   return (

@@ -19,7 +19,7 @@ export default async function PoolJoinPage({
   if (pool_data?.length) {
     return (
       <>
-        <div>You're already a member of this pool.</div>
+        <div>You&apos;re already a member of this pool.</div>
         <Redirect to={pool_id ? `/pool/${pool_id}` : `/`} timeout={1000} />
       </>
     );

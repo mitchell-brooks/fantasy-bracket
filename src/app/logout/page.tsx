@@ -6,7 +6,7 @@ import { Logout } from '@components/logout/logout';
 export default async function LogoutPage() {
   return (
     <>
-      <h2>You've been logged out.</h2>
+      <h2>You&apos;ve been logged out.</h2>
       <Logout />
       <Redirect to="/" />
     </>

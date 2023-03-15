@@ -66,7 +66,7 @@ export default async function PoolIdDraftPage({
   if (!roster_id) {
     return (
       <div>
-        You don't seem to be a member of this pool. If you think this is a
+        You don&apos;t seem to be a member of this pool. If you think this is a
         mistake, try logging in again.
       </div>
     );

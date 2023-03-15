@@ -1,7 +1,4 @@
-import { Inter } from 'next/font/google';
 import styles from './page.module.css';
-import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
-import Login from '@/components/auth';
 import { createClient } from '@utils/supabase-server';
 import React from 'react';
 import Link from 'next/link';

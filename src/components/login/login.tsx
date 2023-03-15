@@ -3,9 +3,9 @@
 import { useSupabase } from '@components/supabase-provider';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
-import { User } from '@supabase/gotrue-js';
 import { useSearchParams } from 'next/navigation';
 import { Redirect } from '@components/redirect/redirect';
+import { User } from '@supabase/gotrue-js';
 
 export const Login = ({ user }: { user: User | null }) => {
   console.log('::: inside login user', user);

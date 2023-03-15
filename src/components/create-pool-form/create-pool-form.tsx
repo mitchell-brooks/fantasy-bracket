@@ -40,8 +40,8 @@ export default function CreatePoolForm({
     watch,
     formState: { errors },
   } = useForm();
-  const [poolmeta_id, setPoolMetaId] = React.useState<number>();
-  const [pool_id, setPoolId] = React.useState<number>();
+  // const [poolmeta_id, setPoolMetaId] = React.useState<number>();
+  // const [pool_id, setPoolId] = React.useState<number>();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const defaultValues = { currency: 'USD' };
@@ -64,8 +64,6 @@ export default function CreatePoolForm({
         admin_user_id: user_id,
       });
       const { poolmeta_id } = poolMetaRows?.[0];
-      console.log(':::pm_id', poolmeta_id);
-      // setPoolMetaId(pm_id);
       if (poolmeta_id) {
         console.log(':::poolmeta_id', poolmeta_id);
         const poolRows = await api.supabase.create<PoolRow, 'pool_id'>(

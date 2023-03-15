@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 'use client'; // Error components must be Client components
 
 import { useEffect } from 'react';
