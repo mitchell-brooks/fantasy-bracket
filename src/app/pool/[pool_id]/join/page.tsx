@@ -12,15 +12,15 @@ export default async function PoolJoinPage({
   const { data: user_data, error: user_error } = await supabase.auth.getUser();
   const user_id = user_data?.user?.id;
   const { data: pool_data, error: pool_error } = await supabase
-    .from('roster')
+    .from('roster_full_view')
     .select('*')
     .eq('pool_id', pool_id);
   console.log(pool_data);
-  if (pool_data.length) {
+  if (pool_data?.length) {
     return (
       <>
         <div>You're already a member of this pool.</div>
-        <Redirect to={`/pool/${pool_id}`} timeout={1000} />
+        <Redirect to={pool_id ? `/pool/${pool_id}` : `/`} timeout={1000} />
       </>
     );
   }

@@ -26,15 +26,15 @@ export default async function Home() {
   // TODO do is RLS okay here? Only  able to select pools where user is in roster
   // does a user ever need to access rosters they aren't a part of?
   const { data: pool_data, error: pool_error } = await supabase
-    .from('roster')
-    .select('pool_id, pool(*, poolmeta(*))')
+    .from('roster_full_view')
+    .select('*')
     .eq('user_id', user_id);
   // TODO this will become its own component, I think
   const poolLinks = pool_data?.map((pool) => {
     return (
       <li key={pool.pool_id}>
         <Link href={`/pool/${pool.pool_id}`}>
-          {pool?.pool?.poolmeta?.pool_name || 'Untitled Pool'}
+          {pool?.pool_name || 'Untitled Pool'}
         </Link>
       </li>
     );

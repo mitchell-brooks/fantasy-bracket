@@ -574,6 +574,25 @@ export interface Database {
           wins: Json | null
         }
       }
+      roster_full_view: {
+        Row: {
+          admin_user_id: string | null
+          competition_id: number | null
+          currency: string | null
+          full_name: string | null
+          point_value: number | null
+          pool_id: number | null
+          pool_name: string | null
+          poolmeta_id: number | null
+          rankings_submitted: number | null
+          roster_id: number | null
+          roster_name: string | null
+          total_draft_count: number | null
+          total_roster_count: number | null
+          user_id: string | null
+          username: string | null
+        }
+      }
     }
     Functions: {
       [_ in never]: never

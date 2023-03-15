@@ -92,6 +92,7 @@ export default function CreatePoolForm({
                 roster_count,
                 draft_order: 0,
                 round_num: 1,
+                draft_num: 1,
               }
             );
           console.log(':::poolrule_draft_res', poolrule_draft_res);
