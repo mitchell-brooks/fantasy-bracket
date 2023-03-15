@@ -1,0 +1,43 @@
+.container {
+  padding: 1rem;
+}
+
+.meta {
+  line-height: 1rem;
+}
+.meta p {
+  margin: 0;
+}
+
+.eventName {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 1.75rem;
+}
+.draftHeader {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 1rem 0;
+}
+
+.draftContainer a {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: var(--font-tilt-warp);
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.title h1 {
+  font-size: 3rem;
+}
+.divider {
+  border: 2px dashed black;
+  margin: 2rem 0;
+}

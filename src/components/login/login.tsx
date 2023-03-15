@@ -1,4 +1,5 @@
 'use client';
+import styles from './login.module.css';
 
 import { useSupabase } from '@components/supabase-provider';
 import { Auth } from '@supabase/auth-ui-react';
@@ -22,31 +23,40 @@ export const Login = ({ user }: { user: User | null }) => {
   }
   return (
     <>
-      {return_to ? <p> You'll have to be logged in to do that. </p> : null}
-      <Auth
-        supabaseClient={supabase}
-        providers={[]}
-        appearance={{
-          theme: ThemeSupa,
-          // variables: {
-          //   default: {
-          //     colors: {
-          //       brand: 'red',
-          //       brandAccent: 'darkred',
+      <div className={styles.container}>
+        {return_to ? <p> You'll have to be logged in to do that. </p> : null}
+        <Auth
+          supabaseClient={supabase}
+          providers={[]}
+          appearance={{
+            theme: ThemeSupa,
+            style: {
+              button: {
+                background: 'white',
+                color: 'black',
+                border: '2px solid black',
+              },
+            },
+            // variables: {
+            //   default: {
+            //     colors: {
+            //       brand: 'red',
+            //       brandAccent: 'darkred',
+            //     },
+            //   },
+            // },
+          }}
+          // localization={{
+          //   variables: {
+          //     sign_in: {
+          //       email_label: 'Your email address',
+          //       password_label: 'Your strong password',
           //     },
           //   },
-          // },
-        }}
-        // localization={{
-        //   variables: {
-        //     sign_in: {
-        //       email_label: 'Your email address',
-        //       password_label: 'Your strong password',
-        //     },
-        //   },
-        // }}
-        redirectTo={'localhost:3000/pool/1'}
-      />
+          // }}
+          redirectTo={'localhost:3000/pool/1'}
+        />
+      </div>
     </>
   );
 };
