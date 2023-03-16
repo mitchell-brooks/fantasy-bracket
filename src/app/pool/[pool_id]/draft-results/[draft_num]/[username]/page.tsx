@@ -2,10 +2,10 @@ import React from 'react';
 import { createClient } from '@utils/supabase-server';
 import { Table } from '@components/table/table';
 
-export default async function PoolIdDraftNumResults({
-  params: { pool_id, draft_num = 1 },
+export default async function PoolIdDraftResultsDraftNumUsernamePage({
+  params: { pool_id, draft_num = 1, username },
 }: {
-  params: { pool_id: string; draft_num: string | number };
+  params: { pool_id: string; draft_num: string | number; username: string };
 }) {
   //TODO remove this hard coded value
   const participants = 9;
@@ -17,16 +17,18 @@ export default async function PoolIdDraftNumResults({
     .eq('pool_id', pool_id)
     .eq('draft_num', draft_num);
   const draftResults =
-    draft_results_data?.map((row) => {
-      let round;
-      if (row.pick_number) {
-        round = Math.ceil(row.pick_number / participants);
-      }
-      return {
-        round,
-        ...row,
-      };
-    }) || [];
+    draft_results_data
+      ?.filter((row) => row.username === username)
+      .map((row) => {
+        let round;
+        if (row.pick_number) {
+          round = Math.ceil(row.pick_number / participants);
+        }
+        return {
+          round,
+          ...row,
+        };
+      }) || [];
 
   const columns = [
     {
