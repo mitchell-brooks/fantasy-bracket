@@ -32,8 +32,8 @@ export default async function PoolIdDraftNumResults({
     {
       Header: 'Pick',
       columns: [
-        { Header: 'Pick', accessor: 'pick_number' },
         { Header: 'Round', accessor: 'round' },
+        { Header: 'Pick', accessor: 'pick_number' },
         { Header: 'User', accessor: 'username' },
       ],
     },
