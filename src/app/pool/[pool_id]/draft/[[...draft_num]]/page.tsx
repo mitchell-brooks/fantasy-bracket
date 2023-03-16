@@ -5,6 +5,7 @@ import { DownloadButton } from '@components/download-button/download-button';
 import {
   DraftViewRow,
   Player_CompetitionRow,
+  RankingFullViewRow,
   RosterRankingRow,
   Team_CompetitionRow,
 } from '@lib/api';
@@ -22,7 +23,9 @@ const createCsv = (data: any) => {
   return csv;
 };
 
-const processDraftViewRowForCsv = (player_competition_row: DraftViewRow) => {
+const processDraftViewRowForCsv = (
+  player_competition_row: RankingFullViewRow
+) => {
   const { player_stats, team_stats, team_win_loss, ...flat_data } =
     player_competition_row;
   const csv_row_data = Object.assign(
@@ -93,7 +96,7 @@ export default async function PoolIdDraftPage({
 
   const competition_id = pool_data?.[0]?.competition_id;
   const { data: draft_data, error } = await supabase
-    .from('draft_view')
+    .from('ranking_full_view')
     .select('*')
     .eq('competition_id', competition_id)
     .is('round_eliminated', null);

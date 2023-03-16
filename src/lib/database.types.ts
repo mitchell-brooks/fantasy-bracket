@@ -107,7 +107,6 @@ export interface Database {
           round_num: number
           team_1_id: string
           team_2_id: string
-          winner: string
         }
         Insert: {
           competition_id?: number
@@ -117,7 +116,6 @@ export interface Database {
           round_num: number
           team_1_id: string
           team_2_id: string
-          winner: string
         }
         Update: {
           competition_id?: number
@@ -127,7 +125,6 @@ export interface Database {
           round_num?: number
           team_1_id?: string
           team_2_id?: string
-          winner?: string
         }
       }
       league: {
@@ -472,6 +469,7 @@ export interface Database {
       userprofile: {
         Row: {
           avatar_url: string | null
+          display_name: string | null
           full_name: string | null
           updated_at: string | null
           user_id: string
@@ -479,6 +477,7 @@ export interface Database {
         }
         Insert: {
           avatar_url?: string | null
+          display_name?: string | null
           full_name?: string | null
           updated_at?: string | null
           user_id: string
@@ -486,6 +485,7 @@ export interface Database {
         }
         Update: {
           avatar_url?: string | null
+          display_name?: string | null
           full_name?: string | null
           updated_at?: string | null
           user_id?: string
@@ -494,26 +494,50 @@ export interface Database {
       }
     }
     Views: {
+      available_players_view: {
+        Row: {
+          competition_id: number | null
+          player_unique: string | null
+          round_eliminated: number | null
+          team_unique: string | null
+        }
+      }
+      draft_order_view: {
+        Row: {
+          created_at: string | null
+          draft_num: number | null
+          draft_order: number | null
+          pool_id: number | null
+          roster_id: number | null
+        }
+      }
+      draft_results_view: {
+        Row: {
+          draft_num: number | null
+          draft_order: number | null
+          pick_number: number | null
+          player_name: string | null
+          player_unique: string | null
+          pool_id: number | null
+          roster_id: number | null
+          seed: number | null
+          team_name: string | null
+          team_unique: string | null
+          user_id: string | null
+          username: string | null
+        }
+      }
       draft_view: {
         Row: {
           competition_id: number | null
-          inactive: boolean | null
-          note: string | null
-          overall_seed: number | null
-          player_name: string | null
-          player_stats: Json | null
-          player_stats_thru: string | null
+          draft_num: number | null
           player_unique: string | null
-          position: string | null
-          region: string | null
+          pool_id: number | null
+          ranking: number | null
+          roster_id: number | null
           round_eliminated: number | null
-          round_started: number | null
-          seed: number | null
-          team_name: string | null
-          team_stats: Json | null
-          team_stats_thru: string | null
           team_unique: string | null
-          team_win_loss: Json | null
+          user_id: string | null
         }
       }
       pool_full_view: {
@@ -558,6 +582,7 @@ export interface Database {
           player_stats_thru: string | null
           player_unique: string | null
           points: Json | null
+          pool_id: number | null
           position: string | null
           ranking: number | null
           rebounds: Json | null

@@ -31,6 +31,20 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/data/2023_acc_tournament_team_stats.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/data/2023_ncaa_tournament_team_seeds.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/data/ncaambb-conferences-2023.csv">
           <value>
             <Attribute>

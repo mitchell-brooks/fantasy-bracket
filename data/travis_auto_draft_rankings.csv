@@ -1,0 +1,131 @@
+﻿player_unique,composite,player_name,ranking,autodraft,player_modifier,team_modifier,team_name,team_games_played,diff,sn_projected,kenpom_projected,538_projected,points_per_team_game,points,538_32,538_16,538_8,538_4,538_2,538_1,sn_32,sn_16,sn_8,sn_4,sn_2,sn_1,kenpom_32,kenpom_16,kenpom_8,kenpom_4,kenpom_2,kenpom_1,seed,region,overall_seed,wins,losses,games_played,conference_wins,conference_losses
+zach-edey-1,#N/A,Zach Edey,1,661.875,1,#N/A,Purdue,#N/A,#N/A,#N/A,0,0,#N/A,706,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,1,EAST,4,28,5,33,15,5
+jalen-wilson-1,#N/A,Jalen Wilson,2,640.3125,1,#N/A,Kansas,#N/A,#N/A,#N/A,0,0,#N/A,683,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,1,WEST,3,27,7,34,13,5
+brandon-miller-3,#N/A,Brandon Miller,3,604.6875,1,#N/A,Alabama,#N/A,#N/A,#N/A,0,0,#N/A,645,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,1,SOUTH,1,28,5,33,16,2
+azuolas-tubelis-1,#N/A,Azuolas Tubelis,4,588,1,#N/A,Arizona,#N/A,#N/A,#N/A,0,0,#N/A,672,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,2,SOUTH,7,28,6,34,14,6
+drew-timme-1,#N/A,Drew Timme,5,559.8125,1,#N/A,Gonzaga,#N/A,#N/A,#N/A,0,0,#N/A,689,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,3,WEST,10,28,5,33,14,2
+marcus-sasser-1,#N/A,Marcus Sasser,6,527.8125,0.7,#N/A,Houston,#N/A,#N/A,#N/A,0,0,#N/A,563,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,1,MIDWEST,2,31,2,33,17,1
+jaime-jaquezjr-1,#N/A,Jaime Jaquez Jr.,7,515.375,1,#N/A,UCLA,#N/A,#N/A,#N/A,0,0,#N/A,589,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,2,WEST,5,29,5,34,18,2
+marcus-carr-2,#N/A,Marcus Carr,8,473.375,1,#N/A,Texas,#N/A,#N/A,#N/A,0,0,#N/A,541,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,2,MIDWEST,6,26,8,34,12,6
+trayce-jackson-davis-1,#N/A,Trayce Jackson-Davis,9,467.25,1.3,#N/A,Indiana,#N/A,#N/A,#N/A,0,0,#N/A,623,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,4,MIDWEST,15,22,11,33,12,8
+keyontae-johnson-1,#N/A,Keyontae Johnson,10,459.0625,1.2,#N/A,Kansas State,#N/A,#N/A,#N/A,0,0,#N/A,565,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,3,EAST,11,23,9,32,11,7
+souley-boum-1,#N/A,Souley Boum,11,456.625,1,#N/A,Xavier,#N/A,#N/A,#N/A,0,0,#N/A,562,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,3,MIDWEST,12,25,9,34,15,5
+gradey-dick-1,#N/A,Gradey Dick,12,450.9375,1,#N/A,Kansas,#N/A,#N/A,#N/A,0,0,#N/A,481,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,1,WEST,3,27,7,34,13,5
+kam-jones-1,#N/A,Kameron Jones,13,445.375,1,#N/A,Marquette,#N/A,#N/A,#N/A,0,0,#N/A,509,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,2,EAST,8,28,6,34,17,3
+markquis-nowell-1,#N/A,Markquis Nowell,14,437.9375,1,#N/A,Kansas State,#N/A,#N/A,#N/A,0,0,#N/A,539,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,3,EAST,11,23,9,32,11,7
+oumar-ballo-1,#N/A,Oumar Ballo,15,422.625,0.8,#N/A,Arizona,#N/A,#N/A,#N/A,0,0,#N/A,483,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,2,SOUTH,7,28,6,34,14,6
+colby-jones-1,#N/A,Colby Jones,16,408.6875,1,#N/A,Xavier,#N/A,#N/A,#N/A,0,0,#N/A,503,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,3,MIDWEST,12,25,9,34,15,5
+adama-sanogo-1,#N/A,Adama Sanogo,17,408,1,#N/A,Connecticut,#N/A,#N/A,#N/A,0,0,#N/A,544,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,4,WEST,13,24,8,32,13,7
+julian-strawther-1,#N/A,Julian Strawther,18,405.4375,1,#N/A,Gonzaga,#N/A,#N/A,#N/A,0,0,#N/A,499,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,3,WEST,10,28,5,33,14,2
+tyger-campbell-1,#N/A,Tyger Campbell,19,405.125,1,#N/A,UCLA,#N/A,#N/A,#N/A,0,0,#N/A,463,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,2,WEST,5,29,5,34,18,2
+keyonte-george-1,#N/A,Keyonte George,20,398.125,1,#N/A,Baylor,#N/A,#N/A,#N/A,0,0,#N/A,490,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,3,SOUTH,9,22,10,32,11,7
+mark-sears-1,#N/A,Mark Sears,21,396.5625,1,#N/A,Alabama,#N/A,#N/A,#N/A,0,0,#N/A,423,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,1,SOUTH,1,28,5,33,16,2
+tyler-kolek-1,#N/A,Tyler Kolek,22,394.625,1,#N/A,Marquette,#N/A,#N/A,#N/A,0,0,#N/A,451,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,2,EAST,8,28,6,34,17,3
+jack-nunge-1,#N/A,Jack Nunge,23,390.8125,1,#N/A,Xavier,#N/A,#N/A,#N/A,0,0,#N/A,481,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,3,MIDWEST,12,25,9,34,15,5
+adam-flagler-1,#N/A,Adam Flagler,24,378.625,1,#N/A,Baylor,#N/A,#N/A,#N/A,0,0,#N/A,466,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,3,SOUTH,9,22,10,32,11,7
+jabari-rice-1,#N/A,Sir'Jabari Rice,25,373.625,1,#N/A,Texas,#N/A,#N/A,#N/A,0,0,#N/A,427,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,2,MIDWEST,6,26,8,34,12,6
+olivier-maxence-prosper-1,#N/A,Olivier-Maxence Prosper,26,370.125,1,#N/A,Marquette,#N/A,#N/A,#N/A,0,0,#N/A,423,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,2,EAST,8,28,6,34,17,3
+kyle-filipowski-1,#N/A,Kyle Filipowski,27,360.25,1,#N/A,Duke,#N/A,#N/A,#N/A,0,0,#N/A,524,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,5,EAST,18,26,8,34,14,6
+jordan-hawkins-1,#N/A,Jordan Hawkins,28,357,1,#N/A,Connecticut,#N/A,#N/A,#N/A,0,0,#N/A,476,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,4,WEST,13,24,8,32,13,7
+isaiah-wong-1,#N/A,Isaiah Wong,29,355.4375,1,#N/A,Miami (FL),#N/A,#N/A,#N/A,0,0,#N/A,517,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,5,MIDWEST,20,25,7,32,15,5
+kendric-davis-1,#N/A,Kendric Davis,30,348.5,1,#N/A,Memphis,#N/A,#N/A,#N/A,0,0,#N/A,697,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,8,EAST,29,25,8,33,13,5
+fletcher-loyer-1,#N/A,Fletcher Loyer,31,344.0625,1,#N/A,Purdue,#N/A,#N/A,#N/A,0,0,#N/A,367,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,1,EAST,4,28,5,33,15,5
+lj-cryer-1,#N/A,LJ Cryer,32,341.25,1,#N/A,Baylor,#N/A,#N/A,#N/A,0,0,#N/A,420,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,3,SOUTH,9,22,10,32,11,7
+jaylen-clark-1,#N/A,Jaylen Clark,33,340.375,0,#N/A,UCLA,#N/A,#N/A,#N/A,0,0,#N/A,389,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,2,WEST,5,29,5,34,18,2
+oso-ighodaro-1,#N/A,Oso Ighodaro,34,339.5,1,#N/A,Marquette,#N/A,#N/A,#N/A,0,0,#N/A,388,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,2,EAST,8,28,6,34,17,3
+jordan-miller-2,#N/A,Jordan Miller,35,336.1875,1,#N/A,Miami (FL),#N/A,#N/A,#N/A,0,0,#N/A,489,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,5,MIDWEST,20,25,7,32,15,5
+logan-johnson-2,#N/A,Logan Johnson,36,333.4375,1,#N/A,Saint Mary's (CA),#N/A,#N/A,#N/A,0,0,#N/A,485,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,5,WEST,19,26,7,33,14,2
+kj-adamsjr-1,#N/A,KJ Adams Jr.,37,330.9375,1,#N/A,Kansas,#N/A,#N/A,#N/A,0,0,#N/A,353,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,1,WEST,3,27,7,34,13,5
+jarace-walker-1,#N/A,Jarace Walker,38,330,1,#N/A,Houston,#N/A,#N/A,#N/A,0,0,#N/A,352,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,1,MIDWEST,2,31,2,33,17,1
+aidan-mahaney-1,#N/A,Aidan Mahaney,39,328.625,1,#N/A,Saint Mary's (CA),#N/A,#N/A,#N/A,0,0,#N/A,478,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,5,WEST,19,26,7,33,14,2
+kevin-mccullar-1,#N/A,Kevin McCullar,40,319.6875,0.9,#N/A,Kansas,#N/A,#N/A,#N/A,0,0,#N/A,341,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,1,WEST,3,27,7,34,13,5
+jwan-roberts-1,#N/A,J'Wan Roberts,41,318.75,1,#N/A,Houston,#N/A,#N/A,#N/A,0,0,#N/A,340,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,1,MIDWEST,2,31,2,33,17,1
+jamal-shead-1,#N/A,Jamal Shead,42,314.0625,1,#N/A,Houston,#N/A,#N/A,#N/A,0,0,#N/A,335,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,1,MIDWEST,2,31,2,33,17,1
+braden-smith-1,#N/A,Braden Smith,43,310.3125,1,#N/A,Purdue,#N/A,#N/A,#N/A,0,0,#N/A,331,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,1,EAST,4,28,5,33,15,5
+wade-tayloriv-1,#N/A,Wade Taylor IV,44,308.8125,1,#N/A,Texas A&M,#N/A,#N/A,#N/A,0,0,#N/A,549,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,7,MIDWEST,25,25,8,33,15,3
+oscar-tshiebwe-1,#N/A,Oscar Tshiebwe,45,308.75,1,#N/A,Kentucky,#N/A,#N/A,#N/A,0,0,#N/A,494,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,6,EAST,23,21,11,32,12,6
+boo-buie-1,#N/A,Boo Buie,46,308.25,1,#N/A,Northwestern,#N/A,#N/A,#N/A,0,0,#N/A,548,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,7,WEST,28,21,11,32,12,8
+noah-clowney-1,#N/A,Noah Clowney,47,304.6875,1,#N/A,Alabama,#N/A,#N/A,#N/A,0,0,#N/A,325,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,1,SOUTH,1,28,5,33,16,2
+tyrese-hunter-1,#N/A,Tyrese Hunter,48,304.5,1,#N/A,Texas,#N/A,#N/A,#N/A,0,0,#N/A,348,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,2,MIDWEST,6,26,8,34,12,6
+anton-watson-1,#N/A,Anton Watson,49,303.875,1,#N/A,Gonzaga,#N/A,#N/A,#N/A,0,0,#N/A,374,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,3,WEST,10,28,5,33,14,2
+jalen-hood-schifino-1,#N/A,Jalen Hood-Schifino,50,303.75,1,#N/A,Indiana,#N/A,#N/A,#N/A,0,0,#N/A,405,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,4,MIDWEST,15,22,11,33,12,8
+pelle-larsson-1,#N/A,Pelle Larsson,51,302.75,1,#N/A,Arizona,#N/A,#N/A,#N/A,0,0,#N/A,346,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,2,SOUTH,7,28,6,34,14,6
+kerr-kriisa-1,#N/A,Kerr Kriisa,52,301,0.7,#N/A,Arizona,#N/A,#N/A,#N/A,0,0,#N/A,344,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,2,SOUTH,7,28,6,34,14,6
+tramon-mark-1,#N/A,Tramon Mark,53,300.9375,1,#N/A,Houston,#N/A,#N/A,#N/A,0,0,#N/A,321,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,1,MIDWEST,2,31,2,33,17,1
+armaan-franklin-1,#N/A,Armaan Franklin,54,300.75,1,#N/A,Virginia,#N/A,#N/A,#N/A,0,0,#N/A,401,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,4,SOUTH,16,25,7,32,15,5
+norchad-omier-1,#N/A,Norchad Omier,55,299.75,0.6,#N/A,Miami (FL),#N/A,#N/A,#N/A,0,0,#N/A,436,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,5,MIDWEST,20,25,7,32,15,5
+deandre-williams-1,#N/A,Deandre Williams,56,295,1,#N/A,Memphis,#N/A,#N/A,#N/A,0,0,#N/A,590,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,8,EAST,29,25,8,33,13,5
+matt-bradley-1,#N/A,Matt Bradley,57,293.5625,1,#N/A,San Diego State,#N/A,#N/A,#N/A,0,0,#N/A,427,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,5,SOUTH,17,27,6,33,15,3
+santiago-vescovi-1,#N/A,Santiago Vescovi,58,291,1,#N/A,Tennessee,#N/A,#N/A,#N/A,0,0,#N/A,388,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,4,EAST,14,23,10,33,11,7
+jayden-gardner-1,#N/A,Jayden Gardner,59,291,1,#N/A,Virginia,#N/A,#N/A,#N/A,0,0,#N/A,388,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,4,SOUTH,16,25,7,32,15,5
+ryan-kalkbrenner-1,#N/A,Ryan Kalkbrenner,60,288.125,1,#N/A,Creighton,#N/A,#N/A,#N/A,0,0,#N/A,461,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,6,SOUTH,22,21,12,33,14,6
+antonio-reeves-1,#N/A,Antonio Reeves,61,288.125,1,#N/A,Kentucky,#N/A,#N/A,#N/A,0,0,#N/A,461,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,6,EAST,23,21,11,32,12,6
+courtney-ramey-1,#N/A,Courtney Ramey,62,287.875,1,#N/A,Arizona,#N/A,#N/A,#N/A,0,0,#N/A,329,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,2,SOUTH,7,28,6,34,14,6
+timmy-allen-1,#N/A,Timmy Allen,63,286.125,1,#N/A,Texas,#N/A,#N/A,#N/A,0,0,#N/A,327,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,2,MIDWEST,6,26,8,34,12,6
+kris-murray-1,#N/A,Kris Murray,64,285.5,1,#N/A,Iowa,#N/A,#N/A,#N/A,0,0,#N/A,571,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,8,MIDWEST,32,19,13,32,11,9
+kobe-brown-1,#N/A,Kobe Brown,65,285.1875,1,#N/A,Missouri,#N/A,#N/A,#N/A,0,0,#N/A,507,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,7,SOUTH,27,24,9,33,11,7
+alex-ducas-1,#N/A,Alex Ducas,66,283.9375,1,#N/A,Saint Mary's (CA),#N/A,#N/A,#N/A,0,0,#N/A,413,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,5,WEST,19,26,7,33,14,2
+trey-alexander-1,#N/A,Trey Alexander,67,280.625,1,#N/A,Creighton,#N/A,#N/A,#N/A,0,0,#N/A,449,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,6,SOUTH,22,21,12,33,14,6
+rasir-bolton-1,#N/A,Rasir Bolton,68,278.6875,1,#N/A,Gonzaga,#N/A,#N/A,#N/A,0,0,#N/A,343,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,3,WEST,10,28,5,33,14,2
+dajuan-harris-1,#N/A,Dajuan Harris,69,278.4375,1,#N/A,Kansas,#N/A,#N/A,#N/A,0,0,#N/A,297,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,1,WEST,3,27,7,34,13,5
+david-joplin-1,#N/A,David Joplin,70,277.375,1,#N/A,Marquette,#N/A,#N/A,#N/A,0,0,#N/A,317,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,2,EAST,8,28,6,34,17,3
+dmoi-hodge-1,#N/A,D'Moi Hodge,71,275.0625,1,#N/A,Missouri,#N/A,#N/A,#N/A,0,0,#N/A,489,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,7,SOUTH,27,24,9,33,11,7
+jeremy-roach-2,#N/A,Jeremy Roach,72,274.3125,1,#N/A,Duke,#N/A,#N/A,#N/A,0,0,#N/A,399,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,5,EAST,18,26,8,34,14,6
+adam-kunkel-1,#N/A,Adam Kunkel,73,273,1,#N/A,Xavier,#N/A,#N/A,#N/A,0,0,#N/A,336,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,3,MIDWEST,12,25,9,34,15,5
+zach-freemantle-1,#N/A,Zach Freemantle,74,272.1875,1,#N/A,Xavier,#N/A,#N/A,#N/A,0,0,#N/A,335,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,3,MIDWEST,12,25,9,34,15,5
+nijel-pack-1,#N/A,Nijel Pack,75,271.5625,1,#N/A,Miami (FL),#N/A,#N/A,#N/A,0,0,#N/A,395,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,5,MIDWEST,20,25,7,32,15,5
+david-singleton-2,#N/A,David Singleton,76,271.25,1,#N/A,UCLA,#N/A,#N/A,#N/A,0,0,#N/A,310,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,2,WEST,5,29,5,34,18,2
+mike-miles-4,#N/A,Mike Miles,77,270,1,#N/A,TCU,#N/A,#N/A,#N/A,0,0,#N/A,432,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,6,WEST,24,21,12,33,9,9
+jaren-holmes-1,#N/A,Jaren Holmes,78,267.5,1,#N/A,Iowa State,#N/A,#N/A,#N/A,0,0,#N/A,428,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,6,MIDWEST,21,19,13,32,9,9
+jalen-bridges-1,#N/A,Jalen Bridges,79,267.3125,1,#N/A,Baylor,#N/A,#N/A,#N/A,0,0,#N/A,329,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,3,SOUTH,9,22,10,32,11,7
+jahmir-young-1,#N/A,Jahmir Young,80,265.5,1,#N/A,Maryland,#N/A,#N/A,#N/A,0,0,#N/A,531,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,8,SOUTH,31,21,12,33,11,9
+naeqwan-tomlin-1,#N/A,Nae'Qwan Tomlin,81,264.0625,1,#N/A,Kansas State,#N/A,#N/A,#N/A,0,0,#N/A,325,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,3,EAST,11,23,9,32,11,7
+mitchell-saxen-1,#N/A,Mitchell Saxen,82,264,1,#N/A,Saint Mary's (CA),#N/A,#N/A,#N/A,0,0,#N/A,384,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,5,WEST,19,26,7,33,14,2
+baylor-scheierman-1,#N/A,Baylor Scheierman,83,263.125,1,#N/A,Creighton,#N/A,#N/A,#N/A,0,0,#N/A,421,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,6,SOUTH,22,21,12,33,14,6
+ricky-counciliv-1,#N/A,Ricky Council IV,84,262.5,1,#N/A,Arkansas,#N/A,#N/A,#N/A,0,0,#N/A,525,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,8,WEST,30,20,13,33,8,10
+olivier-nkamhoua-1,#N/A,Olivier Nkamhoua,85,261.75,1,#N/A,Tennessee,#N/A,#N/A,#N/A,0,0,#N/A,349,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,4,EAST,14,23,10,33,11,7
+kihei-clark-1,#N/A,Kihei Clark,86,261.75,1,#N/A,Virginia,#N/A,#N/A,#N/A,0,0,#N/A,349,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,4,SOUTH,16,25,7,32,15,5
+gabe-kalscheur-1,#N/A,Gabe Kalscheur,87,258.75,1,#N/A,Iowa State,#N/A,#N/A,#N/A,0,0,#N/A,414,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,6,MIDWEST,21,19,13,32,9,9
+tyson-walker-1,#N/A,Tyson Walker,88,254.8125,1,#N/A,Michigan State,#N/A,#N/A,#N/A,0,0,#N/A,453,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,7,EAST,26,19,12,31,11,8
+amari-bailey-1,#N/A,Amari Bailey,89,249.375,1,#N/A,UCLA,#N/A,#N/A,#N/A,0,0,#N/A,285,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,2,WEST,5,29,5,34,18,2
+chase-audige-1,#N/A,Chase Audige,90,248.625,1,#N/A,Northwestern,#N/A,#N/A,#N/A,0,0,#N/A,442,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,7,WEST,28,21,11,32,12,8
+joey-hauser-1,#N/A,Joey Hauser,91,248.0625,1,#N/A,Michigan State,#N/A,#N/A,#N/A,0,0,#N/A,441,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,7,EAST,26,19,12,31,11,8
+tyrece-radford-1,#N/A,Tyrece Radford,92,246.375,1,#N/A,Texas A&M,#N/A,#N/A,#N/A,0,0,#N/A,438,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,7,MIDWEST,25,25,8,33,15,3
+cedric-hendersonjr-1,#N/A,Cedric Henderson Jr.,93,245.875,1,#N/A,Arizona,#N/A,#N/A,#N/A,0,0,#N/A,281,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,2,SOUTH,7,28,6,34,14,6
+arthur-kaluma-1,#N/A,Arthur Kaluma,94,245.625,1,#N/A,Creighton,#N/A,#N/A,#N/A,0,0,#N/A,393,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,6,SOUTH,22,21,12,33,14,6
+ryan-nembhard-1,#N/A,Ryan Nembhard,95,245.625,1,#N/A,Creighton,#N/A,#N/A,#N/A,0,0,#N/A,393,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,6,SOUTH,22,21,12,33,14,6
+tristen-newton-1,#N/A,Tristen Newton,96,244.5,1,#N/A,Connecticut,#N/A,#N/A,#N/A,0,0,#N/A,326,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,4,WEST,13,24,8,32,13,7
+jacob-toppin-1,#N/A,Jacob Toppin,97,243.125,1,#N/A,Kentucky,#N/A,#N/A,#N/A,0,0,#N/A,389,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,6,EAST,23,21,11,32,12,6
+zakai-zeigler-1,#N/A,Zakai Zeigler,98,240.75,0,#N/A,Tennessee,#N/A,#N/A,#N/A,0,0,#N/A,321,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,4,EAST,14,23,10,33,11,7
+dylan-disu-1,#N/A,Dylan Disu,99,238.875,1,#N/A,Texas,#N/A,#N/A,#N/A,0,0,#N/A,273,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,2,MIDWEST,6,26,8,34,12,6
+emanuel-miller-1,#N/A,Emanuel Miller,100,233.125,1,#N/A,TCU,#N/A,#N/A,#N/A,0,0,#N/A,373,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,6,WEST,24,21,12,33,9,9
+malachi-smith-1,#N/A,Malachi Smith,101,232.375,1,#N/A,Gonzaga,#N/A,#N/A,#N/A,0,0,#N/A,286,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,3,WEST,10,28,5,33,14,2
+jalen-pickett-1,#N/A,Jalen Pickett,102,230.25,1,#N/A,Penn State,#N/A,#N/A,#N/A,0,0,#N/A,614,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,10,MIDWEST,38,22,12,34,10,10
+alex-karaban-1,#N/A,Alex Karaban,103,227.25,1,#N/A,Connecticut,#N/A,#N/A,#N/A,0,0,#N/A,303,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,4,WEST,13,24,8,32,13,7
+nolan-hickman-1,#N/A,Nolan Hickman,104,225.875,1,#N/A,Gonzaga,#N/A,#N/A,#N/A,0,0,#N/A,278,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,3,WEST,10,28,5,33,14,2
+filip-rebraca-1,#N/A,Filip Rebraca,105,225,1,#N/A,Iowa,#N/A,#N/A,#N/A,0,0,#N/A,450,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,8,MIDWEST,32,19,13,32,11,9
+terrence-shannonjr-1,#N/A,Terrence Shannon Jr.,106,224.875,1,#N/A,Illinois,#N/A,#N/A,#N/A,0,0,#N/A,514,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,9,WEST,36,20,12,32,11,9
+erik-stevenson-1,#N/A,Erik Stevenson,107,224.4375,1,#N/A,West Virginia,#N/A,#N/A,#N/A,0,0,#N/A,513,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,9,SOUTH,34,19,14,33,7,11
+jahvon-quinerly-1,#N/A,Jahvon Quinerly,108,223.125,1,#N/A,Alabama,#N/A,#N/A,#N/A,0,0,#N/A,238,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,1,SOUTH,1,28,5,33,16,2
+desi-sills-1,#N/A,Desi Sills,109,219.375,1,#N/A,Kansas State,#N/A,#N/A,#N/A,0,0,#N/A,270,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,3,EAST,11,23,9,32,11,7
+jaden-bradley-1,#N/A,Jaden Bradley,110,218.4375,1,#N/A,Alabama,#N/A,#N/A,#N/A,0,0,#N/A,233,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,1,SOUTH,1,28,5,33,16,2
+aj-hoggard-1,#N/A,A.J. Hoggard,111,218.25,1,#N/A,Michigan State,#N/A,#N/A,#N/A,0,0,#N/A,388,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,7,EAST,26,19,12,31,11,8
+adem-bona-1,#N/A,Adem Bona,112,217.875,0.7,#N/A,UCLA,#N/A,#N/A,#N/A,0,0,#N/A,249,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,2,WEST,5,29,5,34,18,2
+reece-beekman-1,#N/A,Reece Beekman,113,217.5,1,#N/A,Virginia,#N/A,#N/A,#N/A,0,0,#N/A,290,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,4,SOUTH,16,25,7,32,15,5
+cason-wallace-1,#N/A,Cason Wallace,114,216.875,1,#N/A,Kentucky,#N/A,#N/A,#N/A,0,0,#N/A,347,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,6,EAST,23,21,11,32,12,6
+tyrese-proctor-1,#N/A,Tyrese Proctor,115,216.5625,1,#N/A,Duke,#N/A,#N/A,#N/A,0,0,#N/A,315,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,5,EAST,18,26,8,34,14,6
+boogie-ellis-1,#N/A,Boogie Ellis,116,216.375,1,#N/A,Southern California,#N/A,#N/A,#N/A,0,0,#N/A,577,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,10,EAST,39,22,10,32,14,6
+mark-mitchell-4,#N/A,Mark Mitchell,117,213.125,1,#N/A,Duke,#N/A,#N/A,#N/A,0,0,#N/A,310,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,5,EAST,18,26,8,34,14,6
+anthony-black-1,#N/A,Anthony Black,118,212,1,#N/A,Arkansas,#N/A,#N/A,#N/A,0,0,#N/A,424,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,8,WEST,30,20,13,33,8,10
+damion-baugh-1,#N/A,Damion Baugh,119,211.875,1,#N/A,TCU,#N/A,#N/A,#N/A,0,0,#N/A,339,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,6,WEST,24,21,12,33,9,9
+darrion-trammell-1,#N/A,Darrion Trammell,120,209,1,#N/A,San Diego State,#N/A,#N/A,#N/A,0,0,#N/A,304,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,5,SOUTH,17,27,6,33,15,3
+stevie-mitchell-1,#N/A,Stevie Mitchell,121,208.25,1,#N/A,Marquette,#N/A,#N/A,#N/A,0,0,#N/A,238,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,2,EAST,8,28,6,34,17,3
+steven-ashworth-1,#N/A,Steven Ashworth,122,208.125,1,#N/A,Utah State,#N/A,#N/A,#N/A,0,0,#N/A,555,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,10,SOUTH,40,26,8,34,13,5
+jerome-hunter-2,#N/A,Jerome Hunter,123,200.6875,1,#N/A,Xavier,#N/A,#N/A,#N/A,0,0,#N/A,247,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,3,MIDWEST,12,25,9,34,15,5
+deandre-gholston-1,#N/A,DeAndre Gholston,124,198,1,#N/A,Missouri,#N/A,#N/A,#N/A,0,0,#N/A,352,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,7,SOUTH,27,24,9,33,11,7
+julian-phillips-1,#N/A,Julian Phillips,125,195.75,1,#N/A,Tennessee,#N/A,#N/A,#N/A,0,0,#N/A,261,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,4,EAST,14,23,10,33,11,7
+miller-kopp-1,#N/A,Miller Kopp,126,195.75,1,#N/A,Indiana,#N/A,#N/A,#N/A,0,0,#N/A,261,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,4,MIDWEST,15,22,11,33,12,8
+lamont-butler-1,#N/A,Lamont Butler,127,193.875,1,#N/A,San Diego State,#N/A,#N/A,#N/A,0,0,#N/A,282,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,5,SOUTH,17,27,6,33,15,3
+wendell-greenjr-1,#N/A,Wendell Green Jr.,128,193.8125,1,#N/A,Auburn,#N/A,#N/A,#N/A,0,0,#N/A,443,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,9,MIDWEST,35,20,12,32,10,8
+tony-perkins-1,#N/A,Tony Perkins,129,193.5,1,#N/A,Iowa,#N/A,#N/A,#N/A,0,0,#N/A,387,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,8,MIDWEST,32,19,13,32,11,9
+brandon-newman-2,#N/A,Brandon Newman,130,191.25,1,#N/A,Purdue,#N/A,#N/A,#N/A,0,0,#N/A,204,0,0,0,0,0,0,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,#N/A,1,EAST,4,28,5,33,15,5
