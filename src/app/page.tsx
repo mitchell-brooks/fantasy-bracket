@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { getUser } from '@lib/api/supabase';
 import { Grid } from '@components/grid/grid';
+import { Redirect } from '@components/redirect/redirect';
 
 export const revalidate = 0;
 
@@ -26,7 +27,7 @@ export default async function Home() {
     .eq('user_id', user_id);
   const username = userprofile_data?.[0]?.username;
   if (user_id && !username) {
-    return <Redirect to="/profile/create" />;
+    return <Redirect to={`/profile/${user_id}/create`} />;
   }
   // TODO create view for this? it works fine as-is
   // TODO do is RLS okay here? Only  able to select pools where user is in roster
