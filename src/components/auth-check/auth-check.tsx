@@ -9,8 +9,8 @@ interface AuthCheckProps {
 }
 const SuspenselessAuthCheck: React.FC<AuthCheckProps> = ({ user_id }) => {
   const pathname = usePathname();
-  console.log('::: inside auth check:: pathname', pathname);
-  console.log(PERMITTED_ROUTES.includes(pathname));
+  // console.log('::: inside auth check:: pathname', pathname);
+  // console.log(PERMITTED_ROUTES.includes(pathname));
   if (!user_id && !PERMITTED_ROUTES.includes(pathname)) {
     return (
       <>

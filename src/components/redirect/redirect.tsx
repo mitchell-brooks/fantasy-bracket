@@ -14,7 +14,7 @@ const SuspenselessRedirect: React.FC<RedirectProps> = ({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  console.log('searchParams', searchParams);
+  // console.log('searchParams', searchParams);
   if (to === '/login') {
     to = `${to}?return_to=${pathname}`;
   }

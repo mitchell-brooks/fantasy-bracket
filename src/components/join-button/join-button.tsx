@@ -14,7 +14,7 @@ interface JoinButtonProps {
 export const JoinButton: React.FC<JoinButtonProps> = ({ user_id, pool_id }) => {
   const { supabase } = useSupabase();
   const user = supabase.auth.getUser();
-  console.log(user);
+  // console.log(user);
   const router = useRouter();
   const joinPool = async ({}) => {
     const rosterData = await api.supabase.create<RosterRow, 'roster_id'>(

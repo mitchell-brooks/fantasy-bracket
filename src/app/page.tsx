@@ -12,7 +12,7 @@ export default async function Home() {
   const supabase = createClient();
   // move into layout main?
   const user = await getUser(supabase);
-  console.log('user', user);
+  // console.log('user', user);
   if (!user) {
     return (
       // <Grid leftContent={

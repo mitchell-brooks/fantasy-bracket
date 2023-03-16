@@ -13,7 +13,7 @@ export default function Login() {
         password: 'password',
       })
       .then((res) => {
-        console.log(':::login res', res);
+        // console.log(':::login res', res);
       });
   };
 
@@ -29,7 +29,7 @@ export default function Login() {
 
   const setPassword = async () => {
     await supabase.auth.updateUser({ password: 'password' }).then((res) => {
-      console.log(res);
+      // console.log(res);
     });
   };
 

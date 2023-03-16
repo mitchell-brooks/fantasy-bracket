@@ -65,7 +65,7 @@ export default function CreatePoolForm({
       });
       const { poolmeta_id } = poolMetaRows?.[0];
       if (poolmeta_id) {
-        console.log(':::poolmeta_id', poolmeta_id);
+        // console.log(':::poolmeta_id', poolmeta_id);
         const poolRows = await api.supabase.create<PoolRow, 'pool_id'>(
           supabase,
           'pool',
@@ -79,7 +79,7 @@ export default function CreatePoolForm({
         const { pool_id } = poolRows?.[0];
         // setPoolId(p_id);
         if (pool_id) {
-          console.log(':::pool_id', pool_id);
+          // console.log(':::pool_id', pool_id);
           const poolrule_draft_res =
             await api.supabase.create<PoolRule_DraftRow>(
               supabase,
@@ -93,7 +93,7 @@ export default function CreatePoolForm({
                 draft_num: 1,
               }
             );
-          console.log(':::poolrule_draft_res', poolrule_draft_res);
+          // console.log(':::poolrule_draft_res', poolrule_draft_res);
           const poolrule_prizesplit_row = poolrule_prizesplit?.map(
             (percent, idx) => ({
               percent_split: percent,
@@ -101,7 +101,7 @@ export default function CreatePoolForm({
               pool_id,
             })
           );
-          console.log(':::poolrule_prizesplit_row', poolrule_prizesplit_row);
+          // console.log(':::poolrule_prizesplit_row', poolrule_prizesplit_row);
           if (poolrule_prizesplit_row.length > 0) {
             const poolrule_prizesplit_res = await api.supabase.create<
               PoolRule_PrizeSplitRow[]

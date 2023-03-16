@@ -39,7 +39,7 @@ const processRankingsForTable = (
   allDraftablePlayers: Set<string | null>,
   sorted = false
 ) => {
-  console.log('inside process rankings', unprocessedRankings);
+  // console.log('inside process rankings', unprocessedRankings);
   if (!unprocessedRankings || !unprocessedRankings.length) return [];
   if (!sorted) unprocessedRankings.sort((a, b) => a.ranking - b.ranking);
   return unprocessedRankings
@@ -58,7 +58,7 @@ const processRankingsForTable = (
         'seed',
         'points',
       ] as const;
-      console.log('inside player', player.player_unique);
+      // console.log('inside player', player.player_unique);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       return pick(player, desiredFields);

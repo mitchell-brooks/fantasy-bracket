@@ -6,7 +6,7 @@ import { Suspense } from 'react';
 export default async function LoginPage() {
   const supabase = createClient();
   const user = await getUser(supabase);
-  console.log('user', user);
+  // console.log('user', user);
   return (
     <>
       <Suspense fallback={<></>}>

@@ -46,9 +46,9 @@ export default async function RootLayout({
   } = await supabase.auth.getSession();
 
   const user_id = session?.user?.id;
-  console.log('::: user_id', user_id);
+  // console.log('::: user_id', user_id);
 
-  console.log('::: session', session);
+  // console.log('::: session', session);
 
   return (
     <html lang="en" className={`${tiltWarp.variable} ${quicksand.variable}`}>
