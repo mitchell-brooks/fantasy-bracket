@@ -54,13 +54,19 @@ export default async function PoolIdDraftPage({
   params: { pool_id: number; draft_num: number };
 }) {
   const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const user_id = user?.id;
+  if (!user_id) return <div>Not logged in</div>;
 
   // get roster_id for user based on pool_id
   // TODO check authentication
   const { data: roster_data, error: roster_error } = await supabase
     .from('roster')
     .select('roster_id')
-    .eq('pool_id', pool_id);
+    .eq('pool_id', pool_id)
+    .eq('user_id', user_id);
   const roster_id = roster_data?.[0]?.roster_id;
 
   if (!roster_id) {
