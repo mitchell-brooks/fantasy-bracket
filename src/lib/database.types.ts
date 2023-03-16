@@ -206,12 +206,12 @@ export interface Database {
           rebounds: number
         }
         Insert: {
-          assists: number
-          blocks: number
+          assists?: number
+          blocks?: number
           game_id?: number
           player_unique: string
           points: number
-          rebounds: number
+          rebounds?: number
         }
         Update: {
           assists?: number
@@ -513,6 +513,7 @@ export interface Database {
       }
       draft_results_view: {
         Row: {
+          competition_id: number | null
           draft_num: number | null
           draft_order: number | null
           pick_number: number | null
@@ -538,6 +539,24 @@ export interface Database {
           round_eliminated: number | null
           team_unique: string | null
           user_id: string | null
+        }
+      }
+      player_total_score_view: {
+        Row: {
+          competition_id: number | null
+          player_unique: string | null
+          total_points: number | null
+        }
+      }
+      players_in_games_view: {
+        Row: {
+          competition_id: number | null
+          game_date: string | null
+          game_id: number | null
+          game_time: string | null
+          player_unique: string | null
+          round_num: number | null
+          team_unique: string | null
         }
       }
       pool_full_view: {
@@ -616,6 +635,15 @@ export interface Database {
           total_roster_count: number | null
           user_id: string | null
           username: string | null
+        }
+      }
+      roster_total_score_view: {
+        Row: {
+          pool_id: number | null
+          roster_id: number | null
+          roster_name: string | null
+          total_roster_points: number | null
+          user_id: string | null
         }
       }
     }

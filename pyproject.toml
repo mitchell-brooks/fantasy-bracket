@@ -9,6 +9,7 @@ packages = [{include = "fantasy_bracket"}]
 [tool.poetry.dependencies]
 python = "^3.9"
 supabase = "^1.0.2"
+pandas = "^1.5.3"
 
 
 [tool.poetry.group.dev.dependencies]
