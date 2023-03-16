@@ -20,6 +20,14 @@ export default async function Home() {
     );
   }
   const user_id = user.id;
+  const { data: userprofile_data, error: userprofile_error } = await supabase
+    .from('userprofile')
+    .select('*')
+    .eq('user_id', user_id);
+  const username = userprofile_data?.[0]?.username;
+  if (user_id && !username) {
+    return <Redirect to="/profile/create" />;
+  }
   // TODO create view for this? it works fine as-is
   // TODO do is RLS okay here? Only  able to select pools where user is in roster
   // does a user ever need to access rosters they aren't a part of?
@@ -38,13 +46,10 @@ export default async function Home() {
     );
   });
   return (
-    // <Grid leftContent={
     <main className={styles.main}>
       <h2>Your pools:</h2>
       <ul>{poolLinks}</ul>
       {/*<Link href="/pool/create">Create a new pool</Link>*/}
     </main>
-    // }
-    // />
   );
 }
