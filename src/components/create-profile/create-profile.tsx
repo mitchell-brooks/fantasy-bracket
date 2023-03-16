@@ -11,7 +11,7 @@ export const CreateProfile = ({ user_id }: { user_id: string }) => {
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       const formData = new FormData(event.currentTarget);
-      const username = formData.get('username');
+      const username = formData.get('username') as string;
       const { data, error } = await supabase
         .from('userprofile')
         .update({ username })

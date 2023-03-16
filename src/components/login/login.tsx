@@ -24,7 +24,7 @@ export const Login = ({ user }: { user: User | null }) => {
   return (
     <>
       <div className={styles.container}>
-        {return_to ? <p> You'll have to be logged in to do that. </p> : null}
+        {return_to ? <p> You&apos;'ll have to be logged in to do that. </p> : null}
         <Auth
           supabaseClient={supabase}
           providers={[]}
