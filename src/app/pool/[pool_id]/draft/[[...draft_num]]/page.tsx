@@ -53,6 +53,7 @@ export default async function PoolIdDraftPage({
 }: {
   params: { pool_id: number; draft_num: number };
 }) {
+  draft_num = Number(draft_num);
   const supabase = createClient();
   const {
     data: { user },

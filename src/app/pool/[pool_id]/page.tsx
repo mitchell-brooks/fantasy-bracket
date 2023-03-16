@@ -65,7 +65,7 @@ export default async function PoolIdPage({
           {point_value ? (
             <p>
               {currency === 'cent'
-                ? `$${point_value / 100} `
+                ? `$${(point_value / 100).toFixed(2)} `
                 : `${point_value} ${currency} `}
               per point
             </p>
