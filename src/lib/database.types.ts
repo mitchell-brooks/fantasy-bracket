@@ -35,6 +35,20 @@ export interface Database {
           season?: string | null
         }
       }
+      competition_updated: {
+        Row: {
+          competition_id: number
+          scores_updated_at: string
+        }
+        Insert: {
+          competition_id?: number
+          scores_updated_at?: string
+        }
+        Update: {
+          competition_id?: number
+          scores_updated_at?: string
+        }
+      }
       competitionmeta: {
         Row: {
           competition_unique: string

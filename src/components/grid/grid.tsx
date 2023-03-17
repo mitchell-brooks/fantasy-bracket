@@ -19,6 +19,7 @@ export const Grid: React.FC<GridProps> = ({ leftContent, rightContent }) => {
   // let divCount = 0;
   let rows = [];
   let doubleRows = [];
+  // TODO rework this to allow for keys
   if (divCount) {
     rows = new Array(divCount).fill(<div className={styles.gridRow}></div>);
     doubleRows = new Array(Math.floor(divCount / 2)).fill(
