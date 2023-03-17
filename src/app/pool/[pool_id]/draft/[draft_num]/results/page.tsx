@@ -2,6 +2,7 @@ import React from 'react';
 import { createClient } from '@utils/supabase-server';
 import { Table } from '@components/table/table';
 import Link from 'next/link';
+import { GridTitle } from '@components/grid-title/grid-title';
 
 export default async function PoolIdDraftNumResults({
   params: { pool_id, draft_num = 1 },
@@ -25,7 +26,7 @@ export default async function PoolIdDraftNumResults({
       }
       const username = (
         <Link
-          href={`/pool/${pool_id}/draft-results/${draft_num}/${row.username}`}
+          href={`/pool/${pool_id}/draft/${draft_num}/results/${row.username}`}
         >
           {row.username}
         </Link>
@@ -60,6 +61,7 @@ export default async function PoolIdDraftNumResults({
   ];
   return (
     <>
+      <GridTitle title={`Draft ${draft_num} Results`} />
       <Table columns={columns} data={draftResults} />
     </>
   );

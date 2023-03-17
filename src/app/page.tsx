@@ -12,7 +12,7 @@ export default async function Home() {
   const supabase = createClient();
   // move into layout main?
   const user = await getUser(supabase);
-  // console.log('user', user);
+  // console.log('roster', roster);
   if (!user) {
     return (
       // <Grid leftContent={
@@ -30,8 +30,8 @@ export default async function Home() {
     return <Redirect to={`/profile/${user_id}/create`} />;
   }
   // TODO create view for this? it works fine as-is
-  // TODO do is RLS okay here? Only  able to select pools where user is in roster
-  // does a user ever need to access rosters they aren't a part of?
+  // TODO do is RLS okay here? Only  able to select pools where roster is in roster
+  // does a roster ever need to access rosters they aren't a part of?
   const { data: pool_data, error: pool_error } = await supabase
     .from('roster_full_view')
     .select('*')

@@ -64,7 +64,7 @@ export default async function PoolIdDraftPage({
   const user_id = user?.id;
   if (!user_id) return <div>Not logged in</div>;
 
-  // get roster_id for user based on pool_id
+  // get roster_id for roster based on pool_id
   // TODO check authentication
   const { data: roster_data, error: roster_error } = await supabase
     .from('roster')

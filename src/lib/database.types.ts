@@ -651,6 +651,24 @@ export interface Database {
           username: string | null
         }
       }
+      roster_player_scores_view: {
+        Row: {
+          competition_id: number | null
+          pick_number: number | null
+          player_name: string | null
+          player_unique: string | null
+          pool_id: number | null
+          roster_id: number | null
+          roster_name: string | null
+          round_end: number | null
+          round_start: number | null
+          seed: number | null
+          team_name: string | null
+          team_unique: string | null
+          total_player_points: number | null
+          user_id: string | null
+        }
+      }
       roster_total_score_view: {
         Row: {
           pool_id: number | null

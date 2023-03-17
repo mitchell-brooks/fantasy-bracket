@@ -7,7 +7,7 @@ const CreatePoolPage = async () => {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  // console.log(':::user from server page', user);
+  // console.log(':::roster from server page', roster);
   return (
     <>
       {/*TODO: add logic for selecting competition (and thereby competition_id)*/}

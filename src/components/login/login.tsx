@@ -9,7 +9,7 @@ import { Redirect } from '@components/redirect/redirect';
 import { User } from '@supabase/gotrue-js';
 
 export const Login = ({ user }: { user: User | null }) => {
-  // console.log('::: inside login user', user);
+  // console.log('::: inside login roster', roster);
   const { supabase } = useSupabase();
   const searchParams = useSearchParams();
   const return_to = searchParams.get('return_to');

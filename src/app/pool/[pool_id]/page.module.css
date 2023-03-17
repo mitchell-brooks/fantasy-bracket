@@ -4,6 +4,7 @@
 
 .meta {
   line-height: 1rem;
+  margin-bottom: 2rem;
 }
 .meta p {
   margin: 0;
@@ -16,12 +17,8 @@
 }
 
 .leaderboardLink {
-  font-size: 2rem;
+  font-size: 2.25rem;
   margin-bottom: 0.5rem;
-}
-
-.draftResultsLink {
-  font-size: 1.5rem;
 }
 
 .eventName {
@@ -32,16 +29,36 @@
 .draftHeader {
   font-size: 2rem;
   font-weight: 700;
-  margin: 1rem 0;
+  margin: 1rem 0 0 0;
+}
+
+.draftInstanceContainer {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-family: var(--font-body);
+}
+.draftInstanceContainer * {
+  margin: 0.5rem 0;
+}
+.draftInstanceContainer a {
+  /*font-weight: 100;*/
+  font-family: var(--font-body);
+}
+.draftInstanceContainer h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
 }
 
 .draftContainer a {
-  font-size: 1.75rem;
-  font-weight: 400;
+  font-size: 1.5rem;
+  /*font-weight: 400;*/
   color: black;
-  text-decoration: cursor;
   cursor: pointer;
-  font-family: var(--font-tilt-warp);
+  /*font-family: var(--font-tilt-warp);*/
 }
 
 .title {

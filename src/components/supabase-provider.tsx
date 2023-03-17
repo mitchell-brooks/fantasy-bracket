@@ -22,7 +22,7 @@ export default function SupabaseProvider({
   return <Context.Provider value={{ supabase }}>{children}</Context.Provider>;
 }
 
-// const userSelector = (state: any) => state.user;
+// const userSelector = (state: any) => state.roster;
 export const useSupabase = () => {
   const context = useContext(Context);
   if (context === undefined) {

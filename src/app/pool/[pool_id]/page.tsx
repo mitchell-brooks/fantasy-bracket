@@ -3,6 +3,7 @@ import styles from './page.module.css';
 import { PoolFullViewRow } from '@lib/api';
 import Link from 'next/link';
 import { formatPointValue } from '@/utils';
+import * as api from '@lib/api';
 
 export default async function PoolIdPage({
   params: { pool_id },
@@ -10,20 +11,18 @@ export default async function PoolIdPage({
   params: { pool_id: number };
 }) {
   const supabase = createClient();
+  const user = await api.supabase.getUser(supabase);
+  const user_id = user?.id;
+  console.log('::: user_id', user_id);
   const { data: pool_data, error: pool_error } = await supabase
     .from('pool_full_view')
     .select('*')
     .eq('pool_id', pool_id);
-  console.log(pool_data);
   const {
     point_value,
     currency,
-    poolmeta_id,
     pool_name,
-    admin_user_id,
     admin_username,
-    competition_unique,
-    season,
     identifier,
     round_count,
     daterange,
@@ -32,10 +31,18 @@ export default async function PoolIdPage({
     display_name,
     league_name,
     sport,
-    womens,
     total_draft_count,
     total_roster_count,
   } = (pool_data?.[0] as PoolFullViewRow) || {};
+  const { data: roster_data, error: roster_error } = await supabase
+    .from('roster')
+    .select('roster_id')
+    .eq('pool_id', pool_id)
+    .eq('user_id', user_id);
+
+  const roster_id = roster_data?.[0]?.roster_id;
+  console.log('::: roster_id', roster_id, roster_data);
+
   const { data: draft_data, error } = await supabase
     .from('poolrule_draft')
     .select('*')
@@ -43,15 +50,22 @@ export default async function PoolIdPage({
   const drafts = draft_data?.map((draft) => {
     return (
       <>
-        <div className={styles.draftLink}>
-          <Link href={`pool/${pool_id}/draft/${draft.draft_num}`}>
-            Draft {draft.draft_num}
-          </Link>
-        </div>
-        <div>
-          <p>{new Date(draft.draft_time).toLocaleDateString()}</p>
-          <p>{draft.roster_count} players</p>
-          <br />
+        <div className={styles.draftInstanceContainer}>
+          <h2 className={styles.draftLink}>Draft {draft.draft_num}</h2>
+          <div>
+            <p>{new Date(draft.draft_time).toLocaleDateString()}</p>
+            <p>{draft.roster_count} players</p>
+          </div>
+          <div>
+            <Link href={`pool/${pool_id}/draft/${draft.draft_num}`}>
+              Your Picks
+            </Link>
+          </div>
+          <div>
+            <Link href={`/pool/${pool_id}/draft/${draft.draft_num}/results`}>
+              Draft Results
+            </Link>
+          </div>
         </div>
       </>
     );
@@ -70,9 +84,14 @@ export default async function PoolIdPage({
             <Link href={`/pool/${pool_id}/leaderboard`}>Leaderboard</Link>
           </div>
           <br />
-          <div className={styles.draftResultsLink}>
-            <Link href={`/pool/${pool_id}/draft-results/1`}>Draft Results</Link>
+          <div className={styles.leaderboardLink}>
+            {roster_id ? (
+              <Link href={`/pool/${pool_id}/roster/${roster_id}`}>
+                Your Roster
+              </Link>
+            ) : null}
           </div>
+          <br />
           <br />
           {admin_username ? <p>Admin: {admin_username}</p> : null}
           {point_value ? (
@@ -88,9 +107,6 @@ export default async function PoolIdPage({
           ) : null}
           {drafts ? (
             <>
-              <div className={styles.draftHeader}>
-                <p>Draft Schedule</p>
-              </div>
               <div className={styles.draftContainer}>{drafts}</div>
             </>
           ) : null}
