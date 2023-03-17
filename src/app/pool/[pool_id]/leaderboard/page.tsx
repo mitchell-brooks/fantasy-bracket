@@ -3,6 +3,8 @@ import styles from './page.module.css';
 import { createClient } from '@utils/supabase-server';
 import { Table } from '@components/table/table';
 import Link from 'next/link';
+import { formatPointValue } from '@/utils';
+import { GridTitle } from '@components/grid-title/grid-title';
 
 export default async function PoolIdDraftNumResults({
   params: { pool_id, draft_num = 1 },
@@ -18,30 +20,46 @@ export default async function PoolIdDraftNumResults({
     .select('*, userprofile(username)')
     .eq('pool_id', pool_id);
 
+  const { data: pool_data, error: poolmeta_error } = await supabase
+    .from('pool')
+    .select('*')
+    .eq('pool_id', pool_id);
+
+  const currency = pool_data?.[0]?.currency || 'cent';
+  const point_value = pool_data?.[0]?.point_value || 1;
+
   const { data: updated_data, error: updated_error } = await supabase
     .from('competition_updated')
     .select('*')
     .eq('competition_id', COMPETITION_ID);
-  const updated = updated_data?.[0]?.scores_updated_at
-    ? new Date(updated_data?.[0]?.scores_updated_at).toLocaleTimeString()
+  const updated = updated_data?.[updated_data.length - 1]?.scores_updated_at
+    ? new Date(
+        updated_data?.[updated_data.length - 1]?.scores_updated_at
+      ).toLocaleTimeString('en-US', { timeZone: 'America/New_York' })
     : 'N/A';
 
+  const sortedRosterData = roster_total_score_data?.sort(
+    (a, b) => (b?.total_roster_points || 0) - (a?.total_roster_points || 0)
+  );
+
+  const highestScore = sortedRosterData?.[0]?.total_roster_points || 0;
+  let totalWinnings = 0;
+
   const rosterTotalScores =
-    roster_total_score_data
-      ?.sort(
-        (a, b) => (b?.total_roster_points || 0) - (a?.total_roster_points || 0)
-      )
-      .map((row) => {
-        let username;
-        if (row?.userprofile) {
-          if (Array.isArray(row?.userprofile)) {
-            username = row?.userprofile?.[0]?.username;
-          } else {
-            username = row?.userprofile?.username;
-          }
+    sortedRosterData?.map((row) => {
+      let username;
+      if (row?.userprofile) {
+        if (Array.isArray(row?.userprofile)) {
+          username = row?.userprofile?.[0]?.username;
+        } else {
+          username = row?.userprofile?.username;
         }
-        return { username, ...row };
-      }) || [];
+      }
+      const trailing = highestScore - (row?.total_roster_points || 0);
+      totalWinnings += trailing;
+      const owes = formatPointValue(trailing, currency, point_value);
+      return { username, trailing, owes, ...row };
+    }) || [];
 
   const columns = [
     {
@@ -50,15 +68,34 @@ export default async function PoolIdDraftNumResults({
     },
     {
       Header: 'Points',
-      columns: [{ Header: 'Total Points', accessor: 'total_roster_points' }],
+      columns: [
+        { Header: 'Total Points', accessor: 'total_roster_points' },
+        { Header: 'Trailing', accessor: 'trailing' },
+        { Header: 'Owes', accessor: 'owes' },
+      ],
     },
   ];
   return (
     <>
+      <GridTitle title="Leaderboard" />
       <Table columns={columns} data={rosterTotalScores} />
-      <br />
-      <div className={styles.updated}>
-        <div>Scores Updated: {updated}</div>
+      <div className={styles.bottomContainer}>
+        <div className={styles.updated}>
+          <div>Scores Updated: {updated}</div>
+        </div>
+      </div>
+      <div className={styles.total}>
+        <div className={styles.totalColumn}>
+          <h1 className={styles.prizeSplitTitle}>Prize Split</h1>
+          <div>
+            First place:{' '}
+            {formatPointValue(totalWinnings * 0.75, currency, point_value)}
+          </div>
+          <div>
+            Second place:{' '}
+            {formatPointValue(totalWinnings * 0.25, currency, point_value)}
+          </div>
+        </div>
       </div>
     </>
   );

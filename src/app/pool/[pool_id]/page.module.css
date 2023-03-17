@@ -8,6 +8,21 @@
 .meta p {
   margin: 0;
 }
+.meta a {
+  color: black;
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: var(--font-tilt-warp);
+}
+
+.leaderboardLink {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.draftResultsLink {
+  font-size: 1.5rem;
+}
 
 .eventName {
   font-size: 2rem;
@@ -21,10 +36,10 @@
 }
 
 .draftContainer a {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 400;
   color: black;
-  text-decoration: none;
+  text-decoration: cursor;
   cursor: pointer;
   font-family: var(--font-tilt-warp);
 }
@@ -40,4 +55,7 @@
 .divider {
   border: 2px dashed black;
   margin: 2rem 0;
+}
+.div draftLink {
+  margin-bottom: 0.5rem;
 }

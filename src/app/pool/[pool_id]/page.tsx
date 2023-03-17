@@ -2,6 +2,7 @@ import { createClient } from '@utils/supabase-server';
 import styles from './page.module.css';
 import { PoolFullViewRow } from '@lib/api';
 import Link from 'next/link';
+import { formatPointValue } from '@/utils';
 
 export default async function PoolIdPage({
   params: { pool_id },
@@ -42,12 +43,16 @@ export default async function PoolIdPage({
   const drafts = draft_data?.map((draft) => {
     return (
       <>
-        <Link href={`pool/${pool_id}/draft/${draft.draft_num}`}>
-          Draft {draft.draft_num}
-        </Link>
-        <p>{new Date(draft.draft_time).toLocaleDateString()}</p>
-        <p>{draft.roster_count} players</p>
-        <br />
+        <div className={styles.draftLink}>
+          <Link href={`pool/${pool_id}/draft/${draft.draft_num}`}>
+            Draft {draft.draft_num}
+          </Link>
+        </div>
+        <div>
+          <p>{new Date(draft.draft_time).toLocaleDateString()}</p>
+          <p>{draft.roster_count} players</p>
+          <br />
+        </div>
       </>
     );
   });
@@ -61,14 +66,17 @@ export default async function PoolIdPage({
           <div className={styles.eventName}>
             <p>{`${display_name} ${identifier}`}</p>
           </div>
+          <div className={styles.leaderboardLink}>
+            <Link href={`/pool/${pool_id}/leaderboard`}>Leaderboard</Link>
+          </div>
+          <br />
+          <div className={styles.draftResultsLink}>
+            <Link href={`/pool/${pool_id}/draft-results/1`}>Draft Results</Link>
+          </div>
+          <br />
           {admin_username ? <p>Admin: {admin_username}</p> : null}
           {point_value ? (
-            <p>
-              {currency === 'cent'
-                ? `$${(point_value / 100).toFixed(2)} `
-                : `${point_value} ${currency} `}
-              per point
-            </p>
+            <p>{formatPointValue(1, currency, point_value)} per point</p>
           ) : null}
           {total_draft_count ? (
             <p>

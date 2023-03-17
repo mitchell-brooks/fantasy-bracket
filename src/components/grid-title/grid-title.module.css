@@ -1,0 +1,13 @@
+.gridTitle {
+  width: 100%;
+  height: var(--grid-column-height);
+  border-bottom: 2px solid black;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+}
+
+.gridTitle h1 {
+  font-size: 4rem;
+}
