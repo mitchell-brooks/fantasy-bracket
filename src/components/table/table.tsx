@@ -12,8 +12,14 @@ export const Table: React.FC<TableProps<Record<string, any>>> = ({
   columns,
   data,
 }) => {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data });
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    footerGroups,
+    rows,
+    prepareRow,
+  } = useTable({ columns, data });
 
   return (
     <table className={styles.table} {...getTableProps()}>
@@ -47,6 +53,17 @@ export const Table: React.FC<TableProps<Record<string, any>>> = ({
           );
         })}
       </tbody>
+      {/*<tfoot>*/}
+      {/*  {footerGroups.map((group) => (*/}
+      {/*    <tr {...group.getFooterGroupProps()} key={group.id}>*/}
+      {/*      {group.headers.map((column) => (*/}
+      {/*        <td {...column.getFooterProps()} key={column.id}>*/}
+      {/*          {column.render('Footer')}*/}
+      {/*        </td>*/}
+      {/*      ))}*/}
+      {/*    </tr>*/}
+      {/*  ))}*/}
+      {/*</tfoot>*/}
     </table>
   );
 };
