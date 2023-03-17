@@ -92,6 +92,10 @@ export default async function PoolIdPage({
             ) : null}
           </div>
           <br />
+          <div className={styles.leaderboardLink}>
+            <Link href={`/pool/${pool_id}/rosters`}>All Rosters</Link>
+          </div>
+          <br />
           <br />
           {admin_username ? <p>Admin: {admin_username}</p> : null}
           {point_value ? (
