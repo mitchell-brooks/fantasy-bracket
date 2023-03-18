@@ -70,7 +70,7 @@ export default async function PoolIdTeamsPage({
     const teamSeed = teamPlayers[0]?.seed;
     return (
       <>
-        <GridTitle title={`${teamName}`} />
+        <GridTitle title={`${teamName}`} fixed={false} />
         <Table columns={columns} data={mappedTeamPlayers || []} />
       </>
     );

@@ -50,9 +50,17 @@ export default async function PoolIdDraftNumResults({
       let username;
       if (row?.userprofile) {
         if (Array.isArray(row?.userprofile)) {
-          username = row?.userprofile?.[0]?.username;
+          username = (
+            <Link href={`/pool/${pool_id}/roster/${row.roster_id}`}>
+              {row?.userprofile?.[0]?.username}
+            </Link>
+          );
         } else {
-          username = row?.userprofile?.username;
+          username = (
+            <Link href={`/pool/${pool_id}/roster/${row.roster_id}`}>
+              {row?.userprofile?.username}
+            </Link>
+          );
         }
       }
       const trailing = highestScore - (row?.total_roster_points || 0);

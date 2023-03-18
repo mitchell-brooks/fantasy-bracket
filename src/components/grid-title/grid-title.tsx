@@ -2,14 +2,20 @@ import styles from './grid-title.module.css';
 export const GridTitle = ({
   title,
   subtitle,
+  fixed = true,
 }: {
   title: string;
   subtitle?: string;
+  fixed?: boolean;
 }) => {
-  return (
-    <div className={styles.gridTitle}>
-      {title && <h1>{title}</h1>}
+  const content = (
+    <>
+      {title && <h1 className={styles.titleH1}>{title}</h1>}
       {subtitle && <h2>{subtitle}</h2>}
-    </div>
+    </>
   );
+  if (!fixed) {
+    return content;
+  }
+  return <div className={styles.gridTitle}>{content}</div>;
 };
