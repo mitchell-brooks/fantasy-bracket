@@ -2,6 +2,7 @@ import React from 'react';
 import { createClient } from '@utils/supabase-server';
 import { Table } from '@components/table/table';
 import { GridTitle } from '@components/grid-title/grid-title';
+import Link from 'next/link';
 
 export default async function PoolIdDraftResultsDraftNumUsernamePage({
   params: { pool_id, roster_id },
@@ -12,7 +13,7 @@ export default async function PoolIdDraftResultsDraftNumUsernamePage({
   const { data: roster_data_results, error } = await supabase
     .from('roster_player_total_scores_view')
     .select(
-      'player_name, team_name, seed, total_player_points,pick_number, username'
+      'player_name, team_name, seed, total_player_points, pick_number, team_unique, username'
     )
     .eq('pool_id', pool_id)
     .eq('roster_id', roster_id);
@@ -22,6 +23,17 @@ export default async function PoolIdDraftResultsDraftNumUsernamePage({
   const rosterData = roster_data_results?.sort(
     (a, b) => (a?.pick_number || 0) - (b?.pick_number || 0)
   );
+
+  const mappedRosterData = rosterData?.map((player) => {
+    return {
+      ...player,
+      team_name: (
+        <Link href={`/pool/${pool_id}/team/${player.team_unique}`}>
+          {player.team_name}
+        </Link>
+      ),
+    };
+  });
 
   const columns = [
     {
@@ -46,7 +58,7 @@ export default async function PoolIdDraftResultsDraftNumUsernamePage({
   return (
     <>
       <GridTitle title={username ? `${username.toUpperCase()}` : 'Roster'} />
-      <Table columns={columns} data={rosterData || []} />
+      <Table columns={columns} data={mappedRosterData || []} />
     </>
   );
 }

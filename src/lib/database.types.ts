@@ -38,14 +38,17 @@ export interface Database {
       competition_updated: {
         Row: {
           competition_id: number
+          current_round: number | null
           scores_updated_at: string
         }
         Insert: {
           competition_id?: number
+          current_round?: number | null
           scores_updated_at?: string
         }
         Update: {
           competition_id?: number
+          current_round?: number | null
           scores_updated_at?: string
         }
       }
@@ -651,9 +654,10 @@ export interface Database {
           username: string | null
         }
       }
-      roster_player_scores_view: {
+      roster_player_total_scores_view: {
         Row: {
           competition_id: number | null
+          overall_seed: number | null
           pick_number: number | null
           player_name: string | null
           player_unique: string | null
@@ -667,6 +671,7 @@ export interface Database {
           team_unique: string | null
           total_player_points: number | null
           user_id: string | null
+          username: string | null
         }
       }
       roster_total_score_view: {

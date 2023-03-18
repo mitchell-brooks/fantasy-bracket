@@ -5,17 +5,18 @@ import { GridTitle } from '@components/grid-title/grid-title';
 import Link from 'next/link';
 
 export default async function PoolIdTeamsPage({
-  params: { pool_id },
+  params: { pool_id, team_unique },
 }: {
-  params: { pool_id: string };
+  params: { pool_id: string; team_unique: string };
 }) {
   const supabase = createClient();
   const { data: roster_data_results, error } = await supabase
     .from('roster_player_total_scores_view')
     .select(
-      'roster_id, player_name, team_name, seed, total_player_points,pick_number, username, overall_seed'
+      'roster_id, team_unique, player_name, team_name, seed, total_player_points,pick_number, username, overall_seed'
     )
-    .eq('pool_id', pool_id);
+    .eq('pool_id', pool_id)
+    .eq('team_unique', team_unique);
 
   let teamData: Record<string, any[]> = {};
   if (roster_data_results) {
