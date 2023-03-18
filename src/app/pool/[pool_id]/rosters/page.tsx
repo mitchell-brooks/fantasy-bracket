@@ -10,7 +10,7 @@ export default async function PoolIdDraftResultsDraftNumUsernamePage({
 }) {
   const supabase = createClient();
   const { data: roster_data_results, error } = await supabase
-    .from('roster_player_scores_view')
+    .from('roster_player_total_scores_view')
     .select(
       'roster_id, player_name, team_name, seed, total_player_points,pick_number, username'
     )
@@ -60,7 +60,7 @@ export default async function PoolIdDraftResultsDraftNumUsernamePage({
     const username = roster[0].username;
     return (
       <>
-        <GridTitle title={username ? `${username}` : 'Roster'} />
+        <GridTitle title={username ? `${username.toUpperCase()}` : 'Roster'} />
         <Table columns={columns} data={roster || []} />
       </>
     );
