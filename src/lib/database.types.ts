@@ -121,6 +121,8 @@ export interface Database {
           game_date: string
           game_id: number
           game_time: string | null
+          league1_unique: string | null
+          league2_unique: string | null
           round_num: number
           team_1_id: string
           team_2_id: string
@@ -130,6 +132,8 @@ export interface Database {
           game_date: string
           game_id?: number
           game_time?: string | null
+          league1_unique?: string | null
+          league2_unique?: string | null
           round_num: number
           team_1_id: string
           team_2_id: string
@@ -139,6 +143,8 @@ export interface Database {
           game_date?: string
           game_id?: number
           game_time?: string | null
+          league1_unique?: string | null
+          league2_unique?: string | null
           round_num?: number
           team_1_id?: string
           team_2_id?: string
@@ -633,6 +639,13 @@ export interface Database {
           team_unique: string | null
           team_win_loss: Json | null
           wins: Json | null
+        }
+      }
+      roster_active_players_view: {
+        Row: {
+          active_players: number | null
+          pool_id: number | null
+          roster_id: number | null
         }
       }
       roster_full_view: {

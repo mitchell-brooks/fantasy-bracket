@@ -2,7 +2,7 @@ import styles from './grid-title.module.css';
 export const GridTitle = ({
   title,
   subtitle,
-  fixed = true,
+  fixed = false,
 }: {
   title: string;
   subtitle?: string;

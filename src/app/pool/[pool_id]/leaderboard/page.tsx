@@ -15,10 +15,25 @@ export default async function PoolIdDraftNumResults({
   const COMPETITION_ID = 1;
   draft_num = Number(draft_num);
   const supabase = createClient();
-  const { data: roster_total_score_data, error } = await supabase
-    .from('roster_total_score_view')
-    .select('*, userprofile(username)')
-    .eq('pool_id', pool_id);
+  const { data: roster_total_score_data, error: total_score_error } =
+    await supabase
+      .from('roster_total_score_view')
+      .select('*, userprofile(username)')
+      .eq('pool_id', pool_id);
+
+  const { data: active_player_data, error: active_players_error } =
+    await supabase
+      .from('roster_active_players_view')
+      .select('*')
+      .eq('pool_id', pool_id);
+  const activePlayersDict = active_player_data?.reduce<
+    Record<string, number | null>
+  >((acc, roster) => {
+    if (roster?.roster_id) {
+      acc[roster.roster_id] = roster.active_players;
+    }
+    return acc;
+  }, {});
 
   const { data: pool_data, error: poolmeta_error } = await supabase
     .from('pool')
@@ -63,10 +78,14 @@ export default async function PoolIdDraftNumResults({
           );
         }
       }
+      let active_players: string | number = '';
+      if (row?.roster_id) {
+        active_players = activePlayersDict?.[row?.roster_id] || 0;
+      }
       const trailing = highestScore - (row?.total_roster_points || 0);
       totalWinnings += trailing;
       const owes = formatPointValue(trailing, currency, point_value);
-      return { username, trailing, owes, ...row };
+      return { username, trailing, owes, active_players, ...row };
     }) || [];
 
   const columns = [
@@ -80,12 +99,14 @@ export default async function PoolIdDraftNumResults({
         { Header: 'Total Points', accessor: 'total_roster_points' },
         { Header: 'Trailing', accessor: 'trailing' },
         { Header: 'Owes', accessor: 'owes' },
+        { Header: 'Active Players', accessor: 'active_players' },
+
       ],
     },
   ];
   return (
     <>
-      <GridTitle title="Leaderboard" />
+      <GridTitle title="Leaderboard" fixed={true} />
       <Table columns={columns} data={rosterTotalScores} />
       <div className={styles.bottomContainer}>
         <div className={styles.updated}>
