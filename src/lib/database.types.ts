@@ -517,14 +517,6 @@ export interface Database {
       }
     }
     Views: {
-      available_players_view: {
-        Row: {
-          competition_id: number | null
-          player_unique: string | null
-          round_eliminated: number | null
-          team_unique: string | null
-        }
-      }
       draft_order_view: {
         Row: {
           created_at: string | null
@@ -694,6 +686,78 @@ export interface Database {
           roster_name: string | null
           total_roster_points: number | null
           user_id: string | null
+        }
+      }
+      view_active_players: {
+        Row: {
+          competition_id: number | null
+          player_unique: string | null
+          round_eliminated: number | null
+          team_unique: string | null
+        }
+      }
+      view_available_players: {
+        Row: {
+          competition_id: number | null
+          pick_number: number | null
+          player_unique: string | null
+          pool_id: number | null
+          roster_id: number | null
+          round_eliminated: number | null
+          round_end: number | null
+          round_start: number | null
+          team_name: string | null
+          team_unique: string | null
+        }
+      }
+      view_competition_player_full: {
+        Row: {
+          competition_id: number | null
+          inactive: boolean | null
+          note: string | null
+          overall_seed: number | null
+          player_name: string | null
+          player_stats: Json | null
+          player_stats_thru: string | null
+          player_unique: string | null
+          position: string | null
+          region: string | null
+          round_eliminated: number | null
+          round_started: number | null
+          seed: number | null
+          team_name: string | null
+          team_stats: Json | null
+          team_stats_thru: string | null
+          team_unique: string | null
+          team_win_loss: Json | null
+        }
+      }
+      view_pool_players_full: {
+        Row: {
+          competition_id: number | null
+          inactive: boolean | null
+          note: string | null
+          overall_seed: number | null
+          pick_number: number | null
+          player_name: string | null
+          player_stats: Json | null
+          player_stats_thru: string | null
+          player_unique: string | null
+          pool_id: number | null
+          position: string | null
+          region: string | null
+          roster_id: number | null
+          round_eliminated: number | null
+          round_end: number | null
+          round_start: number | null
+          round_started: number | null
+          seed: number | null
+          team_name: string | null
+          team_stats: Json | null
+          team_stats_thru: string | null
+          team_unique: string | null
+          team_win_loss: Json | null
+          tournament_points: number | null
         }
       }
     }

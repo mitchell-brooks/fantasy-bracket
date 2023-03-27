@@ -19,6 +19,8 @@ export type RosterRankingRow =
 export type RosterRow = Database['public']['Tables']['roster']['Row'];
 export type RankingFullViewRow =
   Database['public']['Views']['ranking_full_view']['Row'];
+export type ViewPoolPlayersFullRow =
+  Database['public']['Views']['view_pool_players_full']['Row'];
 
 export type DraftViewRow = Database['public']['Views']['draft_view']['Row'];
 export type PoolFullViewRow =

@@ -17,3 +17,7 @@
 .table th:last-child {
   border-right: 0;
 }
+
+.eliminated {
+  color: red;
+}

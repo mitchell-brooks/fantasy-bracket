@@ -44,20 +44,25 @@ const processRankingsForTable = (
   if (!sorted) unprocessedRankings.sort((a, b) => a.ranking - b.ranking);
   return unprocessedRankings
     .filter(
-      (player) =>
-        player &&
-        player.player_unique &&
-        player.player_unique in allDraftablePlayers
+      (player) => player && player.player_unique
+      // &&
+      // player.player_unique in allDraftablePlayers
     )
     .map((player) => {
+      player.eliminated = false;
       const desiredFields = [
         'player_unique',
+        'tournament_points',
         'player_name',
+        'eliminated',
         'ranking',
         'team_name',
         'seed',
         'points',
       ] as const;
+      if (!(player.player_unique in allDraftablePlayers)) {
+        player.eliminated = true;
+      }
       // console.log('inside player', player.player_unique);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -88,10 +93,19 @@ export const DraftContainer: React.FC<DraftContainerProps> = ({
       draft_num,
       rankingsFromCsv
     );
+
     const result = await supabase.from('rosterranking').upsert(rankingRows, {
       onConflict: 'player_unique,roster_id,draft_num',
       ignoreDuplicates: false,
     });
+    if (result.error) {
+      console.log('error inserting rankings', result.error);
+      alert(
+        'There was an error submitting your rankings. Please double check your csv file and try again.'
+      );
+      return;
+    }
+    setNewRankings(false);
     return result;
   };
 
@@ -108,7 +122,7 @@ export const DraftContainer: React.FC<DraftContainerProps> = ({
         <DownloadButton
           buttonText="Get Ranking Template"
           tooltipText="Download player data and a ranking template as a csv file"
-          filename="ranking_template.csv"
+          filename={`draft_${draft_num}_ranking_template.csv`}
           data={csv}
         />
       </div>
@@ -121,31 +135,33 @@ export const DraftContainer: React.FC<DraftContainerProps> = ({
       <hr className={styles.line} />
       <div>
         {rankings.length ? (
-          <div className={styles.confirm}>
-            {newRankings ? (
-              <>
+          <>
+            <div className={styles.confirm}>
+              {newRankings ? (
+                <>
+                  <p>
+                    Double check your rankings below to make sure they look
+                    right before submitting.
+                  </p>
+                  <div className={styles.buttonContainer}>
+                    <button
+                      onClick={() => insertRankings(rankings)}
+                      disabled={!newRankings}
+                    >
+                      Submit Rankings
+                    </button>
+                  </div>
+                </>
+              ) : (
                 <p>
-                  Double check your rankings below to make sure they look right
-                  before submitting.
+                  The rankings you submitted for Draft {draft_num} are listed
+                  below. If you would like to change them, upload a new csv file
+                  and then submit.
                 </p>
-                <div className={styles.buttonContainer}>
-                  <button
-                    onClick={() => insertRankings(rankings)}
-                    disabled={!newRankings}
-                  >
-                    Submit Rankings
-                  </button>
-                </div>
-              </>
-            ) : (
-              <p>
-                The rankings you submitted for Draft {draft_num} are listed
-                below. If you would like to change them, upload a new csv file
-                and then submit.
-              </p>
-            )}
+              )}
+            </div>
             <RankingsTable rankings={rankings} />
-          </div>
+          </>
         ) : null}
       </div>
     </>

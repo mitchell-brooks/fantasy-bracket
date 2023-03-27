@@ -21,8 +21,14 @@ export const RankingsTable: React.FC<RankingsTableProps> = ({ rankings }) => {
         Header: 'Player',
         columns: [
           { Header: 'Ranking', accessor: 'ranking' },
-          { Header: 'Name', accessor: 'player_name' },
-          { Header: 'Pts. Reg. Season', accessor: 'points' },
+          {
+            Header: 'Name',
+            // accessor: 'player_name',
+            accessor: (row: any) =>
+              row.eliminated ? <del>{row.player_name}</del> : row.player_name,
+          },
+          { Header: 'Tournament Pts', accessor: 'tournament_points' },
+          { Header: 'Reg Season Pts', accessor: 'points' },
         ],
       },
       {
