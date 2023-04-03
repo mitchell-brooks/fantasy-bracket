@@ -390,6 +390,7 @@ export interface Database {
       }
       roster_player: {
         Row: {
+          draft_num: number
           pick_number: number
           player_unique: string
           roster_id: number
@@ -397,6 +398,7 @@ export interface Database {
           round_start: number
         }
         Insert: {
+          draft_num?: number
           pick_number: number
           player_unique: string
           roster_id?: number
@@ -404,6 +406,7 @@ export interface Database {
           round_start: number
         }
         Update: {
+          draft_num?: number
           pick_number?: number
           player_unique?: string
           roster_id?: number
@@ -758,6 +761,42 @@ export interface Database {
           team_unique: string | null
           team_win_loss: Json | null
           tournament_points: number | null
+        }
+      }
+      view_roster_player_game_scores: {
+        Row: {
+          competition_id: number | null
+          game_id: number | null
+          player_unique: string | null
+          points: number | null
+          pool_id: number | null
+          roster_id: number | null
+          roster_name: string | null
+          round_end: number | null
+          round_num: number | null
+          round_start: number | null
+          user_id: string | null
+          username: string | null
+        }
+      }
+      view_roster_total_score: {
+        Row: {
+          admin_user_id: string | null
+          competition_id: number | null
+          currency: string | null
+          full_name: string | null
+          point_value: number | null
+          pool_id: number | null
+          pool_name: string | null
+          poolmeta_id: number | null
+          rankings_submitted: number | null
+          roster_id: number | null
+          roster_name: string | null
+          total_draft_count: number | null
+          total_roster_count: number | null
+          total_roster_points: number | null
+          user_id: string | null
+          username: string | null
         }
       }
     }

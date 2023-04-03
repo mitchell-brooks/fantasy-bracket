@@ -17,8 +17,8 @@ export default async function PoolIdDraftNumResults({
   const supabase = createClient();
   const { data: roster_total_score_data, error: total_score_error } =
     await supabase
-      .from('roster_total_score_view')
-      .select('*, userprofile(username)')
+      .from('view_roster_total_score')
+      .select('*')
       .eq('pool_id', pool_id);
 
   const { data: active_player_data, error: active_players_error } =
@@ -63,20 +63,12 @@ export default async function PoolIdDraftNumResults({
   const rosterTotalScores =
     sortedRosterData?.map((row) => {
       let username;
-      if (row?.userprofile) {
-        if (Array.isArray(row?.userprofile)) {
-          username = (
-            <Link href={`/pool/${pool_id}/roster/${row.roster_id}`}>
-              {row?.userprofile?.[0]?.username}
-            </Link>
-          );
-        } else {
-          username = (
-            <Link href={`/pool/${pool_id}/roster/${row.roster_id}`}>
-              {row?.userprofile?.username}
-            </Link>
-          );
-        }
+      if (row?.username) {
+        username = (
+          <Link href={`/pool/${pool_id}/roster/${row.roster_id}`}>
+            {row?.username}
+          </Link>
+        );
       }
       let active_players: string | number = '';
       if (row?.roster_id) {
@@ -85,7 +77,7 @@ export default async function PoolIdDraftNumResults({
       const trailing = highestScore - (row?.total_roster_points || 0);
       totalWinnings += trailing;
       const owes = formatPointValue(trailing, currency, point_value);
-      return { username, trailing, owes, active_players, ...row };
+      return { trailing, owes, active_players, ...row, username };
     }) || [];
 
   const columns = [
@@ -100,7 +92,6 @@ export default async function PoolIdDraftNumResults({
         { Header: 'Trailing', accessor: 'trailing' },
         { Header: 'Owes', accessor: 'owes' },
         { Header: 'Active Players', accessor: 'active_players' },
-
       ],
     },
   ];
