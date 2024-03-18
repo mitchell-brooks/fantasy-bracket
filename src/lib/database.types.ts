@@ -3,10 +3,10 @@ export type Json =
   | number
   | boolean
   | null
-  | { [key: string]: Json }
+  | { [key: string]: Json | undefined }
   | Json[]
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       competition: {
@@ -34,6 +34,15 @@ export interface Database {
           round_count?: number
           season?: string | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "competitionmeta_instantiates_competition_fk"
+            columns: ["competition_unique"]
+            isOneToOne: false
+            referencedRelation: "competitionmeta"
+            referencedColumns: ["competition_unique"]
+          }
+        ]
       }
       competition_updated: {
         Row: {
@@ -51,6 +60,22 @@ export interface Database {
           current_round?: number | null
           scores_updated_at?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "competition_isupdatedduring_round_fk"
+            columns: ["competition_id", "current_round"]
+            isOneToOne: false
+            referencedRelation: "competitionround"
+            referencedColumns: ["competition_id", "round_num"]
+          },
+          {
+            foreignKeyName: "competition_updated_competition_id_fkey"
+            columns: ["competition_id"]
+            isOneToOne: false
+            referencedRelation: "competition"
+            referencedColumns: ["competition_id"]
+          }
+        ]
       }
       competitionmeta: {
         Row: {
@@ -71,6 +96,15 @@ export interface Database {
           league_unique?: string
           official_name?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "league_determines_competitiondetails_fk"
+            columns: ["league_unique"]
+            isOneToOne: false
+            referencedRelation: "league"
+            referencedColumns: ["league_unique"]
+          }
+        ]
       }
       competitionround: {
         Row: {
@@ -97,6 +131,15 @@ export interface Database {
           round_start?: string
           teams_remaining?: number | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "competition_isdividedinto_round_fk"
+            columns: ["competition_id"]
+            isOneToOne: false
+            referencedRelation: "competition"
+            referencedColumns: ["competition_id"]
+          }
+        ]
       }
       conference: {
         Row: {
@@ -114,6 +157,15 @@ export interface Database {
           conference_unique?: string
           league_unique?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "league_isdividedby_conference_fk"
+            columns: ["league_unique"]
+            isOneToOne: false
+            referencedRelation: "league"
+            referencedColumns: ["league_unique"]
+          }
+        ]
       }
       game: {
         Row: {
@@ -149,6 +201,29 @@ export interface Database {
           team_1_id?: string
           team_2_id?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "round_iscomprisedof_game_fk"
+            columns: ["round_num", "competition_id"]
+            isOneToOne: false
+            referencedRelation: "competitionround"
+            referencedColumns: ["round_num", "competition_id"]
+          },
+          {
+            foreignKeyName: "team1_playsin_game_fk"
+            columns: ["league1_unique", "team_1_id"]
+            isOneToOne: false
+            referencedRelation: "team"
+            referencedColumns: ["league_unique", "team_unique"]
+          },
+          {
+            foreignKeyName: "team2_playsin_game_fk"
+            columns: ["league2_unique", "team_2_id"]
+            isOneToOne: false
+            referencedRelation: "team"
+            referencedColumns: ["league_unique", "team_unique"]
+          }
+        ]
       }
       league: {
         Row: {
@@ -169,6 +244,7 @@ export interface Database {
           sport?: string
           womens?: boolean | null
         }
+        Relationships: []
       }
       player: {
         Row: {
@@ -186,6 +262,7 @@ export interface Database {
           player_unique?: string
           position?: string | null
         }
+        Relationships: []
       }
       player_competition: {
         Row: {
@@ -218,6 +295,29 @@ export interface Database {
           stats_thru?: string | null
           team_unique?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "competition_isplayedby_player_fk"
+            columns: ["competition_id"]
+            isOneToOne: false
+            referencedRelation: "competition"
+            referencedColumns: ["competition_id"]
+          },
+          {
+            foreignKeyName: "player_playsin_competition_fk"
+            columns: ["player_unique"]
+            isOneToOne: false
+            referencedRelation: "player"
+            referencedColumns: ["player_unique"]
+          },
+          {
+            foreignKeyName: "team_plays_player_competition_fk"
+            columns: ["team_unique", "league_unique"]
+            isOneToOne: false
+            referencedRelation: "team"
+            referencedColumns: ["team_unique", "league_unique"]
+          }
+        ]
       }
       player_game: {
         Row: {
@@ -244,6 +344,29 @@ export interface Database {
           points?: number
           rebounds?: number
         }
+        Relationships: [
+          {
+            foreignKeyName: "game_isplayedby_players_fk"
+            columns: ["game_id"]
+            isOneToOne: false
+            referencedRelation: "game"
+            referencedColumns: ["game_id"]
+          },
+          {
+            foreignKeyName: "game_isplayedby_players_fk"
+            columns: ["game_id"]
+            isOneToOne: false
+            referencedRelation: "players_in_games_view"
+            referencedColumns: ["game_id"]
+          },
+          {
+            foreignKeyName: "player_playsin_game_fk"
+            columns: ["player_unique"]
+            isOneToOne: false
+            referencedRelation: "player"
+            referencedColumns: ["player_unique"]
+          }
+        ]
       }
       pool: {
         Row: {
@@ -267,6 +390,22 @@ export interface Database {
           pool_id?: number
           poolmeta_id?: number
         }
+        Relationships: [
+          {
+            foreignKeyName: "competition_isbetonby_pool_fk"
+            columns: ["competition_id"]
+            isOneToOne: false
+            referencedRelation: "competition"
+            referencedColumns: ["competition_id"]
+          },
+          {
+            foreignKeyName: "group_hosts_pool_fk"
+            columns: ["poolmeta_id"]
+            isOneToOne: false
+            referencedRelation: "poolmeta"
+            referencedColumns: ["poolmeta_id"]
+          }
+        ]
       }
       poolmeta: {
         Row: {
@@ -284,6 +423,15 @@ export interface Database {
           pool_name?: string
           poolmeta_id?: number
         }
+        Relationships: [
+          {
+            foreignKeyName: "poolmeta_admin_user_id_fkey"
+            columns: ["admin_user_id"]
+            isOneToOne: false
+            referencedRelation: "userprofile"
+            referencedColumns: ["user_id"]
+          }
+        ]
       }
       poolrule_draft: {
         Row: {
@@ -310,6 +458,36 @@ export interface Database {
           roster_count?: number
           round_num?: number | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "poolrule_draft_pool_id_fkey"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "poolrule_draft_pool_id_fkey"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool_full_view"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "poolrule_draft_pool_id_fkey"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_available_players"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "poolrule_draft_pool_id_fkey"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_pool_players_full"
+            referencedColumns: ["pool_id"]
+          }
+        ]
       }
       poolrule_mvp: {
         Row: {
@@ -330,6 +508,36 @@ export interface Database {
           out_money?: boolean
           pool_id?: number
         }
+        Relationships: [
+          {
+            foreignKeyName: "pool_determinesrulesfor_mvp_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_determinesrulesfor_mvp_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool_full_view"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_determinesrulesfor_mvp_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_available_players"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_determinesrulesfor_mvp_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_pool_players_full"
+            referencedColumns: ["pool_id"]
+          }
+        ]
       }
       poolrule_prizesplit: {
         Row: {
@@ -347,6 +555,36 @@ export interface Database {
           pool_id?: number
           recipient?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "pool_determines_prizesplit_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_determines_prizesplit_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool_full_view"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_determines_prizesplit_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_available_players"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_determines_prizesplit_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_pool_players_full"
+            referencedColumns: ["pool_id"]
+          }
+        ]
       }
       roster: {
         Row: {
@@ -367,6 +605,43 @@ export interface Database {
           roster_name?: string | null
           user_id?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool_full_view"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_available_players"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_pool_players_full"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "user_drafts_roster_fk"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "userprofile"
+            referencedColumns: ["user_id"]
+          }
+        ]
       }
       roster_draftorder: {
         Row: {
@@ -387,6 +662,50 @@ export interface Database {
           draft_order?: number
           roster_id?: number
         }
+        Relationships: [
+          {
+            foreignKeyName: "roster_draftorder_roster_id_fkey"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_draftorder_roster_id_fkey"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_full_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_draftorder_roster_id_fkey"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_player_total_scores_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_draftorder_roster_id_fkey"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_total_score_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_draftorder_roster_id_fkey"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "view_roster_player_game_scores"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_draftorder_roster_id_fkey"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "view_roster_total_score"
+            referencedColumns: ["roster_id"]
+          }
+        ]
       }
       roster_player: {
         Row: {
@@ -413,6 +732,57 @@ export interface Database {
           round_end?: number
           round_start?: number
         }
+        Relationships: [
+          {
+            foreignKeyName: "player_comprises_roster_fk"
+            columns: ["player_unique"]
+            isOneToOne: false
+            referencedRelation: "player"
+            referencedColumns: ["player_unique"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_full_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_player_total_scores_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_total_score_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "view_roster_player_game_scores"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "view_roster_total_score"
+            referencedColumns: ["roster_id"]
+          }
+        ]
       }
       rosterranking: {
         Row: {
@@ -433,6 +803,57 @@ export interface Database {
           ranking?: number
           roster_id?: number
         }
+        Relationships: [
+          {
+            foreignKeyName: "player_isrankedin_ranking_fk"
+            columns: ["player_unique"]
+            isOneToOne: false
+            referencedRelation: "player"
+            referencedColumns: ["player_unique"]
+          },
+          {
+            foreignKeyName: "roster_isdeterminedby_ranking_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_isdeterminedby_ranking_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_full_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_isdeterminedby_ranking_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_player_total_scores_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_isdeterminedby_ranking_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_total_score_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_isdeterminedby_ranking_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "view_roster_player_game_scores"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_isdeterminedby_ranking_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "view_roster_total_score"
+            referencedColumns: ["roster_id"]
+          }
+        ]
       }
       team: {
         Row: {
@@ -450,6 +871,15 @@ export interface Database {
           team_name?: string
           team_unique?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "league_isgoverningbodyof_team_fk"
+            columns: ["league_unique"]
+            isOneToOne: false
+            referencedRelation: "league"
+            referencedColumns: ["league_unique"]
+          }
+        ]
       }
       team_competition: {
         Row: {
@@ -491,6 +921,22 @@ export interface Database {
           team_unique?: string
           team_win_loss?: Json | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "competition_iscompetedinby_team_fk"
+            columns: ["competition_id"]
+            isOneToOne: false
+            referencedRelation: "competition"
+            referencedColumns: ["competition_id"]
+          },
+          {
+            foreignKeyName: "team_competesin_competition_fk"
+            columns: ["team_unique", "league_unique"]
+            isOneToOne: false
+            referencedRelation: "team"
+            referencedColumns: ["team_unique", "league_unique"]
+          }
+        ]
       }
       userprofile: {
         Row: {
@@ -517,6 +963,15 @@ export interface Database {
           user_id?: string
           username?: string | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "userprofile_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
     Views: {
@@ -528,6 +983,78 @@ export interface Database {
           pool_id: number | null
           roster_id: number | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool_full_view"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_available_players"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_pool_players_full"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "roster_draftorder_roster_id_fkey"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_draftorder_roster_id_fkey"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_full_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_draftorder_roster_id_fkey"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_player_total_scores_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_draftorder_roster_id_fkey"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_total_score_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_draftorder_roster_id_fkey"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "view_roster_player_game_scores"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_draftorder_roster_id_fkey"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "view_roster_total_score"
+            referencedColumns: ["roster_id"]
+          }
+        ]
       }
       draft_results_view: {
         Row: {
@@ -545,6 +1072,99 @@ export interface Database {
           user_id: string | null
           username: string | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "competition_isbetonby_pool_fk"
+            columns: ["competition_id"]
+            isOneToOne: false
+            referencedRelation: "competition"
+            referencedColumns: ["competition_id"]
+          },
+          {
+            foreignKeyName: "player_comprises_roster_fk"
+            columns: ["player_unique"]
+            isOneToOne: false
+            referencedRelation: "player"
+            referencedColumns: ["player_unique"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool_full_view"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_available_players"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_pool_players_full"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_full_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_player_total_scores_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_total_score_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "view_roster_player_game_scores"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "view_roster_total_score"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "user_drafts_roster_fk"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "userprofile"
+            referencedColumns: ["user_id"]
+          }
+        ]
       }
       draft_view: {
         Row: {
@@ -558,6 +1178,99 @@ export interface Database {
           team_unique: string | null
           user_id: string | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "competition_isbetonby_pool_fk"
+            columns: ["competition_id"]
+            isOneToOne: false
+            referencedRelation: "competition"
+            referencedColumns: ["competition_id"]
+          },
+          {
+            foreignKeyName: "player_isrankedin_ranking_fk"
+            columns: ["player_unique"]
+            isOneToOne: false
+            referencedRelation: "player"
+            referencedColumns: ["player_unique"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool_full_view"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_available_players"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_pool_players_full"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "roster_isdeterminedby_ranking_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_isdeterminedby_ranking_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_full_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_isdeterminedby_ranking_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_player_total_scores_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_isdeterminedby_ranking_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_total_score_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_isdeterminedby_ranking_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "view_roster_player_game_scores"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_isdeterminedby_ranking_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "view_roster_total_score"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "user_drafts_roster_fk"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "userprofile"
+            referencedColumns: ["user_id"]
+          }
+        ]
       }
       player_total_score_view: {
         Row: {
@@ -565,6 +1278,22 @@ export interface Database {
           player_unique: string | null
           total_points: number | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "competition_isplayedby_player_fk"
+            columns: ["competition_id"]
+            isOneToOne: false
+            referencedRelation: "competition"
+            referencedColumns: ["competition_id"]
+          },
+          {
+            foreignKeyName: "player_playsin_competition_fk"
+            columns: ["player_unique"]
+            isOneToOne: false
+            referencedRelation: "player"
+            referencedColumns: ["player_unique"]
+          }
+        ]
       }
       players_in_games_view: {
         Row: {
@@ -576,6 +1305,22 @@ export interface Database {
           round_num: number | null
           team_unique: string | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "player_playsin_competition_fk"
+            columns: ["player_unique"]
+            isOneToOne: false
+            referencedRelation: "player"
+            referencedColumns: ["player_unique"]
+          },
+          {
+            foreignKeyName: "round_iscomprisedof_game_fk"
+            columns: ["round_num", "competition_id"]
+            isOneToOne: false
+            referencedRelation: "competitionround"
+            referencedColumns: ["round_num", "competition_id"]
+          }
+        ]
       }
       pool_full_view: {
         Row: {
@@ -601,6 +1346,43 @@ export interface Database {
           total_roster_count: number | null
           womens: boolean | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "competition_isbetonby_pool_fk"
+            columns: ["competition_id"]
+            isOneToOne: false
+            referencedRelation: "competition"
+            referencedColumns: ["competition_id"]
+          },
+          {
+            foreignKeyName: "competitionmeta_instantiates_competition_fk"
+            columns: ["competition_unique"]
+            isOneToOne: false
+            referencedRelation: "competitionmeta"
+            referencedColumns: ["competition_unique"]
+          },
+          {
+            foreignKeyName: "group_hosts_pool_fk"
+            columns: ["poolmeta_id"]
+            isOneToOne: false
+            referencedRelation: "poolmeta"
+            referencedColumns: ["poolmeta_id"]
+          },
+          {
+            foreignKeyName: "league_determines_competitiondetails_fk"
+            columns: ["league_unique"]
+            isOneToOne: false
+            referencedRelation: "league"
+            referencedColumns: ["league_unique"]
+          },
+          {
+            foreignKeyName: "poolmeta_admin_user_id_fkey"
+            columns: ["admin_user_id"]
+            isOneToOne: false
+            referencedRelation: "userprofile"
+            referencedColumns: ["user_id"]
+          }
+        ]
       }
       ranking_full_view: {
         Row: {
@@ -635,6 +1417,92 @@ export interface Database {
           team_win_loss: Json | null
           wins: Json | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "competition_isbetonby_pool_fk"
+            columns: ["competition_id"]
+            isOneToOne: false
+            referencedRelation: "competition"
+            referencedColumns: ["competition_id"]
+          },
+          {
+            foreignKeyName: "player_isrankedin_ranking_fk"
+            columns: ["player_unique"]
+            isOneToOne: false
+            referencedRelation: "player"
+            referencedColumns: ["player_unique"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool_full_view"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_available_players"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_pool_players_full"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "roster_isdeterminedby_ranking_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_isdeterminedby_ranking_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_full_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_isdeterminedby_ranking_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_player_total_scores_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_isdeterminedby_ranking_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_total_score_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_isdeterminedby_ranking_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "view_roster_player_game_scores"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_isdeterminedby_ranking_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "view_roster_total_score"
+            referencedColumns: ["roster_id"]
+          }
+        ]
       }
       roster_active_players_view: {
         Row: {
@@ -642,12 +1510,85 @@ export interface Database {
           pool_id: number | null
           roster_id: number | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool_full_view"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_available_players"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_pool_players_full"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_full_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_player_total_scores_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_total_score_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "view_roster_player_game_scores"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "view_roster_total_score"
+            referencedColumns: ["roster_id"]
+          }
+        ]
       }
       roster_full_view: {
         Row: {
           admin_user_id: string | null
           competition_id: number | null
           currency: string | null
+          daterange: unknown | null
           full_name: string | null
           point_value: number | null
           pool_id: number | null
@@ -661,6 +1602,64 @@ export interface Database {
           user_id: string | null
           username: string | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "competition_isbetonby_pool_fk"
+            columns: ["competition_id"]
+            isOneToOne: false
+            referencedRelation: "competition"
+            referencedColumns: ["competition_id"]
+          },
+          {
+            foreignKeyName: "group_hosts_pool_fk"
+            columns: ["poolmeta_id"]
+            isOneToOne: false
+            referencedRelation: "poolmeta"
+            referencedColumns: ["poolmeta_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool_full_view"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_available_players"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_pool_players_full"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "poolmeta_admin_user_id_fkey"
+            columns: ["admin_user_id"]
+            isOneToOne: false
+            referencedRelation: "userprofile"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "user_drafts_roster_fk"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "userprofile"
+            referencedColumns: ["user_id"]
+          }
+        ]
       }
       roster_player_total_scores_view: {
         Row: {
@@ -681,6 +1680,57 @@ export interface Database {
           user_id: string | null
           username: string | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "competition_isbetonby_pool_fk"
+            columns: ["competition_id"]
+            isOneToOne: false
+            referencedRelation: "competition"
+            referencedColumns: ["competition_id"]
+          },
+          {
+            foreignKeyName: "player_comprises_roster_fk"
+            columns: ["player_unique"]
+            isOneToOne: false
+            referencedRelation: "player"
+            referencedColumns: ["player_unique"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool_full_view"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_available_players"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_pool_players_full"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "user_drafts_roster_fk"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "userprofile"
+            referencedColumns: ["user_id"]
+          }
+        ]
       }
       roster_total_score_view: {
         Row: {
@@ -690,6 +1740,43 @@ export interface Database {
           total_roster_points: number | null
           user_id: string | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool_full_view"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_available_players"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_pool_players_full"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "user_drafts_roster_fk"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "userprofile"
+            referencedColumns: ["user_id"]
+          }
+        ]
       }
       view_active_players: {
         Row: {
@@ -698,6 +1785,22 @@ export interface Database {
           round_eliminated: number | null
           team_unique: string | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "competition_isplayedby_player_fk"
+            columns: ["competition_id"]
+            isOneToOne: false
+            referencedRelation: "competition"
+            referencedColumns: ["competition_id"]
+          },
+          {
+            foreignKeyName: "player_playsin_competition_fk"
+            columns: ["player_unique"]
+            isOneToOne: false
+            referencedRelation: "player"
+            referencedColumns: ["player_unique"]
+          }
+        ]
       }
       view_available_players: {
         Row: {
@@ -712,6 +1815,64 @@ export interface Database {
           team_name: string | null
           team_unique: string | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "competition_isbetonby_pool_fk"
+            columns: ["competition_id"]
+            isOneToOne: false
+            referencedRelation: "competition"
+            referencedColumns: ["competition_id"]
+          },
+          {
+            foreignKeyName: "player_playsin_competition_fk"
+            columns: ["player_unique"]
+            isOneToOne: false
+            referencedRelation: "player"
+            referencedColumns: ["player_unique"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_full_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_player_total_scores_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_total_score_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "view_roster_player_game_scores"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "view_roster_total_score"
+            referencedColumns: ["roster_id"]
+          }
+        ]
       }
       view_competition_player_full: {
         Row: {
@@ -734,6 +1895,22 @@ export interface Database {
           team_unique: string | null
           team_win_loss: Json | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "competition_isplayedby_player_fk"
+            columns: ["competition_id"]
+            isOneToOne: false
+            referencedRelation: "competition"
+            referencedColumns: ["competition_id"]
+          },
+          {
+            foreignKeyName: "player_playsin_competition_fk"
+            columns: ["player_unique"]
+            isOneToOne: false
+            referencedRelation: "player"
+            referencedColumns: ["player_unique"]
+          }
+        ]
       }
       view_pool_players_full: {
         Row: {
@@ -762,6 +1939,64 @@ export interface Database {
           team_win_loss: Json | null
           tournament_points: number | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "competition_isbetonby_pool_fk"
+            columns: ["competition_id"]
+            isOneToOne: false
+            referencedRelation: "competition"
+            referencedColumns: ["competition_id"]
+          },
+          {
+            foreignKeyName: "player_playsin_competition_fk"
+            columns: ["player_unique"]
+            isOneToOne: false
+            referencedRelation: "player"
+            referencedColumns: ["player_unique"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_full_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_player_total_scores_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "roster_total_score_view"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "view_roster_player_game_scores"
+            referencedColumns: ["roster_id"]
+          },
+          {
+            foreignKeyName: "roster_iscomprisedof_player_fk"
+            columns: ["roster_id"]
+            isOneToOne: false
+            referencedRelation: "view_roster_total_score"
+            referencedColumns: ["roster_id"]
+          }
+        ]
       }
       view_roster_player_game_scores: {
         Row: {
@@ -778,6 +2013,71 @@ export interface Database {
           user_id: string | null
           username: string | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "competition_isbetonby_pool_fk"
+            columns: ["competition_id"]
+            isOneToOne: false
+            referencedRelation: "competition"
+            referencedColumns: ["competition_id"]
+          },
+          {
+            foreignKeyName: "game_isplayedby_players_fk"
+            columns: ["game_id"]
+            isOneToOne: false
+            referencedRelation: "game"
+            referencedColumns: ["game_id"]
+          },
+          {
+            foreignKeyName: "game_isplayedby_players_fk"
+            columns: ["game_id"]
+            isOneToOne: false
+            referencedRelation: "players_in_games_view"
+            referencedColumns: ["game_id"]
+          },
+          {
+            foreignKeyName: "player_comprises_roster_fk"
+            columns: ["player_unique"]
+            isOneToOne: false
+            referencedRelation: "player"
+            referencedColumns: ["player_unique"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool_full_view"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_available_players"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_pool_players_full"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "user_drafts_roster_fk"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "userprofile"
+            referencedColumns: ["user_id"]
+          }
+        ]
       }
       view_roster_total_score: {
         Row: {
@@ -798,6 +2098,64 @@ export interface Database {
           user_id: string | null
           username: string | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "competition_isbetonby_pool_fk"
+            columns: ["competition_id"]
+            isOneToOne: false
+            referencedRelation: "competition"
+            referencedColumns: ["competition_id"]
+          },
+          {
+            foreignKeyName: "group_hosts_pool_fk"
+            columns: ["poolmeta_id"]
+            isOneToOne: false
+            referencedRelation: "poolmeta"
+            referencedColumns: ["poolmeta_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "pool_full_view"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_available_players"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "pool_iscomprisedof_roster_fk"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "view_pool_players_full"
+            referencedColumns: ["pool_id"]
+          },
+          {
+            foreignKeyName: "poolmeta_admin_user_id_fkey"
+            columns: ["admin_user_id"]
+            isOneToOne: false
+            referencedRelation: "userprofile"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "user_drafts_roster_fk"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "userprofile"
+            referencedColumns: ["user_id"]
+          }
+        ]
       }
     }
     Functions: {
@@ -811,3 +2169,83 @@ export interface Database {
     }
   }
 }
+
+export type Tables<
+  PublicTableNameOrOptions extends
+    | keyof (Database["public"]["Tables"] & Database["public"]["Views"])
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+        Database[PublicTableNameOrOptions["schema"]]["Views"])
+    : never = never
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : PublicTableNameOrOptions extends keyof (Database["public"]["Tables"] &
+      Database["public"]["Views"])
+  ? (Database["public"]["Tables"] &
+      Database["public"]["Views"])[PublicTableNameOrOptions] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : never
+
+export type TablesInsert<
+  PublicTableNameOrOptions extends
+    | keyof Database["public"]["Tables"]
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
+  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : never
+
+export type TablesUpdate<
+  PublicTableNameOrOptions extends
+    | keyof Database["public"]["Tables"]
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
+  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : never
+
+export type Enums<
+  PublicEnumNameOrOptions extends
+    | keyof Database["public"]["Enums"]
+    | { schema: keyof Database },
+  EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
+    : never = never
+> = PublicEnumNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]
+  ? Database["public"]["Enums"][PublicEnumNameOrOptions]
+  : never

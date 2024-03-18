@@ -59,6 +59,20 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/data/2023-03-24-game-scoring-2023-ncaa-tournament.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/data/2023-03-26-game-scoring-2023-ncaa-tournament.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/data/2023-kenpom-predictions-final.csv">
           <value>
             <Attribute>
@@ -115,7 +129,42 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/data/2024/2024_ncaa_tournament_player_stats.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/data/2024/2024_ncaa_tournament_team_stats.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/data/2024/back/2024_ncaa_tournament_player_stats.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/data/2024/back/test.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/data/game-schedule-round-2-2023-ncaa-tournament.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/data/game-schedule-round-5-2023-ncaa-tournament.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
