@@ -1,8 +1,8 @@
-'use client';
-import Papa, { ParseStepResult } from 'papaparse';
-import React from 'react';
-import { _ } from 'react-hook-form/dist/__typetest__/__fixtures__';
-import { DraftViewRow } from '@lib/api';
+"use client";
+import Papa, { ParseStepResult } from "papaparse";
+import React from "react";
+import { _ } from "react-hook-form/dist/__typetest__/__fixtures__";
+import { DraftViewRow } from "@lib/api";
 
 interface UploadButtonProps {
   onUpload: (data: any) => void;
@@ -15,7 +15,7 @@ function processRow<T>(
   row: ParseStepResult<T>,
   rankings: Array<Record<string, number>>
 ) {
-  let rowError = '';
+  let rowError = "";
   const { player_unique, ranking, team_name, seed, points, player_name } =
     row.data as unknown as Record<string, any>;
   const rankNum = Number(ranking);
@@ -29,7 +29,7 @@ function processRow<T>(
   if (ranking && !rowError) {
     rankings[rankNum] = {
       ranking: rankNum,
-      ...row.data,
+      ...row.data
     };
   }
   return rowError;
@@ -44,7 +44,7 @@ export const UploadButton: React.FC<UploadButtonProps> = ({ onUpload }) => {
       Papa.parse<DraftViewRow>(file, {
         header: true,
         skipEmptyLines: true,
-        step: function (row, parser) {
+        step: function(row, parser) {
           if (!headersMatch) {
             //Only check if flag is not set, i.e, for the first time
             parser.pause(); // pause the parser
@@ -52,8 +52,8 @@ export const UploadButton: React.FC<UploadButtonProps> = ({ onUpload }) => {
             // Now check object keys, if it match
             // TODO: pull out this predicate as a match condition to genericize
             if (
-              'player_unique' in first_row_data &&
-              'ranking' in first_row_data
+              "player_unique" in first_row_data &&
+              "ranking" in first_row_data
             ) {
               //every required key is present
               headersMatch = true;
@@ -63,7 +63,7 @@ export const UploadButton: React.FC<UploadButtonProps> = ({ onUpload }) => {
             } else {
               //some key is missing, abort parsing
               window.alert(
-                "It looks like your csv file doesn't have the correct headers. Did you sort them out of the first row? Please make sure the column headers are in the first row."
+                "It looks like your csv file doesn't have the correct headers. The uploader expects to find a `ranking` and `player_unique` in the very first row of your file. Did you rename those columns or did they get sorted out of the first row? Please make sure the column headers are in the first row of the spreadsheet."
               );
               parser.abort();
             }
@@ -81,11 +81,11 @@ export const UploadButton: React.FC<UploadButtonProps> = ({ onUpload }) => {
         complete: ({ errors, meta: { aborted } }) => {
           if (errors.length) {
             window.alert(
-              'There may have been an error parsing your csv. Please double check your rankings below.'
+              "There may have been an error parsing your csv. Please double check your rankings below."
             );
           }
           if (!aborted) onUpload(rankings);
-        },
+        }
       });
     }
   };
@@ -94,20 +94,20 @@ export const UploadButton: React.FC<UploadButtonProps> = ({ onUpload }) => {
     <>
       <button
         onClick={() => {
-          if (document && document.getElementById('csvFileInput') != null) {
+          if (document && document.getElementById("csvFileInput") != null) {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            document.getElementById('csvFileInput').click();
+            document.getElementById("csvFileInput").click();
           }
         }}
       >
         Upload Your Rankings
       </button>
       <input
-        type={'file'}
-        id={'csvFileInput'}
-        accept={'.csv'}
-        value={''}
+        type={"file"}
+        id={"csvFileInput"}
+        accept={".csv"}
+        value={""}
         onChange={handleOnChange}
       />
     </>
