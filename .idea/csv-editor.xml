@@ -3,6 +3,20 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
+        <entry key="/2024-evan-miya.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="$APPLICATION_CONFIG_DIR$/scratches/kenpom-2024.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../sportsipy/sportsipy/2023_acc_tournament_players_stats.csv">
           <value>
             <Attribute>
@@ -157,6 +171,20 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/data/2024/game-schedule-round-1-2024-ncaa-tournament.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/data/2024/game-schedule-round-2-2024-ncaa-tournament.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/data/game-schedule-round-2-2023-ncaa-tournament.csv">
           <value>
             <Attribute>
@@ -164,7 +192,35 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/data/game-schedule-round-3-2023-ncaa-tournament.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/data/game-schedule-round-4-2023-ncaa-tournament.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/data/game-schedule-round-5-2023-ncaa-tournament.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/data/game-schedule-round-6-2023-ncaa-tournament.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/data/game-schedule-round-7-2023-ncaa-tournament.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />

@@ -9,6 +9,7 @@ export default async function PoolIdDraftResultsDraftNumUsernamePage({
 }: {
   params: { pool_id: string; roster_id: string | number };
 }) {
+
   const supabase = createClient();
   const { data: roster_data_results, error } = await supabase
     .from('roster_player_total_scores_view')

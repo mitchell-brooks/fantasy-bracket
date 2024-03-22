@@ -1,7 +1,7 @@
-import { Column, useTable } from 'react-table';
-import React from 'react';
-import styles from './rankings-table.module.css';
-import { Table } from '@components/table/table';
+import { Column, useTable } from "react-table";
+import React from "react";
+import styles from "./rankings-table.module.css";
+import { Table } from "@components/table/table";
 
 interface RankingsTableProps {
   rankings: RankingsTableData[];
@@ -18,26 +18,26 @@ export const RankingsTable: React.FC<RankingsTableProps> = ({ rankings }) => {
   const columns = React.useMemo(
     () => [
       {
-        Header: 'Player',
+        Header: "Player",
         columns: [
-          { Header: 'Ranking', accessor: 'ranking' },
+          { Header: "Ranking", accessor: "ranking" },
           {
-            Header: 'Name',
+            Header: "Name",
             // accessor: 'player_name',
             accessor: (row: any) =>
-              row.eliminated ? <del>{row.player_name}</del> : row.player_name,
+              row.eliminated ? <s>{row.player_name}</s> : row.player_name
           },
-          { Header: 'Tournament Pts', accessor: 'tournament_points' },
-          { Header: 'Reg Season Pts', accessor: 'points' },
-        ],
+          { Header: "Tournament Pts", accessor: "tournament_points" },
+          { Header: "Reg Season Pts", accessor: "points" }
+        ]
       },
       {
-        Header: 'Team',
+        Header: "Team",
         columns: [
-          { Header: 'Team', accessor: 'team_name' },
-          { Header: 'Seed', accessor: 'seed' },
-        ],
-      },
+          { Header: "Team", accessor: "team_name" },
+          { Header: "Seed", accessor: "seed" }
+        ]
+      }
     ],
     []
   );
