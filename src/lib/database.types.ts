@@ -1783,6 +1783,7 @@ export type Database = {
           pool_id: number | null
           roster_id: number | null
           roster_name: string | null
+          round_eliminated: number | null
           round_end: number | null
           round_start: number | null
           seed: number | null

@@ -15,7 +15,7 @@ export default async function PoolIdDraftResultsDraftNumUsernamePage({
   const { data: roster_data_results, error } = await supabase
     .from("roster_player_total_scores_view")
     .select(
-      "player_name, team_name, seed, total_player_points, pick_number, team_unique, username"
+      "player_name, team_name, seed, total_player_points, pick_number, team_unique, username, round_eliminated"
     )
     .eq("pool_id", pool_id)
     .eq("roster_id", roster_id);
@@ -29,6 +29,11 @@ export default async function PoolIdDraftResultsDraftNumUsernamePage({
   const mappedRosterData = rosterData?.map((player) => {
     return {
       ...player,
+      player_name: player.round_eliminated ? (
+        <s>
+          {player.player_name}
+        </s>
+      ) : (player.player_name),
       team_name: (
         <Link href={`/pool/${pool_id}/team/${player.team_unique}`}>
           {player.team_name}
@@ -37,14 +42,14 @@ export default async function PoolIdDraftResultsDraftNumUsernamePage({
     };
   });
 
+
   const columns: Column<Record<string, any>>[] = [
       {
         Header: "Player",
         columns: [
           {
             Header: "Name",
-            accessor: (row) =>
-              row?.eliminated ? <s>{row.player_name}</s> : row.player_name
+            accessor: "player_name"
           },
           { Header: "Points", accessor: "total_player_points" }
         ]
