@@ -82,8 +82,6 @@ export default async function PoolIdDraftPage({
     .eq('pool_id', pool_id)
     .eq('user_id', user_id);
   const roster_id = roster_data?.[0]?.roster_id;
-  console.log('roster_id', roster_id);
-  console.log(':::roster_data:::', roster_data);;
 
   if (!roster_id) {
     return (
