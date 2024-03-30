@@ -1,31 +1,32 @@
-import React from 'react';
-import styles from './page.module.css';
-import { createClient } from '@utils/supabase-server';
-import { Table } from '@components/table/table';
-import Link from 'next/link';
-import { formatPointValue } from '@/utils';
-import { GridTitle } from '@components/grid-title/grid-title';
+import React from "react";
+import styles from "./page.module.css";
+import { createClient } from "@utils/supabase-server";
+import { Table } from "@components/table/table";
+import Link from "next/link";
+import { formatPointValue } from "@/utils";
+import { GridTitle } from "@components/grid-title/grid-title";
+import { ScoresUpdatedFooter } from "@components/scores-updated-footer/scores-updated-footer";
 
 export default async function PoolIdDraftNumResults({
-  params: { pool_id, draft_num = 1 },
-}: {
+                                                      params: { pool_id, draft_num = 1 }
+                                                    }: {
   params: { pool_id: string; draft_num: string | number };
 }) {
   //TODO remove this hard coded value
-  const COMPETITION_ID = 1;
+  const COMPETITION_ID = pool_id === "14" ? 5 : 1;
   draft_num = Number(draft_num);
   const supabase = createClient();
   const { data: roster_total_score_data, error: total_score_error } =
     await supabase
-      .from('view_roster_total_score')
-      .select('*')
-      .eq('pool_id', pool_id);
+      .from("view_roster_total_score")
+      .select("*")
+      .eq("pool_id", pool_id);
 
   const { data: active_player_data, error: active_players_error } =
     await supabase
-      .from('roster_active_players_view')
-      .select('*')
-      .eq('pool_id', pool_id);
+      .from("roster_active_players_view")
+      .select("*")
+      .eq("pool_id", pool_id);
   const activePlayersDict = active_player_data?.reduce<
     Record<string, number | null>
   >((acc, roster) => {
@@ -36,22 +37,25 @@ export default async function PoolIdDraftNumResults({
   }, {});
 
   const { data: pool_data, error: poolmeta_error } = await supabase
-    .from('pool')
-    .select('*')
-    .eq('pool_id', pool_id);
+    .from("pool")
+    .select("*")
+    .eq("pool_id", pool_id);
 
-  const currency = pool_data?.[0]?.currency || 'cent';
+  const currency = pool_data?.[0]?.currency || "cent";
   const point_value = pool_data?.[0]?.point_value || 1;
 
   const { data: updated_data, error: updated_error } = await supabase
-    .from('competition_updated')
-    .select('*')
-    .eq('competition_id', COMPETITION_ID);
-  const updated = updated_data?.[updated_data.length - 1]?.scores_updated_at
-    ? new Date(
-        updated_data?.[updated_data.length - 1]?.scores_updated_at
-      ).toLocaleTimeString('en-US', { timeZone: 'America/New_York' })
-    : 'N/A';
+    .from("competition_updated")
+    .select("*")
+    .eq("competition_id", COMPETITION_ID)
+    .order("scores_updated_at", { ascending: true });
+  const updated = updated_data?.[0]?.scores_updated_at
+    ? `${new Date(
+      updated_data?.[updated_data.length - 1]?.scores_updated_at
+    ).toLocaleDateString("en-US", { timeZone: "America/New_York" })} - ${new Date(
+      updated_data?.[updated_data.length - 1]?.scores_updated_at
+    ).toLocaleTimeString("en-US", { timeZone: "America/New_York" })}`
+    : "N/A";
 
   const sortedRosterData = roster_total_score_data?.sort(
     (a, b) => (b?.total_roster_points || 0) - (a?.total_roster_points || 0)
@@ -70,7 +74,7 @@ export default async function PoolIdDraftNumResults({
           </Link>
         );
       }
-      let active_players: string | number = '';
+      let active_players: string | number = "";
       if (row?.roster_id) {
         active_players = activePlayersDict?.[row?.roster_id] || 0;
       }
@@ -82,37 +86,33 @@ export default async function PoolIdDraftNumResults({
 
   const columns = [
     {
-      Header: 'Participant',
-      columns: [{ Header: 'Username', accessor: 'username' }],
+      Header: "Participant",
+      columns: [{ Header: "Username", accessor: "username" }]
     },
     {
-      Header: 'Points',
+      Header: "Points",
       columns: [
-        { Header: 'Total Points', accessor: 'total_roster_points' },
-        { Header: 'Trailing', accessor: 'trailing' },
-        { Header: 'Owes', accessor: 'owes' },
-        { Header: 'Active Players', accessor: 'active_players' },
-      ],
-    },
+        { Header: "Total Points", accessor: "total_roster_points" },
+        { Header: "Trailing", accessor: "trailing" },
+        { Header: "Owes", accessor: "owes" },
+        { Header: "Active Players", accessor: "active_players" }
+      ]
+    }
   ];
   return (
     <>
       <GridTitle title="Leaderboard" fixed={true} />
       <Table columns={columns} data={rosterTotalScores} />
-      <div className={styles.bottomContainer}>
-        <div className={styles.updated}>
-          <div>Scores Updated: {updated}</div>
-        </div>
-      </div>
+      <ScoresUpdatedFooter updated={updated} />
       <div className={styles.total}>
         <div className={styles.totalColumn}>
           <h1 className={styles.prizeSplitTitle}>Prize Split</h1>
           <div>
-            First place:{' '}
+            First place:{" "}
             {formatPointValue(totalWinnings * 0.75, currency, point_value)}
           </div>
           <div>
-            Second place:{' '}
+            Second place:{" "}
             {formatPointValue(totalWinnings * 0.25, currency, point_value)}
           </div>
         </div>
