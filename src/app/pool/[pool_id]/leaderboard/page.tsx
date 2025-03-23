@@ -44,18 +44,6 @@ export default async function PoolIdDraftNumResults({
   const currency = pool_data?.[0]?.currency || "cent";
   const point_value = pool_data?.[0]?.point_value || 1;
 
-  const { data: updated_data, error: updated_error } = await supabase
-    .from("competition_updated")
-    .select("*")
-    .eq("competition_id", COMPETITION_ID)
-    .order("scores_updated_at", { ascending: true });
-  const updated = updated_data?.[0]?.scores_updated_at
-    ? `${new Date(
-      updated_data?.[updated_data.length - 1]?.scores_updated_at
-    ).toLocaleDateString("en-US", { timeZone: "America/New_York" })} - ${new Date(
-      updated_data?.[updated_data.length - 1]?.scores_updated_at
-    ).toLocaleTimeString("en-US", { timeZone: "America/New_York" })}`
-    : "N/A";
 
   const sortedRosterData = roster_total_score_data?.sort(
     (a, b) => (b?.total_roster_points || 0) - (a?.total_roster_points || 0)
@@ -103,7 +91,7 @@ export default async function PoolIdDraftNumResults({
     <>
       <GridTitle title="Leaderboard" fixed={true} />
       <Table columns={columns} data={rosterTotalScores} />
-      <ScoresUpdatedFooter updated={updated} />
+      <ScoresUpdatedFooter poolId={pool_id} />
       <div className={styles.total}>
         <div className={styles.totalColumn}>
           <h1 className={styles.prizeSplitTitle}>Prize Split</h1>
