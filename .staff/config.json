@@ -1,0 +1,21 @@
+{
+  "approval": {
+    "plan_approval": "required",
+    "merge_threshold": 30,
+    "auto_merge": "low_risk",
+    "escalation_mode": "immediate"
+  },
+  "session": {
+    "mode": "windows",
+    "worktree_dir": ".worktrees"
+  },
+  "supervisor": {
+    "profile": "supervised",
+    "autodispatch": false,
+    "auto_nudge": true,
+    "nudge_threshold": "15m",
+    "auto_review": true,
+    "auto_merge_threshold": 0,
+    "checkin_interval": "10m"
+  }
+}

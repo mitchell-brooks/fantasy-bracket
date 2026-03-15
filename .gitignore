@@ -34,3 +34,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# superpowers brainstorm files
+.superpowers/
+
+# staff orchestrator
+worktrees/
+PLAN.md
+CONTEXT.md
+.beads/
