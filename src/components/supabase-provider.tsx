@@ -1,9 +1,10 @@
+// ABOUTME: React context provider that makes the Supabase browser client available to Client Components
+// ABOUTME: Creates a single browser client instance shared across the component tree
 'use client';
 
 import React, { createContext, useContext, useState } from 'react';
 import { createClient } from '@utils/supabase-browser';
-
-import type { SupabaseClient } from '@supabase/auth-helpers-nextjs';
+import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '@lib/database.types';
 
 type SupabaseContext = {

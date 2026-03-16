@@ -4,11 +4,13 @@ import { JoinButton } from '@components/join-button/join-button';
 import { Redirect } from '@components/redirect/redirect';
 
 export default async function PoolJoinPage({
-  params: { pool_id },
+  params,
 }: {
-  params: { pool_id: number };
+  params: Promise<{ pool_id: string }>;
 }) {
-  const supabase = createClient();
+  const { pool_id: pool_id_param } = await params;
+  const pool_id = Number(pool_id_param);
+  const supabase = await createClient();
   const { data: user_data, error: user_error } = await supabase.auth.getUser();
   const user_id = user_data?.user?.id;
   const { data: pool_data, error: pool_error } = await supabase

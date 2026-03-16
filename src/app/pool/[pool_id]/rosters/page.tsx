@@ -4,11 +4,13 @@ import { Table } from '@components/table/table';
 import { GridTitle } from '@components/grid-title/grid-title';
 
 export default async function PoolIdDraftResultsDraftNumUsernamePage({
-  params: { pool_id },
+  params,
 }: {
-  params: { pool_id: string };
+  params: Promise<{ pool_id: string }>;
 }) {
-  const supabase = createClient();
+  const { pool_id: pool_id_param } = await params;
+  const pool_id = Number(pool_id_param);
+  const supabase = await createClient();
   const { data: roster_data_results, error } = await supabase
     .from('roster_player_total_scores_view')
     .select(

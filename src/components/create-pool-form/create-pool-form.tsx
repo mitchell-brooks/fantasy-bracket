@@ -32,7 +32,7 @@ type FormValues = Omit<PoolMetaRow, 'poolmeta_id'> &
 export default function CreatePoolForm({
   user_id,
   competition_id,
-}: CreatePoolFormProps): JSX.Element {
+}: CreatePoolFormProps): React.JSX.Element {
   const { supabase } = useSupabase();
   const {
     register,

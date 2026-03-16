@@ -9,7 +9,7 @@ import { Redirect } from "@components/redirect/redirect";
 export const revalidate = 0;
 
 export default async function Home() {
-  const supabase = createClient();
+  const supabase = await createClient();
   // move into layout main?
   const user = await getUser(supabase);
   // console.log('roster', roster);

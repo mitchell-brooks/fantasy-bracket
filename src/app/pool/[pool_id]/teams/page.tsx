@@ -5,11 +5,13 @@ import { GridTitle } from '@components/grid-title/grid-title';
 import Link from 'next/link';
 
 export default async function PoolIdTeamsPage({
-  params: { pool_id },
+  params,
 }: {
-  params: { pool_id: string };
+  params: Promise<{ pool_id: string }>;
 }) {
-  const supabase = createClient();
+  const { pool_id: pool_id_param } = await params;
+  const pool_id = Number(pool_id_param);
+  const supabase = await createClient();
   const { data: roster_data_results, error } = await supabase
     .from('roster_player_total_scores_view')
     .select(

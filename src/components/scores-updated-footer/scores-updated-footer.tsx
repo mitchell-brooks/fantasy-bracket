@@ -12,8 +12,9 @@ export const ScoresUpdatedFooter = ({ poolId }: { poolId: string }) => {
       const {
         data: poolData,
         error: pool_error
-      } = await supabase.from("pool").select("competition_id").eq("pool_id", poolId);
+      } = await supabase.from("pool").select("competition_id").eq("pool_id", Number(poolId));
       const competition_id = poolData?.[0]?.competition_id;
+      if (!competition_id) return;
       const { data: updated_data, error: updated_error } = await supabase
         .from("competition_updated")
         .select("*")
