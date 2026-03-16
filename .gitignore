@@ -35,6 +35,12 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+
 # superpowers brainstorm files
 .superpowers/
 
