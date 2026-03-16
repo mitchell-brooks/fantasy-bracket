@@ -14,8 +14,6 @@ export default async function PoolIdDraftNumResults({
 }) {
   const { pool_id: pool_id_param, draft_num: draft_num_param = '1' } = await params;
   const pool_id = Number(pool_id_param);
-  //TODO remove this hard coded value
-  const COMPETITION_ID = pool_id === 14 ? 5 : 1;
   const draft_num = Number(draft_num_param);
   const supabase = await createClient();
   const { data: roster_total_score_data, error: total_score_error } =
