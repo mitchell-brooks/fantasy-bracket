@@ -10,7 +10,7 @@
   margin: 0;
 }
 .meta a {
-  color: black;
+  color: var(--color-text-primary);
   text-decoration: underline;
   cursor: pointer;
   font-family: var(--font-tilt-warp);
@@ -56,7 +56,7 @@
 .draftContainer a {
   font-size: 1.5rem;
   /*font-weight: 400;*/
-  color: black;
+  color: var(--color-text-primary);
   cursor: pointer;
   /*font-family: var(--font-tilt-warp);*/
 }
@@ -70,7 +70,7 @@
   font-size: 3rem;
 }
 .divider {
-  border: 2px dashed black;
+  border: 2px dashed var(--color-border-subtle);
   margin: 2rem 0;
 }
 .div draftLink {

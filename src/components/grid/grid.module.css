@@ -39,8 +39,8 @@
 
 .gridColumn {
   width: 100%;
-  border-right: 2px solid black;
-  border-left: 2px solid black;
+  border-right: 2px solid var(--color-border-primary);
+  border-left: 2px solid var(--color-border-primary);
   height: 100vh;
   overflow-y: scroll;
 }
@@ -56,34 +56,34 @@
 .gridRow {
   width: 100%;
   height: var(--grid-column-height);
-  border-top: 2px solid black;
-  border-bottom: 2px solid black;
+  border-top: 2px solid var(--color-border-primary);
+  border-bottom: 2px solid var(--color-border-primary);
 }
 .gridRow:last-child {
-  border-bottom: 4px solid black;
+  border-bottom: 4px solid var(--color-border-primary);
 }
 .gridRow:first-child {
-  border-top: 4px solid black;
+  border-top: 4px solid var(--color-border-primary);
 }
 
 .gridDoubleRow {
   width: 100%;
   height: calc(var(--grid-column-height) * 2);
-  border-top: 2px solid black;
-  border-bottom: 2px solid black;
+  border-top: 2px solid var(--color-border-primary);
+  border-bottom: 2px solid var(--color-border-primary);
 }
 .gridDoubleRow:last-child {
-  border-bottom: 4px solid black;
+  border-bottom: 4px solid var(--color-border-primary);
 }
 .gridDoubleRow:first-child {
-  border-top: 4px solid black;
+  border-top: 4px solid var(--color-border-primary);
 }
 
 .gridHalfRow {
   width: 100%;
   height: calc(var(--grid-column-height) / 2);
-  border-top: 2px solid black;
-  border-bottom: 2px solid black;
+  border-top: 2px solid var(--color-border-primary);
+  border-bottom: 2px solid var(--color-border-primary);
 }
 
 .contentColumn {
@@ -92,8 +92,8 @@
 
 .contentBlock {
   /*background-color: white;*/
-  border-top: 2px solid black;
-  /*border-bottom: 4px solid black;*/
+  border-top: 2px solid var(--color-border-primary);
+  /*border-bottom: 4px solid var(--color-border-primary);*/
   /*padding: 1rem;*/
   /*height: 80;*/
   overflow-y: scroll;

@@ -1,12 +1,29 @@
 :root {
   --nav-height: 60px;
-  /* COLORS */
-  --color-primary: #6fb2e0;
-  --color-header: #333333;
-  --color-link: #8888ee;
-  --color-border: rgba(0, 0, 0, 0.25);
-  --color-button-hover: salmon;
-  --white: white;
+  /* BACKGROUNDS */
+  --color-bg-primary: #f4f1eb;
+  --color-bg-surface: #faf8f4;
+  --color-bg-overlay: #f4f1eb;
+
+  /* TEXT */
+  --color-text-primary: #2a2a2a;
+  --color-text-secondary: #666;
+  --color-text-muted: #999;
+  --color-text-eliminated: #aaa;
+
+  /* ACCENTS */
+  --color-accent-primary: #c44536;
+  --color-accent-positive: #386641;
+  --color-accent-neutral: #ddd5c7;
+
+  /* BORDERS */
+  --color-border-primary: #1a1a1a;
+  --color-border-subtle: #d4cfc5;
+
+  /* INTERACTIVE */
+  --color-link: #c44536;
+  --color-link-hover: #a3362a;
+  --color-button-hover: #c44536;
 
   /* FONTS */
   --font-body: var(--font-quicksand), Georgia, serif;
@@ -50,7 +67,7 @@
   --radius: 4px;
   --radius-md: 6px;
   --radius-lg: 10px;
-  --border: 1px solid var(--color-border);
+  --border: 1px solid var(--color-border-subtle);
 
   /* SHADOWS */
   --box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
