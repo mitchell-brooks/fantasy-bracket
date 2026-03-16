@@ -13,7 +13,7 @@ import { createClient } from "@utils/supabase-server";
 import { Redirect } from "@components/redirect/redirect";
 import { AuthCheck } from "@components/auth-check/auth-check";
 import { Header } from "@components/header/header";
-import { Grid } from "@components/grid/grid";
+import Grid from "@components/grid/grid";
 
 const tiltWarp = localFont({
   src: "../assets/fonts/TiltWarp-Regular.ttf",
