@@ -24,8 +24,8 @@ export default async function PoolIdDraftResultsDraftNumUsernamePage({
       (acc, cur) => {
         if (cur.roster_id) {
           const roster_id: string = cur.roster_id.toString();
-          if (cur.roster_id in acc) {
-            acc[roster_id].push(cur);
+          if (roster_id in acc) {
+            acc[roster_id]?.push(cur);
           } else {
             acc[roster_id] = [cur];
           }

@@ -20,12 +20,10 @@ export const ScoresUpdatedFooter = ({ poolId }: { poolId: string }) => {
         .select("*")
         .eq("competition_id", competition_id)
         .order("scores_updated_at", { ascending: true });
-      const updated = updated_data?.[0]?.scores_updated_at
-        ? `${new Date(
-          updated_data?.[updated_data.length - 1]?.scores_updated_at
-        ).toLocaleDateString("en-US", { timeZone: "America/New_York" })} - ${new Date(
-          updated_data?.[updated_data.length - 1]?.scores_updated_at
-        ).toLocaleTimeString("en-US", { timeZone: "America/New_York" })}`
+      const lastEntry = updated_data?.[updated_data.length - 1];
+      const lastTimestamp = lastEntry?.scores_updated_at;
+      const updated = lastTimestamp
+        ? `${new Date(lastTimestamp).toLocaleDateString("en-US", { timeZone: "America/New_York" })} - ${new Date(lastTimestamp).toLocaleTimeString("en-US", { timeZone: "America/New_York" })}`
         : "N/A";
       setUpdatedTime(updated);
     };

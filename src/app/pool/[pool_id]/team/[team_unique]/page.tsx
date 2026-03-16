@@ -26,8 +26,8 @@ export default async function PoolIdTeamsPage({
       (acc, cur) => {
         if (cur.team_name) {
           const team_name: string = cur.team_name;
-          if (cur.team_name in acc) {
-            acc[team_name].push(cur);
+          if (team_name in acc) {
+            acc[team_name]?.push(cur);
           } else {
             acc[team_name] = [cur];
           }
