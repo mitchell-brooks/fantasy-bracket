@@ -1,3 +1,5 @@
+// ABOUTME: TypeScript type definitions for database tables and views
+// ABOUTME: Extracts row types from the generated Database schema for use across the app
 import { SupabaseClient } from '@supabase/supabase-js';
 import { Database } from '@lib/database.types';
 

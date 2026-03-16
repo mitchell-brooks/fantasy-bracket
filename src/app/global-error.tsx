@@ -1,3 +1,5 @@
+// ABOUTME: Global error boundary that catches errors in the root layout
+// ABOUTME: Renders a full HTML page with a retry button since the root layout has failed
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 'use client';

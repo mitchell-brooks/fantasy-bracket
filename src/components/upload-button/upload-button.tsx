@@ -1,3 +1,5 @@
+// ABOUTME: CSV file upload button that parses and validates draft ranking files
+// ABOUTME: Uses PapaParse to stream-parse CSV rows, validate headers, and detect duplicate rankings
 "use client";
 import Papa, { ParseStepResult } from "papaparse";
 import React from "react";

@@ -1,3 +1,5 @@
+// ABOUTME: Logout page that signs the user out and redirects to home
+// ABOUTME: Renders the Logout component which triggers sign-out on mount
 import { createClient } from '@utils/supabase-server';
 import React from 'react';
 import { Redirect } from '@components/redirect/redirect';

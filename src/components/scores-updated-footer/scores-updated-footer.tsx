@@ -1,3 +1,5 @@
+// ABOUTME: Footer component showing when pool scores were last updated
+// ABOUTME: Fetches the latest score update timestamp from competition_updated and formats it
 "use client";
 import React from "react";
 import styles from "@/app/pool/[pool_id]/leaderboard/page.module.css";

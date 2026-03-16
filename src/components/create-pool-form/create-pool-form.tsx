@@ -1,3 +1,5 @@
+// ABOUTME: Form component for creating a new pool with draft rules and prize splits
+// ABOUTME: Handles pool metadata, draft settings, and prize split configuration via react-hook-form
 'use client';
 import { useSupabase } from '@components/supabase-provider';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';

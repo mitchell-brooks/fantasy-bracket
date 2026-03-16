@@ -1,3 +1,5 @@
+// ABOUTME: Profile creation page where users set their username
+// ABOUTME: Renders the CreateProfile form component for first-time users
 import { CreateProfile } from '@components/create-profile/create-profile';
 
 export default async function ProfileUserIdCreatePage({
