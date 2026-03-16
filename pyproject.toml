@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Mitchell Brooks <MitchellBrooks@gmail.com>"]
 readme = "README.md"
-packages = [{include = "fantasy_bracket"}]
+packages = [{include = "fantasy_bracket"}, {include = "pipeline", from = "data"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -12,9 +12,13 @@ supabase = "^1.0.2"
 pandas = "^1.5.3"
 
 
+[tool.poetry.scripts]
+pipeline = "pipeline.cli:main"
+
 [tool.poetry.group.dev.dependencies]
 jupyter = "^1.0.0"
 python-dotenv = "^1.0.0"
+pytest = "^7.0"
 
 [build-system]
 requires = ["poetry-core"]
