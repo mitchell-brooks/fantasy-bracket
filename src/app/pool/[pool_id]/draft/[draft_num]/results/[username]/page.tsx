@@ -3,14 +3,19 @@ import { createClient } from "@utils/supabase-server";
 import { Table } from "@components/table/table";
 
 export default async function PoolIdDraftResultsDraftNumUsernamePage({
-                                                                       params: { pool_id, draft_num = 1, username }
-                                                                     }: {
-  params: { pool_id: string; draft_num: string | number; username: string };
+  params,
+}: {
+  params: Promise<{ pool_id: string; draft_num?: string; username: string }>;
 }) {
-  //TODO remove this hard coded value
-  const participants = pool_id === "14" ? 12 : 9;
-  draft_num = Number(draft_num);
-  const supabase = createClient();
+  const { pool_id: pool_id_param, draft_num: draft_num_param = '1', username } = await params;
+  const pool_id = Number(pool_id_param);
+  const draft_num = Number(draft_num_param);
+  const supabase = await createClient();
+  const { data: rosters } = await supabase
+    .from('roster')
+    .select('roster_id')
+    .eq('pool_id', pool_id);
+  const participants = rosters?.length ?? 0;
   const { data: draft_results_data, error } = await supabase
     .from("draft_results_view")
     .select("*")

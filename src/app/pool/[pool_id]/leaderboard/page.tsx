@@ -8,14 +8,14 @@ import { GridTitle } from "@components/grid-title/grid-title";
 import { ScoresUpdatedFooter } from "@components/scores-updated-footer/scores-updated-footer";
 
 export default async function PoolIdDraftNumResults({
-                                                      params: { pool_id, draft_num = 1 }
-                                                    }: {
-  params: { pool_id: string; draft_num: string | number };
+  params,
+}: {
+  params: Promise<{ pool_id: string; draft_num?: string }>;
 }) {
-  //TODO remove this hard coded value
-  const COMPETITION_ID = pool_id === "14" ? 5 : 1;
-  draft_num = Number(draft_num);
-  const supabase = createClient();
+  const { pool_id: pool_id_param, draft_num: draft_num_param = '1' } = await params;
+  const pool_id = Number(pool_id_param);
+  const draft_num = Number(draft_num_param);
+  const supabase = await createClient();
   const { data: roster_total_score_data, error: total_score_error } =
     await supabase
       .from("view_roster_total_score")
@@ -91,7 +91,7 @@ export default async function PoolIdDraftNumResults({
     <>
       <GridTitle title="Leaderboard" fixed={true} />
       <Table columns={columns} data={rosterTotalScores} />
-      <ScoresUpdatedFooter poolId={pool_id} />
+      <ScoresUpdatedFooter poolId={String(pool_id)} />
       <div className={styles.total}>
         <div className={styles.totalColumn}>
           <h1 className={styles.prizeSplitTitle}>Prize Split</h1>

@@ -6,12 +6,14 @@ import Link from "next/link";
 import { Column } from "react-table";
 
 export default async function PoolIdDraftResultsDraftNumUsernamePage({
-                                                                       params: { pool_id, roster_id }
-                                                                     }: {
-  params: { pool_id: string; roster_id: string | number };
+  params,
+}: {
+  params: Promise<{ pool_id: string; roster_id: string }>;
 }) {
-
-  const supabase = createClient();
+  const { pool_id: pool_id_param, roster_id: roster_id_param } = await params;
+  const pool_id = Number(pool_id_param);
+  const roster_id = Number(roster_id_param);
+  const supabase = await createClient();
   const { data: roster_data_results, error } = await supabase
     .from("roster_player_total_scores_view")
     .select(

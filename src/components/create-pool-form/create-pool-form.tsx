@@ -32,7 +32,7 @@ type FormValues = Omit<PoolMetaRow, 'poolmeta_id'> &
 export default function CreatePoolForm({
   user_id,
   competition_id,
-}: CreatePoolFormProps): JSX.Element {
+}: CreatePoolFormProps): React.JSX.Element {
   const { supabase } = useSupabase();
   const {
     register,
@@ -63,7 +63,7 @@ export default function CreatePoolForm({
         pool_name,
         admin_user_id: user_id,
       });
-      const { poolmeta_id } = poolMetaRows?.[0];
+      const poolmeta_id = poolMetaRows?.[0]?.poolmeta_id;
       if (poolmeta_id) {
         // console.log(':::poolmeta_id', poolmeta_id);
         const poolRows = await api.supabase.create<PoolRow, 'pool_id'>(
@@ -76,8 +76,7 @@ export default function CreatePoolForm({
             point_value,
           }
         );
-        const { pool_id } = poolRows?.[0];
-        // setPoolId(p_id);
+        const pool_id = poolRows?.[0]?.pool_id;
         if (pool_id) {
           // console.log(':::pool_id', pool_id);
           const poolrule_draft_res =

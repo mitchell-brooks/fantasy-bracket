@@ -6,11 +6,13 @@ import { formatPointValue } from '@/utils';
 import * as api from '@lib/api';
 
 export default async function PoolIdPage({
-  params: { pool_id },
+  params,
 }: {
-  params: { pool_id: number };
+  params: Promise<{ pool_id: string }>;
 }) {
-  const supabase = createClient();
+  const { pool_id: pool_id_param } = await params;
+  const pool_id = Number(pool_id_param);
+  const supabase = await createClient();
   const user = await api.supabase.getUser(supabase);
   const user_id = user?.id;
   console.log('::: user_id', user_id);
@@ -34,11 +36,13 @@ export default async function PoolIdPage({
     total_draft_count,
     total_roster_count,
   } = (pool_data?.[0] as PoolFullViewRow) || {};
-  const { data: roster_data, error: roster_error } = await supabase
-    .from('roster')
-    .select('roster_id')
-    .eq('pool_id', pool_id)
-    .eq('user_id', user_id);
+  const { data: roster_data, error: roster_error } = user_id
+    ? await supabase
+        .from('roster')
+        .select('roster_id')
+        .eq('pool_id', pool_id)
+        .eq('user_id', user_id)
+    : { data: null, error: null };
 
   const roster_id = roster_data?.[0]?.roster_id;
   console.log('::: roster_id', roster_id, roster_data);

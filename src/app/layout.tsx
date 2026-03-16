@@ -38,16 +38,13 @@ export default async function RootLayout({
                                          }: {
   children: React.ReactNode;
 }) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
-    data: { session }
-  } = await supabase.auth.getSession();
+    data: { user }
+  } = await supabase.auth.getUser();
 
-  const user_id = session?.user?.id;
-  // console.log('::: user_id', user_id);
-
-  // console.log('::: session', session);
+  const user_id = user?.id;
 
   return (
     <html lang="en" className={`${tiltWarp.variable} ${quicksand.variable}`}>
@@ -57,7 +54,7 @@ export default async function RootLayout({
     */}
     <body>
     <SupabaseProvider>
-      <SupabaseListener serverAccessToken={session?.access_token} />
+      <SupabaseListener />
       <Header user_id={user_id} />
       <AuthCheck user_id={user_id} />
       <Grid leftContent={children} />

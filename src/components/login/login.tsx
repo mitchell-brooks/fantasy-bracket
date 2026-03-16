@@ -1,18 +1,22 @@
+// ABOUTME: Login component that sends magic link emails for passwordless auth
+// ABOUTME: Redirects already-logged-in users to their return_to destination
 'use client';
 import styles from './login.module.css';
 
+import { useState } from 'react';
 import { useSupabase } from '@components/supabase-provider';
-import { Auth } from '@supabase/auth-ui-react';
-import { ThemeSupa } from '@supabase/auth-ui-shared';
 import { useSearchParams } from 'next/navigation';
 import { Redirect } from '@components/redirect/redirect';
-import { User } from '@supabase/gotrue-js';
+import type { User } from '@supabase/supabase-js';
 
 export const Login = ({ user }: { user: User | null }) => {
-  // console.log('::: inside login roster', roster);
   const { supabase } = useSupabase();
   const searchParams = useSearchParams();
   const return_to = searchParams.get('return_to');
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   if (user) {
     return (
       <>
@@ -21,42 +25,49 @@ export const Login = ({ user }: { user: User | null }) => {
       </>
     );
   }
-  return (
-    <>
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+
+    const { error: authError } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: `${window.location.origin}/`,
+      },
+    });
+
+    if (authError) {
+      setError(authError.message);
+    } else {
+      setSubmitted(true);
+    }
+  }
+
+  if (submitted) {
+    return (
       <div className={styles.container}>
-        {return_to ? <p> You&apos;'ll have to be logged in to do that. </p> : null}
-        <Auth
-          supabaseClient={supabase}
-          providers={[]}
-          appearance={{
-            theme: ThemeSupa,
-            style: {
-              button: {
-                background: 'var(--color-bg-surface)',
-                color: 'var(--color-text-primary)',
-                border: '2px solid var(--color-border-primary)',
-              },
-            },
-            // variables: {
-            //   default: {
-            //     colors: {
-            //       brand: 'red',
-            //       brandAccent: 'darkred',
-            //     },
-            //   },
-            // },
-          }}
-          // localization={{
-          //   variables: {
-          //     sign_in: {
-          //       email_label: 'Your email address',
-          //       password_label: 'Your strong password',
-          //     },
-          //   },
-          // }}
-          redirectTo={'localhost:3000/pool/1'}
-        />
+        <h2>Check your email</h2>
+        <p>We sent a login link to <strong>{email}</strong></p>
       </div>
-    </>
+    );
+  }
+
+  return (
+    <div className={styles.container}>
+      {return_to ? <p>You&apos;ll have to be logged in to do that.</p> : null}
+      <form onSubmit={handleSubmit}>
+        <h2>Sign in to Bracketude</h2>
+        <input
+          type="email"
+          placeholder="your@email.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <button type="submit">Send magic link</button>
+        {error && <p style={{ color: 'var(--accent-primary, red)' }}>{error}</p>}
+      </form>
+    </div>
   );
 };

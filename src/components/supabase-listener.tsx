@@ -1,29 +1,20 @@
+// ABOUTME: Listens for Supabase auth state changes and refreshes the page
+// ABOUTME: Ensures Server Components re-render when the user signs in or out
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useSupabase } from '@/components/supabase-provider';
 
-export default function SupabaseListener({
-  serverAccessToken,
-}: {
-  serverAccessToken?: string;
-}) {
+export default function SupabaseListener() {
   const { supabase } = useSupabase();
   const router = useRouter();
 
   useEffect(() => {
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
-      // console.log(
-      //   ':::inside onAuthStateChange:::',
-      //   event,
-      //   session?.access_token,
-      //   serverAccessToken
-      // );
-      if (session?.access_token !== serverAccessToken) {
-        // console.log('---inside new serveraccess token---');
+    } = supabase.auth.onAuthStateChange((event) => {
+      if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
         router.refresh();
       }
     });
@@ -31,7 +22,7 @@ export default function SupabaseListener({
     return () => {
       subscription.unsubscribe();
     };
-  }, [serverAccessToken, router, supabase]);
+  }, [supabase, router]);
 
   return null;
 }

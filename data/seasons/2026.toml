@@ -1,0 +1,17 @@
+# Season configuration for March Radness 2026
+# UPDATE these values after Selection Sunday
+
+[competition]
+id = 0          # Set after creating competition in Supabase
+unique = "ncaambb-d1-championship"
+season = "2025-26"
+year = 2026
+round_count = 7
+expected_teams = 68
+
+[pool]
+id = 0          # Set after creating pool in Supabase
+name = "March Radness 2026"
+
+[paths]
+data_dir = "data/2026"

@@ -4,7 +4,7 @@ import { getUser } from '@lib/api/supabase';
 import { Suspense } from 'react';
 
 export default async function LoginPage() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const user = await getUser(supabase);
   // console.log('roster', roster);
   return (

@@ -3,7 +3,7 @@ import CreatePoolForm from '@components/create-pool-form/create-pool-form';
 import { createClient } from '@utils/supabase-server';
 
 const CreatePoolPage = async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
