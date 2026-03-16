@@ -22,7 +22,7 @@ const CreatePoolPage = async () => {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date().toISOString().split('T')[0] ?? '';
   const { data: competitions } = await supabase
     .from('competition')
     .select('competition_id, season, identifier, daterange, competition_unique, competitionmeta(display_name)')
@@ -45,7 +45,7 @@ const CreatePoolPage = async () => {
   const roundsByCompetition = new Map<number, CompetitionRound[]>();
   for (const r of rounds ?? []) {
     const list = roundsByCompetition.get(r.competition_id) ?? [];
-    list.push({ round_num: r.round_num, round_name: r.round_name });
+    list.push({ round_num: r.round_num, round_name: r.round_name ?? `Round ${r.round_num}` });
     roundsByCompetition.set(r.competition_id, list);
   }
 
