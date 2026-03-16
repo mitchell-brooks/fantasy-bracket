@@ -12,6 +12,9 @@ import {
   PoolRule_PrizeSplitRow,
 } from '@lib/api';
 import React from 'react';
+import { useRouter } from 'next/navigation';
+import styles from './create-pool-form.module.css';
+import type { ActiveCompetition, CompetitionRound } from '@/app/pool/create/page';
 
 type PoolOptions = Database['public']['Tables']['pool']['Row'];
 interface PoolForm extends PoolOptions {
@@ -25,7 +28,7 @@ interface PoolForm extends PoolOptions {
 
 interface CreatePoolFormProps {
   user_id?: string;
-  competition_id: number;
+  competitions: ActiveCompetition[];
 }
 type FormValues = Omit<PoolMetaRow, 'poolmeta_id'> &
   Omit<PoolRow, 'pool_id'> &
@@ -33,25 +36,31 @@ type FormValues = Omit<PoolMetaRow, 'poolmeta_id'> &
 
 export default function CreatePoolForm({
   user_id,
-  competition_id,
+  competitions,
 }: CreatePoolFormProps): React.JSX.Element {
   const { supabase } = useSupabase();
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm();
-  // const [poolmeta_id, setPoolMetaId] = React.useState<number>();
-  // const [pool_id, setPoolId] = React.useState<number>();
+
+  const selectedCompetitionId = watch('competition_id');
+  const selectedCompetition = competitions.find(
+    (c) => c.competition_id === Number(selectedCompetitionId)
+  );
+  const rounds = selectedCompetition?.rounds ?? competitions[0]?.rounds ?? [];
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    const defaultValues = { currency: 'USD' };
     const {
       pool_name,
       point_value,
       roster_count,
       draft_time,
+      competition_id,
+      round_num,
       poolrule_prizesplit,
     } = data;
     // TODO: add error handling
@@ -72,8 +81,8 @@ export default function CreatePoolForm({
           supabase,
           'pool',
           {
-            currency: 'USD',
-            competition_id,
+            currency: 'cent',
+            competition_id: Number(competition_id),
             poolmeta_id,
             point_value,
           }
@@ -90,7 +99,7 @@ export default function CreatePoolForm({
                 draft_time,
                 roster_count,
                 draft_order: 0,
-                round_num: 1,
+                round_num: Number(round_num),
                 draft_num: 1,
               }
             );
@@ -108,19 +117,34 @@ export default function CreatePoolForm({
               PoolRule_PrizeSplitRow[]
             >(supabase, 'poolrule_prizesplit', poolrule_prizesplit_row);
           }
+          router.push(`/pool/${pool_id}/join`);
         }
       }
     }
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <form onSubmit={handleSubmit((values) => onSubmit(values as FormValues))}>
-        <label htmlFor="pool_name">Pool Name</label>
-        <input {...register('pool_name', { required: true })} />
-        <br />
-        <label htmlFor="point_value">Point Value</label>
+    <form className={styles.form} onSubmit={handleSubmit((values) => onSubmit(values as FormValues))}>
+      <div className={styles.field}>
+        <label htmlFor="competition_id" title="Select the tournament for this pool">Tournament</label>
+        <select id="competition_id" {...register('competition_id', { required: true })}>
+          {competitions.map((c) => (
+            <option key={c.competition_id} value={c.competition_id}>
+              {c.display_name} {c.identifier ?? c.season ?? ''}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className={styles.field}>
+        <label htmlFor="pool_name" title="A display name for your pool, visible to all participants">Pool Name</label>
+        <input id="pool_name" {...register('pool_name', { required: true })} />
+      </div>
+
+      <div className={styles.field}>
+        <label htmlFor="point_value" title="How much each tournament point is worth in cents. Multiplied by total points to determine payouts.">Point Value (&cent;)</label>
         <input
+          id="point_value"
           type="number"
           min={1}
           max={1000}
@@ -132,44 +156,68 @@ export default function CreatePoolForm({
             required: true,
           })}
         />
-        <br />
-        <label htmlFor="roster_count">Number of Players</label>
-        <input type="number" min={1} max={20} {...register('roster_count')} />
-        <br />
-        <label htmlFor="draft_time">Draft Time</label>
-        <input type="datetime-local" {...register('draft_time')} />
-        <br />
-        <label htmlFor="poolrule_prizesplit">Prize Split</label>
-        <br />
-        {/* TODO: split this into a multi-part form */}
-        {/* TODO: validation for 100% split*/}
-        {/* TODO: dynamically add buttons for more splits */}
-        <label htmlFor="poolrule_prizesplit[0]">1st Place</label>
-        <input
-          type="number"
-          min={0}
-          max={100}
-          {...register('poolrule_prizesplit[0]')}
-        />
-        <br />
-        <label htmlFor="poolrule_prizesplit[1]">2nd Place</label>
-        <input
-          type="number"
-          min={0}
-          max={100}
-          {...register('poolrule_prizesplit[1]')}
-        />
-        <br />
-        <label htmlFor="poolrule_prizesplit[2]">3rd Place</label>
-        <input
-          type="number"
-          min={0}
-          max={100}
-          {...register('poolrule_prizesplit[2]')}
-        />
-        <br />
-        <input type="submit" />
-      </form>
-    </div>
+      </div>
+
+      <div className={styles.field}>
+        <label htmlFor="roster_count" title="How many players each participant drafts for their roster">Number of Players</label>
+        <input id="roster_count" type="number" min={1} max={20} {...register('roster_count')} />
+      </div>
+
+      <div className={styles.field}>
+        <label htmlFor="round_num" title="The tournament round this draft's players start scoring in">Starting Round</label>
+        <select id="round_num" {...register('round_num', { required: true })}>
+          {rounds.map((r) => (
+            <option key={r.round_num} value={r.round_num}>
+              {r.round_name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className={styles.field}>
+        <label htmlFor="draft_time" title="When participants need to have their draft rankings submitted by">Draft Time</label>
+        <input id="draft_time" type="datetime-local" {...register('draft_time')} />
+      </div>
+
+      {/* TODO: validation for 100% split */}
+      {/* TODO: dynamically add buttons for more splits */}
+      <div className={styles.section}>
+        <h3 className={styles.sectionTitle} title="How the prize pool is divided among top finishers. Should total 100%.">Prize Split (%)</h3>
+        <div className={styles.splitGroup}>
+          <div className={styles.field}>
+            <label htmlFor="poolrule_prizesplit[0]" title="Percentage of the prize pool awarded to 1st place">1st</label>
+            <input
+              id="poolrule_prizesplit[0]"
+              type="number"
+              min={0}
+              max={100}
+              {...register('poolrule_prizesplit[0]')}
+            />
+          </div>
+          <div className={styles.field}>
+            <label htmlFor="poolrule_prizesplit[1]" title="Percentage of the prize pool awarded to 2nd place">2nd</label>
+            <input
+              id="poolrule_prizesplit[1]"
+              type="number"
+              min={0}
+              max={100}
+              {...register('poolrule_prizesplit[1]')}
+            />
+          </div>
+          <div className={styles.field}>
+            <label htmlFor="poolrule_prizesplit[2]" title="Percentage of the prize pool awarded to 3rd place">3rd</label>
+            <input
+              id="poolrule_prizesplit[2]"
+              type="number"
+              min={0}
+              max={100}
+              {...register('poolrule_prizesplit[2]')}
+            />
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" className={styles.submitButton}>Create Pool</button>
+    </form>
   );
 }

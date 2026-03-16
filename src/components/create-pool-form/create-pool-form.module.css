@@ -1,0 +1,84 @@
+/* ABOUTME: Styles for the create pool form */
+/* ABOUTME: Stacked label/input layout with grouped sections for draft settings and prize splits */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.field label {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+}
+
+.field input,
+.field select {
+  font-family: var(--font-body);
+  font-size: 1.6rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius);
+  background: var(--color-bg-surface);
+  color: var(--color-text-primary);
+  transition: border-color 0.15s;
+}
+
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--color-accent-primary);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sectionTitle {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.splitGroup {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+.submitButton {
+  font-family: var(--font-body);
+  font-size: 1.6rem;
+  font-weight: 700;
+  padding: 1rem 2rem;
+  background-color: var(--color-accent-primary);
+  color: var(--color-bg-surface);
+  border: 2px solid var(--color-accent-primary);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s;
+  margin-top: 0.5rem;
+}
+
+.submitButton:hover {
+  background-color: var(--color-link-hover);
+  border-color: var(--color-link-hover);
+  color: var(--color-bg-surface);
+}
