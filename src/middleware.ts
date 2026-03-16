@@ -4,16 +4,16 @@ import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 import { assertDefined } from '@utils/index';
 
-const supabaseUrl = assertDefined(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  'Missing NEXT_PUBLIC_SUPABASE_URL environment variable'
-);
-const supabaseAnonKey = assertDefined(
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-  'Missing NEXT_PUBLIC_SUPABASE_ANON_KEY environment variable'
-);
-
 export async function middleware(request: NextRequest) {
+  const supabaseUrl = assertDefined(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    'Missing NEXT_PUBLIC_SUPABASE_URL environment variable'
+  );
+  const supabaseAnonKey = assertDefined(
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    'Missing NEXT_PUBLIC_SUPABASE_ANON_KEY environment variable'
+  );
+
   let supabaseResponse = NextResponse.next({
     request,
   });

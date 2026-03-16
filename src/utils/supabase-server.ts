@@ -5,16 +5,16 @@ import { cookies } from 'next/headers';
 import type { Database } from '@lib/database.types';
 import { assertDefined } from '@utils/index';
 
-const supabaseUrl = assertDefined(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  'Missing NEXT_PUBLIC_SUPABASE_URL environment variable'
-);
-const supabaseAnonKey = assertDefined(
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-  'Missing NEXT_PUBLIC_SUPABASE_ANON_KEY environment variable'
-);
-
 export async function createClient() {
+  const supabaseUrl = assertDefined(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    'Missing NEXT_PUBLIC_SUPABASE_URL environment variable'
+  );
+  const supabaseAnonKey = assertDefined(
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    'Missing NEXT_PUBLIC_SUPABASE_ANON_KEY environment variable'
+  );
+
   const cookieStore = await cookies();
 
   return createServerClient<Database>(
