@@ -1,0 +1,17 @@
+# Season configuration for March Radness 2025
+# Copy this file and update values for a new season.
+
+[competition]
+id = 6
+unique = "ncaambb-d1-championship"
+season = "2024-25"
+year = 2025
+round_count = 7
+expected_teams = 68
+
+[pool]
+id = 19
+name = "March Radness 2025"
+
+[paths]
+data_dir = "data/2025"
