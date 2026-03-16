@@ -71,7 +71,7 @@ def main():
     draft_parser.add_argument(
         "--strategy",
         default="TOURNAMENT_POINTS",
-        choices=["RANDOM", "TOURNAMENT_POINTS", "RANDOM_WITH_POINTS"],
+        choices=["RANDOM", "TOURNAMENT_POINTS"],
         help="Autodraft strategy for unranked players (default: TOURNAMENT_POINTS)",
     )
 
@@ -89,7 +89,7 @@ def main():
     maintain_parser.add_argument(
         "--strategy",
         default="TOURNAMENT_POINTS",
-        choices=["RANDOM", "TOURNAMENT_POINTS", "RANDOM_WITH_POINTS"],
+        choices=["RANDOM", "TOURNAMENT_POINTS"],
         help="Autodraft strategy (default: TOURNAMENT_POINTS)",
     )
 

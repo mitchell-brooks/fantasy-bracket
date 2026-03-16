@@ -33,7 +33,7 @@ def test_parse_scoring_csv_extracts_player_games(tmp_path):
     assert len(result.player_games) == 3
     assert result.player_games[0] == {
         "player_unique": "player-1",
-        "game_id": "100",
+        "game_id": 100,
         "points": 10,
     }
     assert result.player_games[1]["points"] == 25
@@ -144,5 +144,5 @@ def test_parse_scoring_csv_combined_scenario(tmp_path):
     ])
     result = parse_game_scoring_csv(csv_path)
     assert len(result.player_games) == 3
-    assert result.losing_teams == ["team-a", "team-a"]
+    assert result.losing_teams == ["team-a"]
     assert result.inactive_players == ["player-1"]

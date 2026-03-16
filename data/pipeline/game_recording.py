@@ -1,17 +1,19 @@
 # ABOUTME: Parses game scoring CSVs and records results to the database
 # ABOUTME: Handles player scores, losing teams, inactive players, and game schedules
+from __future__ import annotations
+
 import csv
 import os
 from dataclasses import dataclass, field
-from typing import Any, Dict, List
+from typing import Any
 
 
 @dataclass
 class ScoringResult:
     """Parsed results from a game scoring CSV."""
-    player_games: List[Dict[str, Any]] = field(default_factory=list)
-    losing_teams: List[str] = field(default_factory=list)
-    inactive_players: List[str] = field(default_factory=list)
+    player_games: list[dict[str, Any]] = field(default_factory=list)
+    losing_teams: list[str] = field(default_factory=list)
+    inactive_players: list[str] = field(default_factory=list)
 
 
 def parse_game_scoring_csv(csv_path: str) -> ScoringResult:
@@ -32,26 +34,28 @@ def parse_game_scoring_csv(csv_path: str) -> ScoringResult:
     if not os.path.exists(csv_path):
         raise FileNotFoundError(f"Scoring CSV not found: {csv_path}")
 
-    player_games: List[Dict[str, Any]] = []
-    losing_teams: List[str] = []
-    inactive_players: List[str] = []
+    player_games: list[dict[str, Any]] = []
+    losing_teams: list[str] = []
+    inactive_players: list[str] = []
 
     with open(csv_path, "r", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
         for row in reader:
+            team_unique = row.get("team_unique", "").strip()
             lost = row.get("lost", "").strip()
-            if lost.upper() == "L":
-                losing_teams.append(row["team_unique"])
+            if lost.upper() == "L" and team_unique not in losing_teams:
+                losing_teams.append(team_unique)
 
+            player_unique = row.get("player_unique", "").strip()
             inactive = row.get("inactive", "").strip()
-            if inactive.upper() == "I":
-                inactive_players.append(row["player_unique"])
+            if inactive.upper() == "I" and player_unique not in inactive_players:
+                inactive_players.append(player_unique)
 
             points = row.get("points", "").strip()
             if points != "":
                 player_games.append({
-                    "player_unique": row["player_unique"],
-                    "game_id": row["game_id"],
+                    "player_unique": player_unique,
+                    "game_id": int(row["game_id"]),
                     "points": int(points),
                 })
 
@@ -120,19 +124,11 @@ def update_game_schedule(csv_path: str, supabase: Any) -> None:
         raise FileNotFoundError(f"Game schedule CSV not found: {csv_path}")
 
     game_insert = []
-    empty_row = {
-        "game_date": "",
-        "team_2_id": "",
-        "team_1_id": "",
-        "game_time": "",
-        "round_num": "",
-        "competition_id": "",
-    }
 
     with open(csv_path, "r", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            if row != empty_row:
+            if row.get("game_date", "").strip() and row.get("team_1_id", "").strip():
                 game_insert.append(row)
 
     supabase.table("game").upsert(
