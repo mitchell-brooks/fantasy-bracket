@@ -20,7 +20,8 @@ export default async function PoolIdDraftResultsDraftNumUsernamePage({
     )
     .eq('pool_id', pool_id);
 
-  const rosterData: Record<string, typeof roster_data_results> = {};
+  type RosterRow = NonNullable<typeof roster_data_results>[number];
+  const rosterData: Record<string, RosterRow[]> = {};
   if (roster_data_results) {
     for (const cur of roster_data_results) {
       if (cur.roster_id) {
