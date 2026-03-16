@@ -62,12 +62,14 @@ const transformPlayerRowForCsv = (
 };
 
 export default async function PoolIdDraftPage({
-  params: { pool_id, draft_num = 1 },
+  params,
 }: {
-  params: { pool_id: number; draft_num: number };
+  params: Promise<{ pool_id: string; draft_num?: string }>;
 }) {
-  draft_num = Number(draft_num);
-  const supabase = createClient();
+  const { pool_id: pool_id_param, draft_num: draft_num_param = '1' } = await params;
+  const pool_id = Number(pool_id_param);
+  const draft_num = Number(draft_num_param);
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();

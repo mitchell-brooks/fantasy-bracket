@@ -1,17 +1,44 @@
-import { createMiddlewareSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { NextResponse } from "next/server";
+// ABOUTME: Next.js middleware that refreshes Supabase auth sessions on each request
+// ABOUTME: Required by @supabase/ssr to keep server-side sessions in sync
+import { createServerClient } from '@supabase/ssr';
+import { NextResponse, type NextRequest } from 'next/server';
 
-import type { NextRequest } from "next/server";
-import type { Database } from "@lib/database.types";
+export async function middleware(request: NextRequest) {
+  let supabaseResponse = NextResponse.next({
+    request,
+  });
 
-export default async function middleware(req: NextRequest) {
-  const res = NextResponse.next();
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) =>
+            request.cookies.set(name, value)
+          );
+          supabaseResponse = NextResponse.next({
+            request,
+          });
+          cookiesToSet.forEach(({ name, value, options }) =>
+            supabaseResponse.cookies.set(name, value, options)
+          );
+        },
+      },
+    }
+  );
 
-  const supabase = createMiddlewareSupabaseClient<Database>({ req, res });
+  // Refresh session - important for Server Components
+  await supabase.auth.getUser();
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  return res;
+  return supabaseResponse;
 }
+
+export const config = {
+  matcher: [
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+  ],
+};

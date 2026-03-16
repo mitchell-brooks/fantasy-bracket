@@ -3,7 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useSupabase } from '@components/supabase-provider';
-import { SupabaseClient } from '@supabase/auth-helpers-nextjs';
+import type { SupabaseClient } from '@supabase/supabase-js';
 import * as api from '@lib/api';
 import { RosterRow } from '@lib/api';
 

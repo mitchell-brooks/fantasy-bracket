@@ -9,7 +9,7 @@ import { Redirect } from "@components/redirect/redirect";
 export const revalidate = 0;
 
 export default async function Home() {
-  const supabase = createClient();
+  const supabase = await createClient();
   // move into layout main?
   const user = await getUser(supabase);
   // console.log('roster', roster);
@@ -44,8 +44,8 @@ export default async function Home() {
   type Daterange = `${DaterangeOpenBracket}${IsoDate},${IsoDate}${DaterangeCloseBracket}`
   const currentPools = pool_data?.map((pool) => {
     const daterange = pool.daterange as Daterange;
-    const [_start, end] = daterange.slice(1, -1).split(",");
-    const endDate = new Date(end);
+    const parts = daterange.slice(1, -1).split(",");
+    const endDate = new Date(parts[1] ?? '');
     const now = new Date();
     if (now > endDate) {
       return null;
@@ -61,8 +61,8 @@ export default async function Home() {
 
   const previousPools = pool_data?.map((pool) => {
       const daterange = pool.daterange as Daterange;
-      const [_start, end] = daterange.slice(1, -1).split(",");
-      const endDate = new Date(end);
+      const parts = daterange.slice(1, -1).split(",");
+      const endDate = new Date(parts[1] ?? '');
       const now = new Date();
       if (now < endDate) {
         return null;

@@ -12,19 +12,18 @@ export const ScoresUpdatedFooter = ({ poolId }: { poolId: string }) => {
       const {
         data: poolData,
         error: pool_error
-      } = await supabase.from("pool").select("competition_id").eq("pool_id", poolId);
+      } = await supabase.from("pool").select("competition_id").eq("pool_id", Number(poolId));
       const competition_id = poolData?.[0]?.competition_id;
+      if (!competition_id) return;
       const { data: updated_data, error: updated_error } = await supabase
         .from("competition_updated")
         .select("*")
         .eq("competition_id", competition_id)
         .order("scores_updated_at", { ascending: true });
-      const updated = updated_data?.[0]?.scores_updated_at
-        ? `${new Date(
-          updated_data?.[updated_data.length - 1]?.scores_updated_at
-        ).toLocaleDateString("en-US", { timeZone: "America/New_York" })} - ${new Date(
-          updated_data?.[updated_data.length - 1]?.scores_updated_at
-        ).toLocaleTimeString("en-US", { timeZone: "America/New_York" })}`
+      const lastEntry = updated_data?.[updated_data.length - 1];
+      const lastTimestamp = lastEntry?.scores_updated_at;
+      const updated = lastTimestamp
+        ? `${new Date(lastTimestamp).toLocaleDateString("en-US", { timeZone: "America/New_York" })} - ${new Date(lastTimestamp).toLocaleTimeString("en-US", { timeZone: "America/New_York" })}`
         : "N/A";
       setUpdatedTime(updated);
     };
