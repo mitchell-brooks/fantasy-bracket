@@ -9,25 +9,12 @@ import {
   type ColDef,
   type RowDragEndEvent,
   type RowClassParams,
-  themeQuartz,
 } from 'ag-grid-community';
+import { inkAndPaperTheme } from '@components/data-grid/theme';
 import { ModeToggle } from '@components/mode-toggle/mode-toggle';
 import styles from './draft-grid.module.css';
 
 const modules = [AllCommunityModule];
-
-const inkAndPaperTheme = themeQuartz.withParams({
-  backgroundColor: '#faf8f4',
-  foregroundColor: '#2a2a2a',
-  borderColor: '#d4cfc5',
-  headerBackgroundColor: '#f4f1eb',
-  headerFontSize: 14,
-  headerFontWeight: 600,
-  fontSize: 14,
-  rowHoverColor: '#edeae3',
-  selectedRowBackgroundColor: '#e8e4dc',
-  accentColor: '#c44536',
-});
 
 export interface DraftPlayer {
   player_unique: string;

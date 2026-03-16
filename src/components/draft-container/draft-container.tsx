@@ -72,7 +72,7 @@ export const DraftContainer: React.FC<DraftContainerProps> = ({
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  const insertRankings = async (rankingsToSave: Array<{ player_unique: string; ranking: number }>) => {
+  const insertRankings = useCallback(async (rankingsToSave: Array<{ player_unique: string; ranking: number }>) => {
     setSaving(true);
     const rankingRows = generateRankingRows(roster_id, draft_num, rankingsToSave);
 
@@ -89,7 +89,7 @@ export const DraftContainer: React.FC<DraftContainerProps> = ({
       return;
     }
     setHasUnsavedChanges(false);
-  };
+  }, [supabase, roster_id, draft_num]);
 
   const handleRankingsChange = useCallback((rankings: Array<{ player_unique: string; ranking: number }>) => {
     setHasUnsavedChanges(true);
@@ -105,11 +105,14 @@ export const DraftContainer: React.FC<DraftContainerProps> = ({
   }, []);
 
   const handleSave = useCallback(() => {
-    const rankings = players
-      .filter((p) => p.ranking !== null)
-      .map((p) => ({ player_unique: p.player_unique, ranking: p.ranking as number }));
+    const rankings: Array<{ player_unique: string; ranking: number }> = [];
+    for (const p of players) {
+      if (p.ranking !== null) {
+        rankings.push({ player_unique: p.player_unique, ranking: p.ranking });
+      }
+    }
     insertRankings(rankings);
-  }, [players]);
+  }, [players, insertRankings]);
 
   const saveRankingsFromCsv = useCallback((rankingsFromCsv: any) => {
     setHasUnsavedChanges(true);
