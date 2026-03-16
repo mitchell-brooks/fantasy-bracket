@@ -3,7 +3,6 @@
 "use client";
 import Papa, { ParseStepResult } from "papaparse";
 import React from "react";
-import { _ } from "react-hook-form/dist/__typetest__/__fixtures__";
 import { DraftViewRow } from "@lib/api";
 
 interface UploadButtonProps {
