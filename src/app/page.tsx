@@ -3,7 +3,7 @@ import { createClient } from "@utils/supabase-server";
 import React from "react";
 import Link from "next/link";
 import { getUser } from "@lib/api/supabase";
-import { Grid } from "@components/grid/grid";
+import Grid from "@components/grid/grid";
 import { Redirect } from "@components/redirect/redirect";
 
 export const revalidate = 0;
