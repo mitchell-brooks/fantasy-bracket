@@ -29,11 +29,11 @@ function UsernameCellRenderer(params: ICellRendererParams<LeaderboardRow>) {
 
 export function LeaderboardGrid({ rows }: { rows: LeaderboardRow[] }) {
   const columnDefs = useMemo<ColDef<LeaderboardRow>[]>(() => [
-    { field: 'username', headerName: 'Participant', flex: 2, cellRenderer: UsernameCellRenderer },
-    { field: 'total_roster_points', headerName: 'Points', flex: 1, sort: 'desc' },
-    { field: 'trailing', headerName: 'Trailing', flex: 1 },
-    { field: 'owes', headerName: 'Owes', flex: 1 },
-    { field: 'active_players', headerName: 'Active Players', flex: 1 },
+    { field: 'username', headerName: 'Participant', flex: 2, minWidth: 100, cellRenderer: UsernameCellRenderer },
+    { field: 'total_roster_points', headerName: 'Points', flex: 1, minWidth: 70, sort: 'desc' },
+    { field: 'trailing', headerName: 'Trailing', flex: 1, minWidth: 70 },
+    { field: 'owes', headerName: 'Owes', flex: 1, minWidth: 70 },
+    { field: 'active_players', headerName: 'Active', flex: 1, minWidth: 60 },
   ], []);
 
   const height = `${Math.max(300, rows.length * 48 + 56)}px`;

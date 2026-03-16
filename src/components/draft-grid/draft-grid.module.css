@@ -26,3 +26,13 @@
   border-radius: 4px;
   overflow: hidden;
 }
+
+@media (max-width: 768px) {
+  .gridWrapper {
+    height: 450px;
+  }
+
+  .hint {
+    font-size: 1.2rem;
+  }
+}
