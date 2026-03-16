@@ -1,0 +1,8 @@
+/* ABOUTME: Container styling for the DataGrid wrapper */
+/* ABOUTME: Provides consistent border and overflow handling for AG Grid instances */
+.gridContainer {
+  width: 100%;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 4px;
+  overflow: hidden;
+}
