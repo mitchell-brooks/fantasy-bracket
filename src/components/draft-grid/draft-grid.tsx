@@ -8,6 +8,7 @@ import {
   AllCommunityModule,
   type ColDef,
   type RowDragEndEvent,
+  type RowClassParams,
   themeQuartz,
 } from 'ag-grid-community';
 import { ModeToggle } from '@components/mode-toggle/mode-toggle';
@@ -36,6 +37,7 @@ export interface DraftPlayer {
   tournament_points: number;
   points: number;
   ranking: number | null;
+  eliminated?: boolean;
 }
 
 interface DraftGridProps {
@@ -90,6 +92,12 @@ export function DraftGrid({
   }, [onRankingsChange]);
 
   const theme = useMemo(() => inkAndPaperTheme, []);
+  const getRowStyle = useCallback((params: RowClassParams<DraftPlayer>) => {
+    if (params.data?.eliminated) {
+      return { color: 'var(--color-text-eliminated)', textDecoration: 'line-through' };
+    }
+    return undefined;
+  }, []);
 
   return (
     <AgGridProvider modules={modules}>
@@ -117,6 +125,7 @@ export function DraftGrid({
               filter: mode === 'browse',
             }}
             getRowId={(params) => params.data.player_unique}
+            getRowStyle={getRowStyle}
           />
         </div>
       </div>

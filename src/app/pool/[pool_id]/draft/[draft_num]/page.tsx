@@ -1,18 +1,12 @@
+// ABOUTME: Draft ranking page where users set their player ranking preferences
+// ABOUTME: Server component that loads player data, generates CSV template, and renders DraftContainer
 import { createClient } from '@utils/supabase-server';
 import React from 'react';
 import Papa from 'papaparse';
-import { DownloadButton } from '@components/download-button/download-button';
 import {
-  DraftViewRow,
-  Player_CompetitionRow,
-  RankingFullViewRow,
-  RosterRankingRow,
-  Team_CompetitionRow,
   ViewPoolPlayersFullRow,
 } from '@lib/api';
 import { DraftContainer } from '@components/draft-container/draft-container';
-import * as api from '@lib/api';
-import pick from 'just-pick';
 
 const createCsv = (data: any) => {
   let csv;
@@ -76,9 +70,8 @@ export default async function PoolIdDraftPage({
   const user_id = user?.id;
   if (!user_id) return <div>Not logged in</div>;
 
-  // get roster_id for roster based on pool_id
   // TODO check authentication
-  const { data: roster_data, error: roster_error } = await supabase
+  const { data: roster_data } = await supabase
     .from('roster')
     .select('roster_id')
     .eq('pool_id', pool_id)
@@ -93,30 +86,12 @@ export default async function PoolIdDraftPage({
       </div>
     );
   }
-  // use roster_id and draft_num to get existing rankings
-  const { data: ranking_data, error: ranking_error } = await supabase
+
+  const { data: ranking_data } = await supabase
     .from('ranking_full_view')
     .select('*')
     .eq('roster_id', roster_id)
     .eq('draft_num', draft_num);
-  // console.log(ranking_data);
-
-  // const { data: pool_data, error: pool_error } = await supabase
-  //   .from('pool_full_view')
-  //   .select('*')
-  //   .eq('pool_id', pool_id);
-
-  // const competition_id = pool_data?.[0]?.competition_id;
-
-  // const { data: all_players_data } = await supabase
-  //   .from('view_pool_players_full')
-  //   .select('player_unique')
-  //   .eq('pool_id', pool_id);
-  // const allPlayers = all_players_data
-  //   ? Object.fromEntries(
-  //     all_players_data.map((row) => [row.player_unique, true])
-  //   )
-  //   : {};
 
   const { data: available_players_data } = await supabase
     .from('view_pool_players_full')
@@ -147,23 +122,3 @@ export default async function PoolIdDraftPage({
     </>
   );
 }
-
-// const url = window.URL.createObjectURL(
-//     new Blob([blob]),
-// );
-// const link = document.createElement('a');
-// link.href = url;
-// link.setAttribute(
-//     'download',
-//     `FileName.pdf`,
-// );
-//
-// // Append to html link element page
-// document.body.appendChild(link);
-//
-// // Start download
-// link.click();
-//
-// // Clean up and remove the link
-// link.parentNode.removeChild(link);
-// });
