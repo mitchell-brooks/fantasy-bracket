@@ -1,8 +1,9 @@
+// ABOUTME: Draft results page showing the pick order from a specific draft
+// ABOUTME: Server component that fetches draft results and renders via AG Grid
 import React from "react";
 import { createClient } from "@utils/supabase-server";
-import { Table } from "@components/table/table";
-import Link from "next/link";
 import { GridTitle } from "@components/grid-title/grid-title";
+import { ResultsGrid } from "./results-grid";
 
 export default async function PoolIdDraftNumResults({
   params,
@@ -18,56 +19,29 @@ export default async function PoolIdDraftNumResults({
     .select('roster_id')
     .eq('pool_id', pool_id);
   const participants = rosters?.length ?? 0;
-  const { data: draft_results_data, error } = await supabase
+  const { data: draft_results_data } = await supabase
     .from("draft_results_view")
     .select("*")
     .eq("pool_id", pool_id)
     .eq("draft_num", draft_num);
-  const draftResults =
-    draft_results_data?.map((row) => {
-      let round;
-      if (row.pick_number) {
-        round = Math.ceil(row.pick_number / participants);
-      }
-      const username = (
-        <Link
-          href={`/pool/${pool_id}/draft/${draft_num}/results/${row.username}`}
-        >
-          {row.username}
-        </Link>
-      );
-      return {
-        round,
-        ...row,
-        username
-      };
-    }) || [];
 
-  const columns = [
-    {
-      Header: "Pick",
-      columns: [
-        { Header: "Round", accessor: "round" },
-        { Header: "Pick", accessor: "pick_number" },
-        { Header: "User", accessor: "username" }
-      ]
-    },
-    {
-      Header: "Player",
-      columns: [{ Header: "Name", accessor: "player_name" }]
-    },
-    {
-      Header: "Team",
-      columns: [
-        { Header: "Team", accessor: "team_name" },
-        { Header: "Seed", accessor: "seed" }
-      ]
-    }
-  ];
+  const resultRows = (draft_results_data || []).map((row) => ({
+    round: row.pick_number && participants > 0
+      ? Math.ceil(row.pick_number / participants)
+      : null,
+    pick_number: row.pick_number,
+    username: row.username,
+    player_name: row.player_name,
+    team_name: row.team_name,
+    seed: row.seed,
+    pool_id,
+    draft_num,
+  }));
+
   return (
     <>
       <GridTitle title={`Draft ${draft_num} Results`} />
-      <Table columns={columns} data={draftResults} />
+      <ResultsGrid rows={resultRows} />
     </>
   );
 }

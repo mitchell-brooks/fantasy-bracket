@@ -1,8 +1,9 @@
+// ABOUTME: All teams page showing every team's drafted players in separate grids
+// ABOUTME: Server component that groups data by team and renders each via AG Grid
 import React from 'react';
 import { createClient } from '@utils/supabase-server';
-import { Table } from '@components/table/table';
 import { GridTitle } from '@components/grid-title/grid-title';
-import Link from 'next/link';
+import { TeamPlayersGrid } from './team-players-grid';
 
 export default async function PoolIdTeamsPage({
   params,
@@ -12,70 +13,48 @@ export default async function PoolIdTeamsPage({
   const { pool_id: pool_id_param } = await params;
   const pool_id = Number(pool_id_param);
   const supabase = await createClient();
-  const { data: roster_data_results, error } = await supabase
+  const { data: roster_data_results } = await supabase
     .from('roster_player_total_scores_view')
     .select(
-      'roster_id, player_name, team_name, seed, total_player_points,pick_number, username, overall_seed'
+      'roster_id, player_name, team_name, seed, total_player_points, pick_number, username, overall_seed'
     )
     .eq('pool_id', pool_id);
 
-  let teamData: Record<string, any[]> = {};
+  const teamData: Record<string, typeof roster_data_results> = {};
   if (roster_data_results) {
-    teamData = roster_data_results?.reduce<Record<string, any[]>>(
-      (acc, cur) => {
-        if (cur.team_name) {
-          const team_name: string = cur.team_name;
-          if (team_name in acc) {
-            acc[team_name]?.push(cur);
-          } else {
-            acc[team_name] = [cur];
-          }
+    for (const cur of roster_data_results) {
+      if (cur.team_name) {
+        if (cur.team_name in teamData) {
+          teamData[cur.team_name]?.push(cur);
+        } else {
+          teamData[cur.team_name] = [cur];
         }
-        return acc;
-      },
-      {}
-    );
+      }
+    }
   }
 
-  const columns = [
-    {
-      Header: 'Player',
-      columns: [
-        { Header: 'Name', accessor: 'player_name' },
-        { Header: 'Points', accessor: 'total_player_points', footer: 'Total' },
-      ],
-    },
-    {
-      Header: 'Pick',
-      columns: [
-        { Header: 'Drafted by', accessor: 'username' },
-        { Header: 'Pick', accessor: 'pick_number' },
-      ],
-    },
-  ];
-
-  const teams = Object.values(teamData).map((teamPlayers) => {
-    teamPlayers.sort(
-      (a, b) => (b?.total_player_points || 0) - (a?.total_player_points || 0)
-    );
-    const mappedTeamPlayers = teamPlayers.map((teamPlayer) => {
-      return {
-        ...teamPlayer,
-        username: (
-          <Link href={`/pool/${pool_id}/roster/${teamPlayer.roster_id}`}>
-            {teamPlayer.username}
-          </Link>
-        ),
-      };
-    });
-    const teamName = teamPlayers[0]?.team_name;
-    const teamSeed = teamPlayers[0]?.seed;
-    return (
-      <>
-        <GridTitle title={`${teamName}`} fixed={false} />
-        <Table columns={columns} data={mappedTeamPlayers || []} />
-      </>
-    );
-  });
-  return <>{teams}</>;
+  return (
+    <>
+      {Object.values(teamData).map((teamPlayers, index) => {
+        const sorted = [...teamPlayers].sort(
+          (a, b) => (b?.total_player_points || 0) - (a?.total_player_points || 0)
+        );
+        const teamName = sorted[0]?.team_name;
+        const rows = sorted.map((player) => ({
+          player_name: player.player_name,
+          total_player_points: player.total_player_points,
+          username: player.username,
+          roster_id: player.roster_id,
+          pick_number: player.pick_number,
+          pool_id,
+        }));
+        return (
+          <React.Fragment key={index}>
+            <GridTitle title={`${teamName}`} fixed={false} />
+            <TeamPlayersGrid rows={rows} />
+          </React.Fragment>
+        );
+      })}
+    </>
+  );
 }
