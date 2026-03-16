@@ -8,7 +8,7 @@ import { DraftViewRow } from "@lib/api";
 
 interface UploadButtonProps {
   onUpload: (data: any) => void;
-  allDraftablePlayers: Set<string | null>;
+  allDraftablePlayers: Record<string, boolean>;
 }
 
 // we already match the header, all required key is present

@@ -1,13 +1,12 @@
-// ABOUTME: Pool leaderboard showing roster scores, trailing amounts, and prize split
-// ABOUTME: Ranks participants by total points and calculates payout based on score differences
+// ABOUTME: Pool leaderboard page showing participant rankings and prize split
+// ABOUTME: Server component that fetches roster scores and renders via AG Grid
 import React from "react";
 import styles from "./page.module.css";
 import { createClient } from "@utils/supabase-server";
-import { Table } from "@components/table/table";
-import Link from "next/link";
 import { formatPointValue } from "@/utils";
 import { GridTitle } from "@components/grid-title/grid-title";
 import { ScoresUpdatedFooter } from "@components/scores-updated-footer/scores-updated-footer";
+import { LeaderboardGrid } from "./leaderboard-grid";
 
 export default async function PoolIdDraftNumResults({
   params,
@@ -16,15 +15,14 @@ export default async function PoolIdDraftNumResults({
 }) {
   const { pool_id: pool_id_param, draft_num: draft_num_param = '1' } = await params;
   const pool_id = Number(pool_id_param);
-  const draft_num = Number(draft_num_param);
   const supabase = await createClient();
-  const { data: roster_total_score_data, error: total_score_error } =
+  const { data: roster_total_score_data } =
     await supabase
       .from("view_roster_total_score")
       .select("*")
       .eq("pool_id", pool_id);
 
-  const { data: active_player_data, error: active_players_error } =
+  const { data: active_player_data } =
     await supabase
       .from("roster_active_players_view")
       .select("*")
@@ -38,14 +36,13 @@ export default async function PoolIdDraftNumResults({
     return acc;
   }, {});
 
-  const { data: pool_data, error: poolmeta_error } = await supabase
+  const { data: pool_data } = await supabase
     .from("pool")
     .select("*")
     .eq("pool_id", pool_id);
 
   const currency = pool_data?.[0]?.currency || "cent";
   const point_value = pool_data?.[0]?.point_value || 1;
-
 
   const sortedRosterData = roster_total_score_data?.sort(
     (a, b) => (b?.total_roster_points || 0) - (a?.total_roster_points || 0)
@@ -54,45 +51,30 @@ export default async function PoolIdDraftNumResults({
   const highestScore = sortedRosterData?.[0]?.total_roster_points || 0;
   let totalWinnings = 0;
 
-  const rosterTotalScores =
+  const leaderboardRows =
     sortedRosterData?.map((row) => {
-      let username;
-      if (row?.username) {
-        username = (
-          <Link href={`/pool/${pool_id}/roster/${row.roster_id}`}>
-            {row?.username}
-          </Link>
-        );
-      }
-      let active_players: string | number = "";
+      let active_players = 0;
       if (row?.roster_id) {
         active_players = activePlayersDict?.[row?.roster_id] || 0;
       }
       const trailing = highestScore - (row?.total_roster_points || 0);
       totalWinnings += trailing;
       const owes = formatPointValue(trailing, currency, point_value);
-      return { trailing, owes, active_players, ...row, username };
+      return {
+        roster_id: row.roster_id || 0,
+        username: row.username || '',
+        total_roster_points: row.total_roster_points || 0,
+        trailing,
+        owes,
+        active_players,
+        pool_id,
+      };
     }) || [];
 
-  const columns = [
-    {
-      Header: "Participant",
-      columns: [{ Header: "Username", accessor: "username" }]
-    },
-    {
-      Header: "Points",
-      columns: [
-        { Header: "Total Points", accessor: "total_roster_points" },
-        { Header: "Trailing", accessor: "trailing" },
-        { Header: "Owes", accessor: "owes" },
-        { Header: "Active Players", accessor: "active_players" }
-      ]
-    }
-  ];
   return (
     <>
       <GridTitle title="Leaderboard" fixed={true} />
-      <Table columns={columns} data={rosterTotalScores} />
+      <LeaderboardGrid rows={leaderboardRows} />
       <ScoresUpdatedFooter poolId={String(pool_id)} />
       <div className={styles.total}>
         <div className={styles.totalColumn}>

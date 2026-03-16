@@ -1,8 +1,9 @@
-// ABOUTME: Draft results filtered to a single user's picks
-// ABOUTME: Shows the picks made by a specific participant in a draft round
+// ABOUTME: Single user's draft picks page filtered from the draft results view
+// ABOUTME: Server component that shows one participant's picks via AG Grid
 import React from "react";
 import { createClient } from "@utils/supabase-server";
-import { Table } from "@components/table/table";
+import { GridTitle } from "@components/grid-title/grid-title";
+import { ResultsGrid } from "../results-grid";
 
 export default async function PoolIdDraftResultsDraftNumUsernamePage({
   params,
@@ -18,49 +19,33 @@ export default async function PoolIdDraftResultsDraftNumUsernamePage({
     .select('roster_id')
     .eq('pool_id', pool_id);
   const participants = rosters?.length ?? 0;
-  const { data: draft_results_data, error } = await supabase
+  const { data: draft_results_data } = await supabase
     .from("draft_results_view")
     .select("*")
     .eq("pool_id", pool_id)
     .eq("draft_num", draft_num);
-  const draftResults =
-    draft_results_data
-      ?.filter((row) => row.username === username)
-      .map((row) => {
-        let round;
-        if (row.pick_number) {
-          round = Math.ceil(row.pick_number / participants);
-        }
-        return {
-          round,
-          ...row
-        };
-      }) || [];
 
-  const columns = [
-    {
-      Header: "Pick",
-      columns: [
-        { Header: "Round", accessor: "round" },
-        { Header: "Pick", accessor: "pick_number" },
-        { Header: "User", accessor: "username" }
-      ]
-    },
-    {
-      Header: "Player",
-      columns: [{ Header: "Name", accessor: "player_name" }]
-    },
-    {
-      Header: "Team",
-      columns: [
-        { Header: "Team", accessor: "team_name" },
-        { Header: "Seed", accessor: "seed" }
-      ]
-    }
-  ];
+  const resultRows = (draft_results_data || [])
+    .filter((row) => row.username === username)
+    .map((row) => ({
+      round: row.pick_number && participants > 0
+        ? Math.ceil(row.pick_number / participants)
+        : null,
+      pick_number: row.pick_number,
+      username: row.username,
+      player_name: row.player_name,
+      team_name: row.team_name,
+      seed: row.seed,
+      pool_id,
+      draft_num,
+    }));
+
+  const height = `${Math.max(250, resultRows.length * 48 + 56)}px`;
+
   return (
     <>
-      <Table columns={columns} data={draftResults} />
+      <GridTitle title={`${username}'s Picks`} />
+      <ResultsGrid rows={resultRows} />
     </>
   );
 }
