@@ -1,6 +1,6 @@
 .gridTitle {
   width: 100%;
-  height: 60px;
+  height: var(--nav-height);
   border-bottom: 2px solid var(--color-border-subtle);
   display: flex;
   flex-direction: row;
