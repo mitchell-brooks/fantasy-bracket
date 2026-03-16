@@ -8,7 +8,6 @@ import { DownloadButton } from '@components/download-button/download-button';
 import { UploadButton } from '@components/upload-button/upload-button';
 import { RankingFullViewRow, RosterRankingRow } from '@lib/api';
 import { useSupabase } from '@components/supabase-provider';
-import pick from 'just-pick';
 import { DraftGrid, type DraftPlayer } from '@components/draft-grid/draft-grid';
 
 interface DraftContainerProps {
@@ -16,7 +15,7 @@ interface DraftContainerProps {
   draft_num: number;
   roster_id: number;
   csv?: string;
-  allDraftablePlayers: Set<string | null>;
+  allDraftablePlayers: Record<string, boolean>;
   existingRankings?: RankingFullViewRow[] | null;
 }
 
@@ -35,7 +34,7 @@ const generateRankingRows = (
 
 const processRankingsForGrid = (
   unprocessedRankings: Record<string, any>[],
-  allDraftablePlayers: Set<string | null>,
+  allDraftablePlayers: Record<string, boolean>,
   sorted = false
 ): DraftPlayer[] => {
   if (!unprocessedRankings || !unprocessedRankings.length) return [];
@@ -43,19 +42,17 @@ const processRankingsForGrid = (
   return unprocessedRankings
     .filter((player) => player && player.player_unique)
     .map((player) => {
-      const eliminated = !(player.player_unique in (allDraftablePlayers as any));
-      const desiredFields = [
-        'player_unique',
-        'tournament_points',
-        'player_name',
-        'ranking',
-        'team_name',
-        'seed',
-        'points',
-      ] as const;
-      // @ts-expect-error - just-pick generic inference doesn't match our exact field list
-      const picked = pick(player, desiredFields) as DraftPlayer;
-      return { ...picked, eliminated };
+      const eliminated = !(player.player_unique in allDraftablePlayers);
+      return {
+        player_unique: player.player_unique,
+        player_name: player.player_name,
+        team_name: player.team_name,
+        seed: player.seed,
+        tournament_points: player.tournament_points,
+        points: player.points,
+        ranking: player.ranking,
+        eliminated,
+      };
     });
 };
 
