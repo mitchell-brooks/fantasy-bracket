@@ -32,9 +32,9 @@ export const Login = ({ user }: { user: User | null }) => {
             theme: ThemeSupa,
             style: {
               button: {
-                background: 'white',
-                color: 'black',
-                border: '2px solid black',
+                background: 'var(--color-bg-surface)',
+                color: 'var(--color-text-primary)',
+                border: '2px solid var(--color-border-primary)',
               },
             },
             // variables: {
