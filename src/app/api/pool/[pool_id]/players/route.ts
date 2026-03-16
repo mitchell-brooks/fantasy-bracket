@@ -14,6 +14,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ pool
 
     return NextResponse.json({ data });
   } catch (err) {
-    return NextResponse.json({ error: err });
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
