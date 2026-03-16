@@ -1,3 +1,5 @@
+// ABOUTME: Pool join page that lets authenticated users join a pool
+// ABOUTME: Verifies the user is logged in and renders the join button
 import { createClient } from '@utils/supabase-server';
 import React from 'react';
 import { JoinButton } from '@components/join-button/join-button';

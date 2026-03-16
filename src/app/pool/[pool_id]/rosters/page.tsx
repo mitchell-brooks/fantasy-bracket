@@ -1,3 +1,5 @@
+// ABOUTME: All rosters page showing every participant's drafted players in a pool
+// ABOUTME: Groups players by roster and displays them in separate tables per user
 import React from 'react';
 import { createClient } from '@utils/supabase-server';
 import { Table } from '@components/table/table';

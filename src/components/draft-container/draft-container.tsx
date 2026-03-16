@@ -1,3 +1,5 @@
+// ABOUTME: Client container for the draft workflow: download template, upload rankings, submit picks
+// ABOUTME: Manages ranking state from CSV upload and persists submitted rankings to Supabase
 'use client';
 // according to https://github.com/vercel/next.js/discussions/46795
 // use client should only be used at boundaries e.g. the top client component under a server component in the tree

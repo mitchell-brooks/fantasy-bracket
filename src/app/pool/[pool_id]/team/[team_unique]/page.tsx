@@ -1,3 +1,5 @@
+// ABOUTME: Single team detail page showing all drafted players from that team
+// ABOUTME: Displays which users drafted each player and their point totals
 import React from 'react';
 import { createClient } from '@utils/supabase-server';
 import { Table } from '@components/table/table';

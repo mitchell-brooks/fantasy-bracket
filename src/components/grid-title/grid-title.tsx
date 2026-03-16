@@ -1,3 +1,5 @@
+// ABOUTME: Section title component with optional sticky positioning for scrollable content
+// ABOUTME: Renders an h1 with optional subtitle, wrapped in a fixed container when sticky
 import styles from './grid-title.module.css';
 export const GridTitle = ({
   title,

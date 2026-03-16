@@ -1,3 +1,5 @@
+// ABOUTME: Form component for setting a username during initial profile creation
+// ABOUTME: Submits the username to the userprofile table and redirects to home on success
 'use client';
 import styles from './create-profile.module.css';
 import { useCallback } from 'react';

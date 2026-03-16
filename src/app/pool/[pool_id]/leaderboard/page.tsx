@@ -1,3 +1,5 @@
+// ABOUTME: Pool leaderboard showing roster scores, trailing amounts, and prize split
+// ABOUTME: Ranks participants by total points and calculates payout based on score differences
 import React from "react";
 import styles from "./page.module.css";
 import { createClient } from "@utils/supabase-server";

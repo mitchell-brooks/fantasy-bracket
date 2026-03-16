@@ -1,3 +1,5 @@
+// ABOUTME: Draft page where users upload CSV rankings and submit picks
+// ABOUTME: Fetches available players, existing rankings, and generates a CSV template for download
 import { createClient } from '@utils/supabase-server';
 import React from 'react';
 import Papa from 'papaparse';

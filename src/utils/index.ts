@@ -1,3 +1,15 @@
+// ABOUTME: Shared utility functions for runtime assertions and value formatting
+// ABOUTME: Provides assertDefined for null-safe env var access and formatPointValue for currency display
+export function assertDefined<T>(
+  value: T | null | undefined,
+  message: string
+): T {
+  if (value === null || value === undefined) {
+    throw new Error(message);
+  }
+  return value;
+}
+
 export const formatPointValue = (
   points: number,
   currency: string | null,

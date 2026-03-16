@@ -1,3 +1,5 @@
+// ABOUTME: Login page that renders the Login component with current user state
+// ABOUTME: Server component that fetches auth state and passes it to the client login form
 import { createClient } from '@utils/supabase-server';
 import { Login } from '@components/login/login';
 import { getUser } from '@lib/api/supabase';

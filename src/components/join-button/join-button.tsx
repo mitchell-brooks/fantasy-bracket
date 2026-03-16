@@ -1,3 +1,5 @@
+// ABOUTME: Button component that creates a roster entry to add a user to a pool
+// ABOUTME: Calls the Supabase API to insert a roster row and redirects to the pool page
 'use client';
 
 import React from 'react';

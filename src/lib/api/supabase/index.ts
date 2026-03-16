@@ -1,3 +1,5 @@
+// ABOUTME: Supabase API helpers for generic CRUD operations and auth
+// ABOUTME: Provides typed create() for any table and getUser() for fetching the authenticated user
 import { SupabaseClient } from '@supabase/supabase-js';
 import { Database } from '@lib/database.types';
 

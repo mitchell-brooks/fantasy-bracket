@@ -1,3 +1,5 @@
+// ABOUTME: Client-side auth guard that redirects unauthenticated users to login
+// ABOUTME: Checks user_id against permitted routes and triggers redirect if needed
 'use client';
 import { Redirect } from '@components/redirect/redirect';
 import React, { Suspense } from 'react';
