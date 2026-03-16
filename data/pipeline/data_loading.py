@@ -1,5 +1,7 @@
 # ABOUTME: Loads and transforms CSV data for rounds, conferences, teams, and players
 # ABOUTME: Pure data transformation functions plus DB insertion wrappers
+from __future__ import annotations
+
 import csv
 from datetime import date
 from pathlib import Path

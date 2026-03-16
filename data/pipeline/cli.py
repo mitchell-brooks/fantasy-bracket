@@ -167,13 +167,15 @@ def _cmd_update_schedule(args):
 def _cmd_run_draft(args):
     from pipeline.draft import run_draft
     supabase = get_client()
-    result = run_draft(
+    picks = run_draft(
         pool_id=args.pool,
         draft_num=args.draft_num,
         strategy=args.strategy,
         supabase=supabase,
     )
-    print(f"Draft complete: {len(result)} picks made")
+    if picks:
+        supabase.table("draft_pick").insert(picks).execute()
+    print(f"Draft complete: {len(picks)} picks inserted")
 
 
 def _cmd_maintain_rosters(args):
