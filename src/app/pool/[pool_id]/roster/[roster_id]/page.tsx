@@ -1,3 +1,5 @@
+// ABOUTME: Individual roster page showing a user's drafted players and their scores
+// ABOUTME: Displays players sorted by pick order with strikethrough for eliminated players
 import React from "react";
 import { createClient } from "@utils/supabase-server";
 import { Table } from "@components/table/table";

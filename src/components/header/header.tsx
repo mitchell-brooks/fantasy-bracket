@@ -1,3 +1,5 @@
+// ABOUTME: App header with the Bracketude logo link and login/logout navigation
+// ABOUTME: Renders the site name linking to home and a context-aware auth link
 import styles from './header.module.css';
 import Link from 'next/link';
 import { createClient } from '@utils/supabase-server';

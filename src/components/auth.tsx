@@ -1,3 +1,5 @@
+// ABOUTME: Development auth component with hardcoded login buttons
+// ABOUTME: Provides email login, GitHub OAuth, logout, and password set buttons for testing
 'use client';
 
 import { useSupabase } from './supabase-provider';

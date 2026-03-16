@@ -1,3 +1,5 @@
+// ABOUTME: Home page that lists the logged-in user's current and previous pools
+// ABOUTME: Redirects to profile creation if user has no username set
 import styles from "./page.module.css";
 import { createClient } from "@utils/supabase-server";
 import React from "react";

@@ -1,3 +1,5 @@
+// ABOUTME: All teams page listing every tournament team and their drafted players
+// ABOUTME: Groups players by team, sorted by points, showing who drafted each player
 import React from 'react';
 import { createClient } from '@utils/supabase-server';
 import { Table } from '@components/table/table';

@@ -1,3 +1,5 @@
+// ABOUTME: Reusable button component that triggers a client-side file download
+// ABOUTME: Creates a blob URL from provided data and initiates browser download
 'use client';
 import React from 'react';
 import Papa from 'papaparse';

@@ -1,3 +1,5 @@
+// ABOUTME: Draft results filtered to a single user's picks
+// ABOUTME: Shows the picks made by a specific participant in a draft round
 import React from "react";
 import { createClient } from "@utils/supabase-server";
 import { Table } from "@components/table/table";

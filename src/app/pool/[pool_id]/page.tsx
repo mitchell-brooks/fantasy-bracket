@@ -1,3 +1,5 @@
+// ABOUTME: Pool detail page showing pool metadata, draft links, and navigation
+// ABOUTME: Displays pool name, admin, point value, draft instances, and links to rosters/teams
 import { createClient } from '@utils/supabase-server';
 import styles from './page.module.css';
 import { PoolFullViewRow } from '@lib/api';

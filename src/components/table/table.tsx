@@ -1,3 +1,5 @@
+// ABOUTME: Generic data table component built on react-table
+// ABOUTME: Renders column groups, headers, and rows from provided column definitions and data
 'use client';
 import { Column, useTable } from 'react-table';
 import styles from '@components/rankings-table/rankings-table.module.css';

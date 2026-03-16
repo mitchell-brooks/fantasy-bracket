@@ -1,3 +1,5 @@
+// ABOUTME: Client-side redirect component with optional delay for timed redirects
+// ABOUTME: Wraps Next.js router.push in a Suspense boundary to handle navigation state
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';

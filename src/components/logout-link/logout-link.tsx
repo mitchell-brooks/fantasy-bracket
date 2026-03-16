@@ -1,3 +1,5 @@
+// ABOUTME: Header auth link that shows "Log in" or "Log out" based on user state
+// ABOUTME: Renders a login link for unauthenticated users and a sign-out action for authenticated users
 'use client';
 
 import { createClient } from '@utils/supabase-server';

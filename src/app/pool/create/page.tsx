@@ -1,3 +1,5 @@
+// ABOUTME: Create pool page that renders the pool creation form
+// ABOUTME: Fetches authenticated user and passes user ID to the form component
 import Link from 'next/link';
 import CreatePoolForm from '@components/create-pool-form/create-pool-form';
 import { createClient } from '@utils/supabase-server';

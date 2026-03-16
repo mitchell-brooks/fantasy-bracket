@@ -1,3 +1,5 @@
+// ABOUTME: Route-level error boundary that catches rendering errors in page segments
+// ABOUTME: Displays an error message with a retry button to re-render the segment
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 'use client'; // Error components must be Client components

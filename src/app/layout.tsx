@@ -1,3 +1,5 @@
+// ABOUTME: Root layout with custom fonts, Supabase auth provider, and app shell
+// ABOUTME: Wraps all pages with SupabaseProvider, auth listener, header, and grid layout
 import "server-only";
 
 import "./theme.css";

@@ -1,3 +1,5 @@
+// ABOUTME: Draft results page showing all picks for a specific draft round
+// ABOUTME: Displays pick order, player names, teams, and which user made each pick
 import React from "react";
 import { createClient } from "@utils/supabase-server";
 import { Table } from "@components/table/table";

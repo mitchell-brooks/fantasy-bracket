@@ -1,3 +1,5 @@
+// ABOUTME: Pool data page showing a table of all player draft data
+// ABOUTME: Displays player picks with round numbers calculated from participant count
 import React from "react";
 import { createClient } from "@utils/supabase-server";
 import { Table } from "@components/table/table";

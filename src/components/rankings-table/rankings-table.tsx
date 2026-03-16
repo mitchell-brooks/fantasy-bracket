@@ -1,3 +1,5 @@
+// ABOUTME: Table component for displaying a user's draft rankings with player stats
+// ABOUTME: Shows ranking order, player names (with strikethrough for eliminated), and team info
 import { Column, useTable } from "react-table";
 import React from "react";
 import styles from "./rankings-table.module.css";
