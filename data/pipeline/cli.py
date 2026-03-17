@@ -93,6 +93,18 @@ def main():
         help="Autodraft strategy (default: TOURNAMENT_POINTS)",
     )
 
+    # pull
+    pull_parser = subparsers.add_parser(
+        "pull",
+        help="Pull team and player data from basketball-reference",
+        description="Fetches team stats and player stats for tournament teams.",
+    )
+    pull_parser.add_argument("--season", type=int, required=True, help="Season year (e.g. 2026)")
+    pull_parser.add_argument("--teams-only", action="store_true", help="Only fetch team stats")
+    pull_parser.add_argument("--players-only", action="store_true", help="Only fetch player stats")
+    pull_parser.add_argument("--retry-teams", nargs="+", help="Retry specific teams")
+    pull_parser.add_argument("--retry-players", nargs="+", help="Retry specific players by ID")
+
     args = parser.parse_args()
 
     if not args.command:
@@ -107,6 +119,7 @@ def main():
         "update-schedule": _cmd_update_schedule,
         "run-draft": _cmd_run_draft,
         "maintain-rosters": _cmd_maintain_rosters,
+        "pull": _cmd_pull,
     }
     handlers[args.command](args)
 
@@ -188,6 +201,28 @@ def _cmd_maintain_rosters(args):
         supabase=supabase,
     )
     print(f"Roster maintenance: {result}")
+
+
+def _cmd_pull(args):
+    from pipeline.extraction import pull_all
+    config = load_season_config(find_season_config(args.season))
+    config_path = f"seasons/{args.season}.toml"
+    manifest = pull_all(
+        config,
+        config_path=config_path,
+        teams_only=args.teams_only,
+        players_only=args.players_only,
+        retry_teams=args.retry_teams,
+        retry_players=args.retry_players,
+    )
+    print(f"\nTeams: {manifest.teams_succeeded}/{manifest.expected_teams}")
+    print(f"Players: {manifest.players_total}")
+    if manifest.teams_failed:
+        print(f"Failed teams: {manifest.teams_failed}")
+    if manifest.players_failed:
+        print(f"Failed players: {manifest.players_failed}")
+    for cmd in manifest.retry_commands():
+        print(f"  Retry: {cmd}")
 
 
 if __name__ == "__main__":
