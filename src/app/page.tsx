@@ -92,9 +92,14 @@ export default async function Home() {
         )}
       </div>
 
-      <Link href="/pool/create" className={styles.createLink}>
-        Create a Pool
-      </Link>
+      <div className={styles.actions}>
+        <Link href="/pool/create" className={styles.createLink}>
+          Create a Pool
+        </Link>
+        <Link href="/how-it-works" className={styles.rulesLink}>
+          How It Works
+        </Link>
+      </div>
     </main>
   );
 }

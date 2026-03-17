@@ -39,6 +39,12 @@
   font-style: italic;
 }
 
+.actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 .createLink {
   display: inline-block;
   font-family: var(--font-body);
@@ -55,4 +61,21 @@
 .createLink:hover {
   background-color: var(--color-link-hover);
   color: var(--color-bg-surface);
+}
+
+.rulesLink {
+  font-size: 1.6rem;
+  font-weight: 600;
+  padding: 1rem 2rem;
+  color: var(--color-text-primary);
+  border: 2px solid var(--color-border-primary);
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.rulesLink:hover {
+  background-color: var(--color-accent-primary);
+  color: var(--color-bg-surface);
+  border-color: var(--color-accent-primary);
 }

@@ -1,0 +1,101 @@
+/* ABOUTME: Styles for the How It Works page */
+/* ABOUTME: Clean reading layout matching the site design system */
+.page {
+  max-width: 620px;
+  padding: 1rem 0 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.page h1 {
+  text-align: left;
+  margin: 0;
+  font-size: 2.8rem;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.section h2 {
+  font-size: 2rem;
+  text-align: left;
+  margin: 0;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.section h3 {
+  font-family: var(--font-body);
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: left;
+  margin: 0.6rem 0 0;
+  color: var(--color-text-secondary);
+}
+
+.section p {
+  font-size: 1.5rem;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.exampleList {
+  font-size: 1.5rem;
+  line-height: 1.7;
+  padding-left: 2rem;
+  list-style: disc;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.exampleList li {
+  padding: 0.1rem 0;
+}
+
+.refGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1rem 1.2rem;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius);
+}
+
+.refItem {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  font-size: 1.3rem;
+  padding: 0.2rem 0;
+}
+
+.refLabel {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.refValue {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  text-align: right;
+}
+
+.backLink {
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+.backLink a {
+  color: var(--color-accent-primary);
+  text-decoration: none;
+}
+
+.backLink a:hover {
+  text-decoration: underline;
+}
