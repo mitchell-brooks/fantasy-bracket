@@ -1,30 +1,104 @@
-.buttonContainer {
+/* ABOUTME: Layout and styling for the two-grid draft ranking container */
+/* ABOUTME: Side-by-side grids on desktop, stacked on mobile, with sticky submit banner */
+.page {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin: 1rem;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.pageHeader h1 {
+  text-align: left;
+  margin: 0;
+}
+
+.toolbar {
+  display: flex;
   gap: 1rem;
   flex-wrap: wrap;
+  align-items: center;
 }
 
-.buttonContainer input[type='file'] {
-  display: none;
-}
-
-.buttonContainer button {
-  font-size: 1rem;
-}
-
-.buttonContainer label {
+.toolbar button {
+  font-family: var(--font-body);
+  font-size: 1.4rem;
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  border: 2px solid var(--color-border-primary);
+  border-radius: var(--radius);
+  background: var(--color-bg-surface);
+  color: var(--color-text-primary);
   cursor: pointer;
 }
 
-.line {
-  border: 2px dashed var(--color-border-subtle);
-  /*margin: 1rem;*/
-  width: 100%;
+.toolbar button:hover {
+  background-color: var(--color-accent-primary);
+  color: var(--color-bg-surface);
+  border-color: var(--color-accent-primary);
 }
 
-.confirm {
-  padding: 1rem;
+.toolbar input[type='file'] {
+  display: none;
+}
+
+.gridLayout {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 1.5rem;
+  min-height: 500px;
+}
+
+@media (max-width: 768px) {
+  .gridLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .rankPanel {
+    order: -1;
+  }
+}
+
+.stickyBanner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem 2rem;
+  background: var(--color-bg-surface);
+  border-top: 2px solid var(--color-accent-primary);
+  z-index: 50;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.bannerText {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.submitButton {
+  font-family: var(--font-body);
+  font-size: 1.4rem;
+  font-weight: 700;
+  padding: 0.6rem 2rem;
+  background-color: var(--color-accent-primary);
+  color: var(--color-bg-surface);
+  border: 2px solid var(--color-accent-primary);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.submitButton:hover {
+  background-color: var(--color-link-hover);
+  border-color: var(--color-link-hover);
+  color: var(--color-bg-surface);
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

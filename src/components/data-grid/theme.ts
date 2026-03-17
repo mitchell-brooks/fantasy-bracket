@@ -1,5 +1,5 @@
 // ABOUTME: Shared AG Grid Ink & Paper theme definition
-// ABOUTME: Used by both DataGrid (read-only tables) and DraftGrid (drag-and-drop rankings)
+// ABOUTME: Used by DataGrid, ExploreGrid, and RankGrid components
 import { themeQuartz } from 'ag-grid-community';
 
 export const inkAndPaperTheme = themeQuartz.withParams({

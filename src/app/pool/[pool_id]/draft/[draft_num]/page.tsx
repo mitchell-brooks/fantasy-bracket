@@ -100,23 +100,16 @@ export default async function PoolIdDraftPage({
     .is('round_eliminated', null)
     .is('roster_id', null);
 
-  const allDraftablePlayers = available_players_data
-    ? Object.fromEntries(
-        available_players_data.map((row) => [row.player_unique, true])
-      )
-    : {};
-
   const players = available_players_data?.map(transformPlayerRowForCsv);
   const csv = createCsv(players);
   return (
     <>
-      <h1>Draft {draft_num} Rankings</h1>
       <DraftContainer
         pool_id={pool_id}
         draft_num={draft_num}
         roster_id={roster_id}
         csv={csv}
-        allDraftablePlayers={allDraftablePlayers}
+        allPlayers={available_players_data ?? []}
         existingRankings={ranking_data}
       />
     </>
