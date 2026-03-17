@@ -10,6 +10,7 @@ export const inkAndPaperTheme = themeQuartz.withParams({
   headerFontSize: 14,
   headerFontWeight: 600,
   fontSize: 14,
+  spacing: 12,
   rowHoverColor: '#edeae3',
   selectedRowBackgroundColor: '#e8e4dc',
   accentColor: '#c44536',

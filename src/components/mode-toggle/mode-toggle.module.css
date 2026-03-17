@@ -14,7 +14,7 @@
   border: none;
   background: var(--color-bg-surface);
   color: var(--color-text-primary);
-  font-family: var(--font-tilt-warp);
+  font-family: var(--font-body);
   font-size: 1.4rem;
   cursor: pointer;
   transition: background-color 0.15s, color 0.15s;

@@ -27,7 +27,8 @@
 
   /* FONTS */
   --font-body: var(--font-quicksand), Georgia, serif;
-  --font-header: var(--font-tilt-warp), Impact, Helvetica, Arial, serif;
+  --font-heading: var(--font-bitter), Georgia, serif;
+  --font-logo: var(--font-tilt-warp), Impact, Helvetica, Arial, serif;
 
   /* SPACING */
   --spacing-base: 0.8rem;
@@ -49,7 +50,7 @@
   --fs-normal: 1.6rem;
   --lh-normal: 1.2;
   --ls-normal: 0.02rem;
-  --header-weight: bold;
+  --header-weight: 800;
   --header-lh: 1.5;
   --header-ls: 0.25rem;
   --header-align: center;

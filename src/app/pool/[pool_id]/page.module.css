@@ -13,7 +13,7 @@
   color: var(--color-text-primary);
   text-decoration: underline;
   cursor: pointer;
-  font-family: var(--font-tilt-warp);
+  font-family: var(--font-body);
 }
 
 .leaderboardLink {

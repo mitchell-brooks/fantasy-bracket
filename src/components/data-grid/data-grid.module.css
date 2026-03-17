@@ -6,3 +6,14 @@
   border-radius: 4px;
   overflow: hidden;
 }
+
+/* Undo global span/p margin-bottom and line-height reset inside AG Grid */
+.gridContainer :global(.ag-root-wrapper) span,
+.gridContainer :global(.ag-root-wrapper) p {
+  margin-bottom: 0;
+}
+
+.gridContainer :global(.ag-root-wrapper) {
+  line-height: normal;
+}
+

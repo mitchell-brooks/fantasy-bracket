@@ -55,8 +55,7 @@ export default async function PoolIdPage({
     .eq('pool_id', pool_id);
   const drafts = draft_data?.map((draft) => {
     return (
-      <>
-        <div className={styles.draftInstanceContainer}>
+      <div key={draft.draft_num} className={styles.draftInstanceContainer}>
           <h2 className={styles.draftLink}>Draft {draft.draft_num}</h2>
           <div>
             <p>{new Date(draft.draft_time).toLocaleDateString()}</p>
@@ -72,8 +71,7 @@ export default async function PoolIdPage({
               Draft Results
             </Link>
           </div>
-        </div>
-      </>
+      </div>
     );
   });
   return (
