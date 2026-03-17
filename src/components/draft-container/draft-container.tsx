@@ -171,20 +171,30 @@ export const DraftContainer: React.FC<DraftContainerProps> = ({
     setTimeout(() => setHighlightedExploreId(null), 2000);
   }, []);
 
-  // CSV upload handler
+  // CSV upload handler — only accepts players that exist in the draftable set
   const handleCsvUpload = useCallback((rankingsFromCsv: Array<Record<string, unknown>>) => {
     const newRankings: RankedPlayer[] = [];
+    let skippedCount = 0;
     for (const row of rankingsFromCsv) {
       if (!row || !row.player_unique || !row.ranking) continue;
       const playerUnique = String(row.player_unique);
       const source = playerLookup.get(playerUnique);
+      if (!source) {
+        skippedCount++;
+        continue;
+      }
       newRankings.push({
         player_unique: playerUnique,
-        player_name: source?.player_name ?? String(row.player_name ?? ''),
-        team_name: source?.team_name ?? String(row.team_name ?? ''),
-        seed: source?.seed ?? (row.seed != null ? Number(row.seed) : null),
+        player_name: source.player_name ?? '',
+        team_name: source.team_name ?? '',
+        seed: source.seed,
         ranking: Number(row.ranking),
       });
+    }
+    if (skippedCount > 0) {
+      alert(
+        `${skippedCount} player(s) in the CSV were not found in the draftable player list and were skipped.`
+      );
     }
     newRankings.sort((a, b) => a.ranking - b.ranking);
     // Re-number sequentially to fill gaps
