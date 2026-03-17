@@ -1,8 +1,5 @@
-# Season configuration for March Radness 2026
-# UPDATE these values after Selection Sunday
-
 [competition]
-id = 0          # Set after creating competition in Supabase
+id = 8
 unique = "ncaambb-d1-championship"
 season = "2025-26"
 year = 2026
@@ -10,8 +7,42 @@ round_count = 7
 expected_teams = 68
 
 [pool]
-id = 0          # Set after creating pool in Supabase
+id = 27
 name = "March Radness 2026"
 
 [paths]
-data_dir = "data/2026"
+data_dir = "output/2026"
+
+[http]
+ip_rotation = true
+
+[http.retry]
+max_attempts = 5
+backoff_base_seconds = 3.0
+
+[http.delay]
+between_teams = 3.0
+between_players = 0.5
+
+[extraction]
+stats_thru = "2026-03-16"
+teams = [
+    "Duke", "Arizona", "Michigan", "Florida",
+    "Connecticut", "Purdue", "Iowa-State", "Houston",
+    "Michigan-State", "Gonzaga", "Virginia", "Illinois",
+    "Kansas", "Arkansas", "Alabama", "Nebraska",
+    "St-Johns-NY", "Wisconsin", "Texas-Tech", "Vanderbilt",
+    "Louisville", "Brigham-Young", "Tennessee", "North-Carolina",
+    "UCLA", "Miami-FL", "Kentucky", "Saint-Marys-CA",
+    "Ohio-State", "Villanova", "Georgia", "Clemson",
+    "Texas-Christian", "Utah-State", "Saint-Louis", "Iowa",
+    "Central-Florida", "Missouri", "Santa-Clara", "Texas-AM",
+    "South-Florida", "Texas", "North-Carolina-State", "Miami-OH",
+    "Southern-Methodist", "Virginia-Commonwealth",
+    "Northern-Iowa", "High-Point", "Akron", "McNeese-State",
+    "California-Baptist", "Hawaii", "Hofstra", "Troy",
+    "North-Dakota-State", "Kennesaw-State", "Wright-State", "Pennsylvania",
+    "Furman", "Queens-NC", "Tennessee-State", "Idaho",
+    "Siena", "Long-Island-University", "Maryland-Baltimore-County", "Howard",
+    "Prairie-View", "Lehigh",
+]
