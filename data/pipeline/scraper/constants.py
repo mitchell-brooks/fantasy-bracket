@@ -1,0 +1,14 @@
+# ABOUTME: Game result and venue constants for NCAA basketball
+# ABOUTME: Vendored from sportsipy
+
+WIN = 'Win'
+LOSS = 'Loss'
+DRAW = 'Draw'
+TIE = 'Tie'
+HOME = 'Home'
+AWAY = 'Away'
+NEUTRAL = 'Neutral'
+REGULAR_SEASON = 'Reg'
+POST_SEASON = 'Post'
+CONFERENCE_TOURNAMENT = 'Conf-Tourney'
+NON_DI = 'Non-DI School'
