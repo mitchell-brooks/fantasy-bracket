@@ -131,9 +131,9 @@ export default function CreatePoolForm({
 
     if (poolrule_prizesplit) {
       const prizeSplitRows = poolrule_prizesplit
-        .filter((p) => p !== undefined && p !== null)
+        .filter((p) => p !== undefined && p !== null && p !== '')
         .map((percent, idx) => ({
-          percent_split: percent,
+          percent_split: Number(percent),
           recipient: (idx + 1).toString(),
           pool_id,
         }));
