@@ -24,14 +24,15 @@ interface DraftContainerProps {
   existingRankings?: RankingFullViewRow[] | null;
 }
 
+function isRecordWithPoints(
+  value: unknown
+): value is Record<string, unknown> & { points: unknown } {
+  return value != null && typeof value === 'object' && 'points' in value;
+}
+
 function extractPoints(playerStats: unknown): number | null {
-  if (
-    playerStats != null &&
-    typeof playerStats === 'object' &&
-    'points' in playerStats
-  ) {
-    const val = (playerStats as Record<string, unknown>).points;
-    return typeof val === 'number' ? val : null;
+  if (isRecordWithPoints(playerStats)) {
+    return typeof playerStats.points === 'number' ? playerStats.points : null;
   }
   return null;
 }
