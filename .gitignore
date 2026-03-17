@@ -49,3 +49,4 @@ worktrees/
 PLAN.md
 CONTEXT.md
 .beads/
+data/**/pull_log*.txt
