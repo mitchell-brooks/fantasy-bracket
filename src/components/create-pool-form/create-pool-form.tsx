@@ -1,8 +1,8 @@
 // ABOUTME: Form component for creating a new pool with draft rules and prize splits
-// ABOUTME: Handles pool metadata, draft settings, and prize split configuration via react-hook-form
+// ABOUTME: Handles pool metadata, multi-draft settings, and prize split configuration
 'use client';
 import { useSupabase } from '@components/supabase-provider';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { Database } from '@lib/database.types';
 import * as api from '@lib/api';
 import {
@@ -11,28 +11,24 @@ import {
   PoolRule_DraftRow,
   PoolRule_PrizeSplitRow,
 } from '@lib/api';
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './create-pool-form.module.css';
 import type { ActiveCompetition, CompetitionRound } from '@/app/pool/create/page';
 
-type PoolOptions = Database['public']['Tables']['pool']['Row'];
-interface PoolForm extends PoolOptions {
-  poolrule_mvp?: [Database['public']['Tables']['poolrule_mvp']['Row']];
-  poolrule_draft?: [Database['public']['Tables']['poolrule_draft']['Row']];
-  poolrule_prizesplit?: [
-    Database['public']['Tables']['poolrule_prizesplit']['Row']
-  ];
-  pool_name: Database['public']['Tables']['poolmeta']['Row']['pool_name'];
+interface DraftEntry {
+  id: number;
+  round_num: string;
+  roster_count: string;
+  draft_time: string;
 }
 
 interface CreatePoolFormProps {
   user_id?: string;
   competitions: ActiveCompetition[];
 }
-type FormValues = Omit<PoolMetaRow, 'poolmeta_id'> &
-  Omit<PoolRow, 'pool_id'> &
-  PoolRule_DraftRow & { poolrule_prizesplit: [number] }; // [PoolRule_PrizeSplitRow] &
+
+let nextDraftId = 1;
 
 export default function CreatePoolForm({
   user_id,
@@ -53,80 +49,104 @@ export default function CreatePoolForm({
   );
   const rounds = selectedCompetition?.rounds ?? competitions[0]?.rounds ?? [];
 
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+  const [drafts, setDrafts] = useState<DraftEntry[]>(() => [{
+    id: nextDraftId++,
+    round_num: '',
+    roster_count: '',
+    draft_time: '',
+  }]);
+
+  const addDraft = useCallback(() => {
+    setDrafts(prev => [...prev, {
+      id: nextDraftId++,
+      round_num: '',
+      roster_count: '',
+      draft_time: '',
+    }]);
+  }, []);
+
+  const removeDraft = useCallback((id: number) => {
+    setDrafts(prev => prev.length > 1 ? prev.filter(d => d.id !== id) : prev);
+  }, []);
+
+  const updateDraft = useCallback((id: number, field: keyof Omit<DraftEntry, 'id'>, value: string) => {
+    setDrafts(prev => prev.map(d => d.id === id ? { ...d, [field]: value } : d));
+  }, []);
+
+  const sortedDrafts = [...drafts].sort((a, b) => {
+    const aRound = Number(a.round_num) || 0;
+    const bRound = Number(b.round_num) || 0;
+    return aRound - bRound;
+  });
+
+  const onSubmit = async (formData: Record<string, unknown>) => {
     const {
       pool_name,
       point_value,
-      roster_count,
-      draft_time,
       competition_id,
-      round_num,
       poolrule_prizesplit,
-    } = data;
-    // TODO: add error handling
-    // TODO: extract all of these into api calls
-    if (user_id) {
-      // const { poolmeta_id: pm_id }
-      const poolMetaRows = await api.supabase.create<
-        PoolMetaRow,
-        'poolmeta_id'
-      >(supabase, 'poolmeta', {
+    } = formData as { pool_name: string; point_value: number; competition_id: string; poolrule_prizesplit: number[] };
+
+    if (!user_id) return;
+
+    const poolMetaRows = await api.supabase.create<PoolMetaRow, 'poolmeta_id'>(
+      supabase, 'poolmeta', {
         pool_name,
         admin_user_id: user_id,
-      });
-      const poolmeta_id = poolMetaRows?.[0]?.poolmeta_id;
-      if (poolmeta_id) {
-        // console.log(':::poolmeta_id', poolmeta_id);
-        const poolRows = await api.supabase.create<PoolRow, 'pool_id'>(
-          supabase,
-          'pool',
-          {
-            currency: 'cent',
-            competition_id: Number(competition_id),
-            poolmeta_id,
-            point_value,
-          }
-        );
-        const pool_id = poolRows?.[0]?.pool_id;
-        if (pool_id) {
-          // console.log(':::pool_id', pool_id);
-          const poolrule_draft_res =
-            await api.supabase.create<PoolRule_DraftRow>(
-              supabase,
-              'poolrule_draft',
-              {
-                pool_id,
-                draft_time,
-                roster_count,
-                draft_order: 0,
-                round_num: Number(round_num),
-                draft_num: 1,
-              }
-            );
-          // console.log(':::poolrule_draft_res', poolrule_draft_res);
-          const poolrule_prizesplit_row = poolrule_prizesplit?.map(
-            (percent, idx) => ({
-              percent_split: percent,
-              recipient: (idx + 1).toString(),
-              pool_id,
-            })
-          );
-          // console.log(':::poolrule_prizesplit_row', poolrule_prizesplit_row);
-          if (poolrule_prizesplit_row.length > 0) {
-            const poolrule_prizesplit_res = await api.supabase.create<
-              PoolRule_PrizeSplitRow[]
-            >(supabase, 'poolrule_prizesplit', poolrule_prizesplit_row);
-          }
-          router.push(`/pool/${pool_id}/join`);
+      }
+    );
+    const poolmeta_id = poolMetaRows?.[0]?.poolmeta_id;
+    if (!poolmeta_id) return;
+
+    const poolRows = await api.supabase.create<PoolRow, 'pool_id'>(
+      supabase, 'pool', {
+        currency: 'cent',
+        competition_id: Number(competition_id),
+        poolmeta_id,
+        point_value,
+      }
+    );
+    const pool_id = poolRows?.[0]?.pool_id;
+    if (!pool_id) return;
+
+    for (let i = 0; i < sortedDrafts.length; i++) {
+      const draft = sortedDrafts[i];
+      if (!draft) continue;
+      await api.supabase.create<PoolRule_DraftRow>(
+        supabase, 'poolrule_draft', {
+          pool_id,
+          draft_time: draft.draft_time,
+          roster_count: Number(draft.roster_count),
+          draft_order: 0,
+          round_num: Number(draft.round_num),
+          draft_num: i + 1,
         }
+      );
+    }
+
+    if (poolrule_prizesplit) {
+      const prizeSplitRows = poolrule_prizesplit
+        .filter((p) => p !== undefined && p !== null)
+        .map((percent, idx) => ({
+          percent_split: percent,
+          recipient: (idx + 1).toString(),
+          pool_id,
+        }));
+      if (prizeSplitRows.length > 0) {
+        await api.supabase.create<PoolRule_PrizeSplitRow[]>(
+          supabase, 'poolrule_prizesplit', prizeSplitRows
+        );
       }
     }
+
+    router.push(`/pool/${pool_id}/join`);
   };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit((values) => onSubmit(values as FormValues))}>
+    <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.field}>
-        <label htmlFor="competition_id" title="Select the tournament for this pool">Tournament</label>
+        <label htmlFor="competition_id">Tournament</label>
+        <p className={styles.hint}>Select the tournament for this pool</p>
         <select id="competition_id" {...register('competition_id', { required: true })}>
           {competitions.map((c) => (
             <option key={c.competition_id} value={c.competition_id}>
@@ -137,12 +157,14 @@ export default function CreatePoolForm({
       </div>
 
       <div className={styles.field}>
-        <label htmlFor="pool_name" title="A display name for your pool, visible to all participants">Pool Name</label>
+        <label htmlFor="pool_name">Pool Name</label>
+        <p className={styles.hint}>Visible to all participants</p>
         <input id="pool_name" {...register('pool_name', { required: true })} />
       </div>
 
       <div className={styles.field}>
-        <label htmlFor="point_value" title="How much each tournament point is worth in cents. Multiplied by total points to determine payouts.">Point Value (&cent;)</label>
+        <label htmlFor="point_value">Point Value (&cent;)</label>
+        <p className={styles.hint}>How much each tournament point is worth in cents</p>
         <input
           id="point_value"
           type="number"
@@ -158,34 +180,76 @@ export default function CreatePoolForm({
         />
       </div>
 
-      <div className={styles.field}>
-        <label htmlFor="roster_count" title="How many players each participant drafts for their roster">Number of Players</label>
-        <input id="roster_count" type="number" min={1} max={20} {...register('roster_count')} />
-      </div>
+      <div className={styles.section}>
+        <h3 className={styles.sectionTitle}>Draft Rounds</h3>
+        <p className={styles.hint}>Each draft round has its own starting round, roster size, and deadline. Sorted by round automatically.</p>
 
-      <div className={styles.field}>
-        <label htmlFor="round_num" title="The tournament round this draft's players start scoring in">Starting Round</label>
-        <select id="round_num" {...register('round_num', { required: true })}>
-          {rounds.map((r) => (
-            <option key={r.round_num} value={r.round_num}>
-              {r.round_name}
-            </option>
-          ))}
-        </select>
-      </div>
+        {sortedDrafts.map((draft, idx) => (
+          <div key={draft.id} className={styles.draftRound}>
+            <div className={styles.draftRoundHeader}>
+              <span className={styles.draftRoundLabel}>Draft {idx + 1}</span>
+              {drafts.length > 1 && (
+                <button
+                  type="button"
+                  className={styles.removeButton}
+                  onClick={() => removeDraft(draft.id)}
+                >
+                  Remove
+                </button>
+              )}
+            </div>
+            <div className={styles.draftRoundFields}>
+              <div className={styles.field}>
+                <label>Starting Round</label>
+                <select
+                  value={draft.round_num}
+                  onChange={(e) => updateDraft(draft.id, 'round_num', e.target.value)}
+                  required
+                >
+                  <option value="">Select round</option>
+                  {rounds.map((r) => (
+                    <option key={r.round_num} value={r.round_num}>
+                      {r.round_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className={styles.field}>
+                <label>Players</label>
+                <input
+                  type="number"
+                  min={1}
+                  max={20}
+                  value={draft.roster_count}
+                  onChange={(e) => updateDraft(draft.id, 'roster_count', e.target.value)}
+                  required
+                />
+              </div>
+              <div className={styles.field}>
+                <label>Draft Deadline</label>
+                <input
+                  type="datetime-local"
+                  value={draft.draft_time}
+                  onChange={(e) => updateDraft(draft.id, 'draft_time', e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+          </div>
+        ))}
 
-      <div className={styles.field}>
-        <label htmlFor="draft_time" title="When participants need to have their draft rankings submitted by">Draft Time</label>
-        <input id="draft_time" type="datetime-local" {...register('draft_time')} />
+        <button type="button" className={styles.addButton} onClick={addDraft}>
+          + Add Draft Round
+        </button>
       </div>
 
       {/* TODO: validation for 100% split */}
-      {/* TODO: dynamically add buttons for more splits */}
       <div className={styles.section}>
-        <h3 className={styles.sectionTitle} title="How the prize pool is divided among top finishers. Should total 100%.">Prize Split (%)</h3>
+        <h3 className={styles.sectionTitle}>Prize Split (%)</h3>
+        <p className={styles.hint}>How the prize pool is divided. Should total 100%.</p>
         <div className={styles.splitGroup}>
           <div className={styles.field}>
-            <label htmlFor="poolrule_prizesplit[0]" title="Percentage of the prize pool awarded to 1st place">1st</label>
+            <label htmlFor="poolrule_prizesplit[0]">1st</label>
             <input
               id="poolrule_prizesplit[0]"
               type="number"
@@ -195,7 +259,7 @@ export default function CreatePoolForm({
             />
           </div>
           <div className={styles.field}>
-            <label htmlFor="poolrule_prizesplit[1]" title="Percentage of the prize pool awarded to 2nd place">2nd</label>
+            <label htmlFor="poolrule_prizesplit[1]">2nd</label>
             <input
               id="poolrule_prizesplit[1]"
               type="number"
@@ -205,7 +269,7 @@ export default function CreatePoolForm({
             />
           </div>
           <div className={styles.field}>
-            <label htmlFor="poolrule_prizesplit[2]" title="Percentage of the prize pool awarded to 3rd place">3rd</label>
+            <label htmlFor="poolrule_prizesplit[2]">3rd</label>
             <input
               id="poolrule_prizesplit[2]"
               type="number"

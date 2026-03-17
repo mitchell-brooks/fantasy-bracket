@@ -24,6 +24,13 @@
   letter-spacing: 0.05rem;
 }
 
+.hint {
+  font-size: 1.2rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+  margin: 0;
+}
+
 .field input,
 .field select {
   font-family: var(--font-body);
@@ -61,6 +68,70 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 1rem;
+}
+
+.draftRound {
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius);
+  padding: 1.2rem;
+  background: var(--color-bg-surface);
+}
+
+.draftRoundHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.draftRoundLabel {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.draftRoundFields {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.removeButton {
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0.3rem 0.8rem;
+  background: none;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.removeButton:hover {
+  color: var(--color-accent-primary);
+  border-color: var(--color-accent-primary);
+  background: none;
+}
+
+.addButton {
+  font-family: var(--font-body);
+  font-size: 1.4rem;
+  font-weight: 600;
+  padding: 0.8rem 1.5rem;
+  background: none;
+  color: var(--color-accent-primary);
+  border: 2px dashed var(--color-border-subtle);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: border-color 0.15s;
+  width: 100%;
+}
+
+.addButton:hover {
+  border-color: var(--color-accent-primary);
+  background: none;
+  color: var(--color-accent-primary);
 }
 
 .submitButton {
