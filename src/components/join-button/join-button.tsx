@@ -32,10 +32,22 @@ export const JoinButton: React.FC<JoinButtonProps> = ({ user_id, pool_id }) => {
   };
 
   return (
-    <>
-      <button onClick={() => joinPool({ supabase, pool_id, user_id })}>
-        Join Pool
-      </button>
-    </>
+    <button
+      onClick={() => joinPool({ supabase, pool_id, user_id })}
+      style={{
+        fontFamily: 'var(--font-body)',
+        fontSize: '1.6rem',
+        fontWeight: 700,
+        padding: '1rem 3rem',
+        backgroundColor: 'var(--color-accent-primary)',
+        color: 'var(--color-bg-surface)',
+        border: '2px solid var(--color-accent-primary)',
+        borderRadius: 'var(--radius)',
+        cursor: 'pointer',
+        width: '100%',
+      }}
+    >
+      Join Pool
+    </button>
   );
 };
