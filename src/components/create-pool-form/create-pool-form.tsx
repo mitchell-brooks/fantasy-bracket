@@ -57,13 +57,18 @@ export default function CreatePoolForm({
   }]);
 
   const addDraft = useCallback(() => {
-    setDrafts(prev => [...prev, {
-      id: nextDraftId++,
-      round_num: '',
-      roster_count: '',
-      draft_time: '',
-    }]);
-  }, []);
+    setDrafts(prev => {
+      const lastDraft = prev[prev.length - 1];
+      const lastRound = Number(lastDraft?.round_num) || 0;
+      const nextRound = rounds.find(r => r.round_num > lastRound);
+      return [...prev, {
+        id: nextDraftId++,
+        round_num: nextRound ? String(nextRound.round_num) : '',
+        roster_count: lastDraft?.roster_count ?? '',
+        draft_time: '',
+      }];
+    });
+  }, [rounds]);
 
   const removeDraft = useCallback((id: number) => {
     setDrafts(prev => prev.length > 1 ? prev.filter(d => d.id !== id) : prev);

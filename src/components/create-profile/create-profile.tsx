@@ -26,23 +26,18 @@ export const CreateProfile = ({ user_id }: { user_id: string }) => {
   );
 
   return (
-    <>
-      <h1>Create a profile</h1>
-      <div className={styles.container}>
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <h2>Create your profile</h2>
+        <p>Choose a display name that other players will see.</p>
         <form className={styles.form} onSubmit={onFormSubmit}>
-          <div>
-            <label htmlFor="username">Username</label>
-            <br />
+          <div className={styles.field}>
+            <label htmlFor="username">Display Name</label>
+            <input type="text" name="username" id="username" required />
           </div>
-          <div>
-            <input type="text" name="username" id="username" />
-            <br />
-          </div>
-          <div>
-            <button type="submit">Submit</button>
-          </div>
+          <button type="submit" className={styles.submitButton}>Continue</button>
         </form>
       </div>
-    </>
+    </div>
   );
 };

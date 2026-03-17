@@ -57,7 +57,13 @@ const bitter = Bitter({
 export const revalidate = 0;
 export const metadata = {
   title: "Bracketude",
-  description: "Live your bracket fantasy"
+  description: "Live your bracket fantasy",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+  },
 };
 
 export default async function RootLayout({

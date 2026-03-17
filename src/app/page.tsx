@@ -40,49 +40,61 @@ export default async function Home() {
   type DaterangeCloseBracket = ")" | "]"
   type IsoDate = `${number}-${number}-${number}`
   type Daterange = `${DaterangeOpenBracket}${IsoDate},${IsoDate}${DaterangeCloseBracket}`
-  const currentPools = pool_data?.map((pool) => {
+
+  const now = new Date();
+  const activePools = pool_data?.filter((pool) => {
     const daterange = pool.daterange as Daterange;
     const parts = daterange.slice(1, -1).split(",");
     const endDate = new Date(parts[1] ?? '');
-    const now = new Date();
-    if (now > endDate) {
-      return null;
-    }
-    return (
-      <li key={pool.pool_id}>
-        <Link href={`/pool/${pool.pool_id}`}>
-          {pool?.pool_name || "Untitled Pool"}
-        </Link>
-      </li>
-    );
-  });
+    return now <= endDate;
+  }) ?? [];
 
-  const previousPools = pool_data?.map((pool) => {
-      const daterange = pool.daterange as Daterange;
-      const parts = daterange.slice(1, -1).split(",");
-      const endDate = new Date(parts[1] ?? '');
-      const now = new Date();
-      if (now < endDate) {
-        return null;
-      }
-      return (
-        <li key={pool.pool_id}>
-          <Link href={`/pool/${pool.pool_id}`}>
-            {pool?.pool_name || "Untitled Pool"}
-          </Link>
-        </li>
-      );
-    }
-  );
+  const previousPools = pool_data?.filter((pool) => {
+    const daterange = pool.daterange as Daterange;
+    const parts = daterange.slice(1, -1).split(",");
+    const endDate = new Date(parts[1] ?? '');
+    return now > endDate;
+  }) ?? [];
 
   return (
     <main className={styles.main}>
-      <h2>Your pools:</h2>
-      <ul>{currentPools}</ul>
-      <br />
-      <h2>Previous pools:</h2>
-      <ul>{previousPools}</ul>
-      {/*<Link href="/pool/create">Create a new pool</Link>*/}
+      <div className={styles.section}>
+        <h2>Active Pools</h2>
+        {activePools.length > 0 ? (
+          <ul className={styles.poolList}>
+            {activePools.map((pool) => (
+              <li key={pool.pool_id}>
+                <Link href={`/pool/${pool.pool_id}`}>
+                  {pool?.pool_name || "Untitled Pool"}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className={styles.emptyMessage}>No active pools</p>
+        )}
+      </div>
+
+      <div className={styles.section}>
+        <h2>Previous Pools</h2>
+        {previousPools.length > 0 ? (
+          <ul className={styles.poolList}>
+            {previousPools.map((pool) => (
+              <li key={pool.pool_id}>
+                <Link href={`/pool/${pool.pool_id}`}>
+                  {pool?.pool_name || "Untitled Pool"}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className={styles.emptyMessage}>No previous pools</p>
+        )}
+      </div>
+
+      <Link href="/pool/create" className={styles.createLink}>
+        Create a Pool
+      </Link>
     </main>
   );
 }
