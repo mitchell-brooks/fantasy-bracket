@@ -47,27 +47,32 @@ export const Login = ({ user }: { user: User | null }) => {
   if (submitted) {
     return (
       <div className={styles.container}>
-        <h2>Check your email</h2>
-        <p>We sent a login link to <strong>{email}</strong></p>
+        <div className={styles.card}>
+          <h2>Check your email</h2>
+          <p>We sent a login link to <strong>{email}</strong></p>
+        </div>
       </div>
     );
   }
 
   return (
     <div className={styles.container}>
-      {return_to ? <p>You&apos;ll have to be logged in to do that.</p> : null}
-      <form onSubmit={handleSubmit}>
+      <div className={styles.card}>
         <h2>Sign in to Bracketude</h2>
-        <input
-          type="email"
-          placeholder="your@email.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <button type="submit">Send magic link</button>
-        {error && <p style={{ color: 'var(--accent-primary, red)' }}>{error}</p>}
-      </form>
+        {return_to ? <p className={styles.notice}>You&apos;ll need to log in to continue.</p> : null}
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <input
+            className={styles.emailInput}
+            type="email"
+            placeholder="your@email.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <button type="submit" className={styles.submitButton}>Send magic link</button>
+          {error && <p className={styles.error}>{error}</p>}
+        </form>
+      </div>
     </div>
   );
 };

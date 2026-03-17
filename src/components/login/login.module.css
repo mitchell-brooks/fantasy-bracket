@@ -1,3 +1,89 @@
 .container {
-  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - var(--nav-height) - 4rem);
+  padding: 2rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  max-width: 400px;
+  width: 100%;
+  padding: 3rem;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 2.8rem;
+}
+
+.card p {
+  text-align: center;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 100%;
+}
+
+.emailInput {
+  font-family: var(--font-body);
+  font-size: 1.6rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius);
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  width: 100%;
+  transition: border-color 0.15s;
+}
+
+.emailInput:focus {
+  outline: none;
+  border-color: var(--color-accent-primary);
+}
+
+.submitButton {
+  font-family: var(--font-body);
+  font-size: 1.6rem;
+  font-weight: 700;
+  padding: 1rem;
+  background-color: var(--color-accent-primary);
+  color: var(--color-bg-surface);
+  border: 2px solid var(--color-accent-primary);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s;
+  width: 100%;
+}
+
+.submitButton:hover {
+  background-color: var(--color-link-hover);
+  border-color: var(--color-link-hover);
+}
+
+.error {
+  color: var(--color-accent-primary);
+  font-size: 1.4rem;
+  text-align: center;
+  margin: 0;
+}
+
+.notice {
+  font-size: 1.4rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  margin: 0;
 }

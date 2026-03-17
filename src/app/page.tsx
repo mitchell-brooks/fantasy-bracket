@@ -16,11 +16,7 @@ export default async function Home() {
   const user = await getUser(supabase);
   // console.log('roster', roster);
   if (!user) {
-    return (
-      // <Grid leftContent={
-      <h2>Log in or sign up.</h2>
-      // } />
-    );
+    return <Redirect to="/login" />;
   }
   const user_id = user.id;
   const { data: userprofile_data, error: userprofile_error } = await supabase
