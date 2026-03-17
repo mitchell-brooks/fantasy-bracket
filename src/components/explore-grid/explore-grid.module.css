@@ -1,0 +1,46 @@
+/* ABOUTME: Styles for the Explore Grid player browser */
+/* ABOUTME: Full-featured grid with selection toolbar and dimmed ranked rows */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.addButton {
+  font-family: var(--font-body);
+  font-size: 1.3rem;
+  font-weight: 700;
+  padding: 0.5rem 1.2rem;
+  background-color: var(--color-accent-primary);
+  color: var(--color-bg-surface);
+  border: 2px solid var(--color-accent-primary);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.addButton:hover {
+  background-color: var(--color-link-hover);
+  border-color: var(--color-link-hover);
+  color: var(--color-bg-surface);
+}
+
+.gridWrapper {
+  height: 500px;
+  width: 100%;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
