@@ -23,6 +23,8 @@ export interface ExplorePlayer {
   seed: number | null;
   region: string | null;
   tournament_points: number | null;
+  points: number | null;
+  overall_seed: number | null;
 }
 
 interface ExploreGridProps {
@@ -41,19 +43,22 @@ export function ExploreGrid({
   const gridRef = useRef<AgGridReact<ExplorePlayer>>(null);
   const [selectedCount, setSelectedCount] = useState(0);
   const theme = useMemo(() => inkAndPaperTheme, []);
+  const rankedPlayerMapRef = useRef(rankedPlayerMap);
+  rankedPlayerMapRef.current = rankedPlayerMap;
 
   const rowSelection = useMemo(() => ({
     mode: 'multiRow' as const,
     headerCheckbox: false,
   }), []);
 
+  // Column defs are stable — rank column reads from ref to avoid full column rebuild
   const columnDefs = useMemo<ColDef<ExplorePlayer>[]>(() => [
     {
       headerName: 'Rank',
       width: 80,
       valueGetter: (params) => {
         if (!params.data) return null;
-        const rank = rankedPlayerMap.get(params.data.player_unique);
+        const rank = rankedPlayerMapRef.current.get(params.data.player_unique);
         return rank ?? null;
       },
       valueFormatter: (params) => {
@@ -67,7 +72,8 @@ export function ExploreGrid({
     { field: 'seed', headerName: 'Seed', width: 80 },
     { field: 'region', headerName: 'Region', flex: 1, filter: 'agTextColumnFilter' },
     { field: 'tournament_points', headerName: 'Tourn. Pts', width: 110 },
-  ], [rankedPlayerMap]);
+    { field: 'points', headerName: 'Reg. Pts', width: 100 },
+  ], []);
 
   const getRowStyle = useCallback((params: RowClassParams<ExplorePlayer>) => {
     if (params.data && rankedPlayerMap.has(params.data.player_unique)) {
@@ -103,6 +109,15 @@ export function ExploreGrid({
       onAddPlayers([event.data.player_unique]);
     }
   }, [rankedPlayerMap, onAddPlayers]);
+
+  // Refresh rank column and row styles when rankings change
+  useEffect(() => {
+    const api = gridRef.current?.api;
+    if (api) {
+      api.refreshCells({ columns: ['0'] });
+      api.redrawRows();
+    }
+  }, [rankedPlayerMap]);
 
   // Scroll to highlighted player when it changes
   useEffect(() => {

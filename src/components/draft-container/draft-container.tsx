@@ -2,7 +2,7 @@
 // ABOUTME: Orchestrates player browsing, ranking, CSV import/export, and Supabase persistence
 'use client';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './draft-container.module.css';
 import { DownloadButton } from '@components/download-button/download-button';
 import { UploadButton } from '@components/upload-button/upload-button';
@@ -24,6 +24,18 @@ interface DraftContainerProps {
   existingRankings?: RankingFullViewRow[] | null;
 }
 
+function extractPoints(playerStats: unknown): number | null {
+  if (
+    playerStats != null &&
+    typeof playerStats === 'object' &&
+    'points' in playerStats
+  ) {
+    const val = (playerStats as Record<string, unknown>).points;
+    return typeof val === 'number' ? val : null;
+  }
+  return null;
+}
+
 function toExplorePlayer(row: ViewPoolPlayersFullRow): ExplorePlayer {
   return {
     player_unique: row.player_unique ?? '',
@@ -32,6 +44,8 @@ function toExplorePlayer(row: ViewPoolPlayersFullRow): ExplorePlayer {
     seed: row.seed,
     region: row.region,
     tournament_points: row.tournament_points,
+    points: extractPoints(row.player_stats),
+    overall_seed: row.overall_seed,
   };
 }
 
@@ -112,6 +126,16 @@ export const DraftContainer: React.FC<DraftContainerProps> = ({
   const [saving, setSaving] = useState(false);
   const [highlightedIds, setHighlightedIds] = useState<Set<string>>(new Set());
   const [highlightedExploreId, setHighlightedExploreId] = useState<string | null>(null);
+  const highlightTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const exploreHighlightTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  // Clean up timers on unmount
+  useEffect(() => {
+    return () => {
+      clearTimeout(highlightTimerRef.current);
+      clearTimeout(exploreHighlightTimerRef.current);
+    };
+  }, []);
 
   // Derived: map of player_unique → rank number for the Explore Grid
   const rankedPlayerMap = useMemo<Map<string, number>>(
@@ -146,7 +170,8 @@ export const DraftContainer: React.FC<DraftContainerProps> = ({
     // Highlight newly added players briefly
     const newIds = new Set(playerUniques);
     setHighlightedIds(newIds);
-    setTimeout(() => setHighlightedIds(new Set()), 2000);
+    clearTimeout(highlightTimerRef.current);
+    highlightTimerRef.current = setTimeout(() => setHighlightedIds(new Set()), 2000);
   }, [playerLookup]);
 
   // Remove a player from rankings
@@ -167,12 +192,18 @@ export const DraftContainer: React.FC<DraftContainerProps> = ({
   // Click a player in Rank Grid → scroll to them in Explore Grid
   const handlePlayerClick = useCallback((playerUnique: string) => {
     setHighlightedExploreId(playerUnique);
-    // Clear after flash animation
-    setTimeout(() => setHighlightedExploreId(null), 2000);
+    clearTimeout(exploreHighlightTimerRef.current);
+    exploreHighlightTimerRef.current = setTimeout(() => setHighlightedExploreId(null), 2000);
   }, []);
 
   // CSV upload handler — only accepts players that exist in the draftable set
   const handleCsvUpload = useCallback((rankingsFromCsv: Array<Record<string, unknown>>) => {
+    if (rankings.length > 0) {
+      const confirmed = window.confirm(
+        'This will replace your current rankings. Continue?'
+      );
+      if (!confirmed) return;
+    }
     const newRankings: RankedPlayer[] = [];
     let skippedCount = 0;
     for (const row of rankingsFromCsv) {
@@ -201,7 +232,7 @@ export const DraftContainer: React.FC<DraftContainerProps> = ({
     const renumbered = newRankings.map((p, i) => ({ ...p, ranking: i + 1 }));
     setRankings(renumbered);
     setHasUnsavedChanges(true);
-  }, [playerLookup]);
+  }, [playerLookup, rankings.length]);
 
   // Save rankings to Supabase
   const handleSave = useCallback(async () => {
