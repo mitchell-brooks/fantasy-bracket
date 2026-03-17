@@ -2,6 +2,7 @@
 // ABOUTME: Shows pool name and join button, redirects if already a member or not logged in
 import { createClient } from '@utils/supabase-server';
 import React from 'react';
+import Link from 'next/link';
 import { JoinButton } from '@components/join-button/join-button';
 import { Redirect } from '@components/redirect/redirect';
 import styles from './join.module.css';
@@ -50,6 +51,7 @@ export default async function PoolJoinPage({
         <div className={styles.card}>
           <h2>Already a member</h2>
           <p>You&apos;re already in <strong>{poolName}</strong>.</p>
+          <Link href={`/pool/${pool_id}`} className={styles.goToPool}>Go to pool</Link>
           <Redirect to={`/pool/${pool_id}`} timeout={2000} />
         </div>
       </div>

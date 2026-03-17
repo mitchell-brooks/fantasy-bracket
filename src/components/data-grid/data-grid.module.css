@@ -17,3 +17,8 @@
   line-height: normal;
 }
 
+.gridContainer :global(.ag-header-cell-text) {
+  font-variant: small-caps;
+  text-transform: lowercase;
+}
+

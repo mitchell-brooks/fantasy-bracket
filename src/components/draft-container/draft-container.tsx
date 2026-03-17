@@ -24,17 +24,14 @@ interface DraftContainerProps {
   existingRankings?: RankingFullViewRow[] | null;
 }
 
-function isRecordWithPoints(
-  value: unknown
-): value is Record<string, unknown> & { points: unknown } {
-  return value != null && typeof value === 'object' && 'points' in value;
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return value != null && typeof value === 'object';
 }
 
-function extractPoints(playerStats: unknown): number | null {
-  if (isRecordWithPoints(playerStats)) {
-    return typeof playerStats.points === 'number' ? playerStats.points : null;
-  }
-  return null;
+function extractNum(obj: unknown, key: string): number | null {
+  if (!isRecord(obj) || !(key in obj)) return null;
+  const val = obj[key];
+  return typeof val === 'number' ? val : null;
 }
 
 function toExplorePlayer(row: ViewPoolPlayersFullRow): ExplorePlayer {
@@ -45,8 +42,13 @@ function toExplorePlayer(row: ViewPoolPlayersFullRow): ExplorePlayer {
     seed: row.seed,
     region: row.region,
     tournament_points: row.tournament_points,
-    points: extractPoints(row.player_stats),
+    points: extractNum(row.player_stats, 'points'),
     overall_seed: row.overall_seed,
+    position: row.position,
+    wins: extractNum(row.team_win_loss, 'wins'),
+    losses: extractNum(row.team_win_loss, 'losses'),
+    assists: extractNum(row.player_stats, 'assists'),
+    rebounds: extractNum(row.player_stats, 'rebounds'),
   };
 }
 
@@ -138,6 +140,17 @@ export const DraftContainer: React.FC<DraftContainerProps> = ({
     };
   }, []);
 
+  // Warn before navigating away with unsaved changes
+  useEffect(() => {
+    const handler = (e: BeforeUnloadEvent) => {
+      if (hasUnsavedChanges) {
+        e.preventDefault();
+      }
+    };
+    window.addEventListener('beforeunload', handler);
+    return () => window.removeEventListener('beforeunload', handler);
+  }, [hasUnsavedChanges]);
+
   // Derived: map of player_unique → rank number for the Explore Grid
   const rankedPlayerMap = useMemo<Map<string, number>>(
     () => new Map(rankings.map((r) => [r.player_unique, r.ranking])),
@@ -197,7 +210,7 @@ export const DraftContainer: React.FC<DraftContainerProps> = ({
     exploreHighlightTimerRef.current = setTimeout(() => setHighlightedExploreId(null), 2000);
   }, []);
 
-  // CSV upload handler — only accepts players that exist in the draftable set
+  // CSV upload handler — validates, deduplicates, and only accepts draftable players
   const handleCsvUpload = useCallback((rankingsFromCsv: Array<Record<string, unknown>>) => {
     if (rankings.length > 0) {
       const confirmed = window.confirm(
@@ -206,10 +219,23 @@ export const DraftContainer: React.FC<DraftContainerProps> = ({
       if (!confirmed) return;
     }
     const newRankings: RankedPlayer[] = [];
+    const seenPlayers = new Set<string>();
     let skippedCount = 0;
+    let duplicateCount = 0;
     for (const row of rankingsFromCsv) {
-      if (!row || !row.player_unique || !row.ranking) continue;
+      if (!row || !row.player_unique) continue;
+      // ranking can be 0, so check for null/undefined/empty string, not falsiness
+      if (row.ranking == null || row.ranking === '') continue;
+      const rankNum = Number(row.ranking);
+      if (isNaN(rankNum)) continue;
+
       const playerUnique = String(row.player_unique);
+      if (seenPlayers.has(playerUnique)) {
+        duplicateCount++;
+        continue;
+      }
+      seenPlayers.add(playerUnique);
+
       const source = playerLookup.get(playerUnique);
       if (!source) {
         skippedCount++;
@@ -220,39 +246,68 @@ export const DraftContainer: React.FC<DraftContainerProps> = ({
         player_name: source.player_name ?? '',
         team_name: source.team_name ?? '',
         seed: source.seed,
-        ranking: Number(row.ranking),
+        ranking: rankNum,
       });
     }
+
+    const warnings: string[] = [];
     if (skippedCount > 0) {
-      alert(
-        `${skippedCount} player(s) in the CSV were not found in the draftable player list and were skipped.`
-      );
+      warnings.push(`${skippedCount} player(s) not found in the draftable list`);
     }
+    if (duplicateCount > 0) {
+      warnings.push(`${duplicateCount} duplicate player(s) removed`);
+    }
+    if (warnings.length > 0) {
+      alert(`CSV import notes:\n${warnings.join('\n')}`);
+    }
+    if (newRankings.length === 0) {
+      alert('No valid rankings found in the CSV. Make sure the file has "ranking" and "player_unique" columns with values.');
+      return;
+    }
+
     newRankings.sort((a, b) => a.ranking - b.ranking);
-    // Re-number sequentially to fill gaps
     const renumbered = newRankings.map((p, i) => ({ ...p, ranking: i + 1 }));
     setRankings(renumbered);
     setHasUnsavedChanges(true);
   }, [playerLookup, rankings.length]);
 
-  // Save rankings to Supabase
+  // Save rankings to Supabase — upserts current rankings and deletes any removed ones
   const handleSave = useCallback(async () => {
-    if (rankings.length === 0) return;
     setSaving(true);
-    const rankingRows = generateRankingRows(roster_id, draft_num, rankings);
 
-    const result = await supabase.from('rosterranking').upsert(rankingRows, {
-      onConflict: 'player_unique,roster_id,draft_num',
-      ignoreDuplicates: false,
-    });
-    setSaving(false);
-    if (result.error) {
-      console.error('Error inserting rankings:', result.error);
+    // Delete all existing rankings for this roster/draft first, then insert current
+    const deleteResult = await supabase
+      .from('rosterranking')
+      .delete()
+      .eq('roster_id', roster_id)
+      .eq('draft_num', draft_num);
+
+    if (deleteResult.error) {
+      setSaving(false);
+      console.error('Error clearing old rankings:', deleteResult.error);
       alert(
-        'There was an error submitting your rankings. Please double check and try again.'
+        `Error clearing old rankings: ${deleteResult.error.message}. Your rankings were NOT saved.`
       );
       return;
     }
+
+    if (rankings.length > 0) {
+      const rankingRows = generateRankingRows(roster_id, draft_num, rankings);
+      const insertResult = await supabase
+        .from('rosterranking')
+        .insert(rankingRows);
+
+      if (insertResult.error) {
+        setSaving(false);
+        console.error('Error saving rankings:', insertResult.error);
+        alert(
+          `Error saving rankings: ${insertResult.error.message}. Please try again.`
+        );
+        return;
+      }
+    }
+
+    setSaving(false);
     setHasUnsavedChanges(false);
   }, [rankings, supabase, roster_id, draft_num]);
 
@@ -264,8 +319,8 @@ export const DraftContainer: React.FC<DraftContainerProps> = ({
 
       <div className={styles.toolbar}>
         <DownloadButton
-          buttonText="Get Ranking Template"
-          tooltipText="Download player data and a ranking template as a csv file"
+          buttonText="Download CSV Template"
+          tooltipText="Download a spreadsheet with all players. Fill in the ranking column and re-upload as an alternative to using the grid interface."
           filename={`draft_${draft_num}_ranking_template.csv`}
           data={csv}
         />

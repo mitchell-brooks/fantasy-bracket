@@ -187,7 +187,7 @@ export default function CreatePoolForm({
 
       <div className={styles.section}>
         <h3 className={styles.sectionTitle}>Draft Rounds</h3>
-        <p className={styles.hint}>Each draft round has its own starting round, roster size, and deadline. Sorted by round automatically.</p>
+        <p className={styles.hint}>Each draft round has its own starting round, roster size, and deadline. Players only accumulate points scored in rounds after they were drafted. Sorted by round automatically.</p>
 
         {sortedDrafts.map((draft, idx) => (
           <div key={draft.id} className={styles.draftRound}>

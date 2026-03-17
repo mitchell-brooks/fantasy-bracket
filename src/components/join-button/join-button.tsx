@@ -28,7 +28,7 @@ export const JoinButton: React.FC<JoinButtonProps> = ({ user_id, pool_id }) => {
         roster_name: null,
       }
     );
-    if (rosterData) router.push(`pool/${pool_id}`);
+    if (rosterData) router.push(`/pool/${pool_id}`);
   };
 
   return (

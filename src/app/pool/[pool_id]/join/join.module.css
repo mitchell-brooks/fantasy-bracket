@@ -66,3 +66,22 @@
   font-weight: 600;
   color: var(--color-text-primary);
 }
+
+.goToPool {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 1.6rem;
+  font-weight: 700;
+  padding: 1rem 3rem;
+  background-color: var(--color-accent-primary);
+  color: var(--color-bg-surface);
+  border-radius: var(--radius);
+  text-decoration: none;
+  width: 100%;
+  text-align: center;
+}
+
+.goToPool:hover {
+  background-color: var(--color-link-hover);
+  color: var(--color-bg-surface);
+}

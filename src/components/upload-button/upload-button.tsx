@@ -2,7 +2,7 @@
 // ABOUTME: Uses PapaParse to stream-parse CSV rows, validate headers, and detect duplicate rankings
 "use client";
 import Papa, { ParseStepResult } from "papaparse";
-import React from "react";
+import React, { useRef } from "react";
 import { DraftViewRow } from "@lib/api";
 
 interface UploadButtonProps {
@@ -37,6 +37,8 @@ function processRow<T>(
 }
 
 export const UploadButton: React.FC<UploadButtonProps> = ({ onUpload }) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -94,22 +96,22 @@ export const UploadButton: React.FC<UploadButtonProps> = ({ onUpload }) => {
   return (
     <>
       <button
-        onClick={() => {
-          if (document && document.getElementById("csvFileInput") != null) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            document.getElementById("csvFileInput").click();
-          }
-        }}
+        title="Upload a CSV file with your rankings instead of using the grid interface"
+        onClick={() => fileInputRef.current?.click()}
       >
-        Upload Your Rankings
+        Upload Rankings CSV
       </button>
       <input
-        type={"file"}
-        id={"csvFileInput"}
-        accept={".csv"}
-        value={""}
-        onChange={handleOnChange}
+        ref={fileInputRef}
+        type="file"
+        accept=".csv"
+        style={{ display: 'none' }}
+        onChange={(e) => {
+          handleOnChange(e);
+          if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+          }
+        }}
       />
     </>
   );

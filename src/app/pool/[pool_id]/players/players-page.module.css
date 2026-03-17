@@ -1,0 +1,183 @@
+/* ABOUTME: Styles for the unified all players page */
+/* ABOUTME: Collapsible filter chip groups and full-height grid */
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.page h1 {
+  text-align: left;
+  margin: 0;
+  font-size: 2.8rem;
+}
+
+.filterBar {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--color-border-subtle);
+  background: var(--color-bg-primary);
+}
+
+.tab {
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0.5rem 1.2rem;
+  background: none;
+  border: none;
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.tab:hover {
+  color: var(--color-text-primary);
+  background: none;
+  border-radius: 0;
+}
+
+.tabActive {
+  composes: tab;
+  color: var(--color-accent-primary);
+  border-bottom-color: var(--color-accent-primary);
+}
+
+.chips {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  min-height: 2.4rem;
+  padding: 0.6rem 1rem;
+}
+
+.chip {
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 2rem;
+  background: var(--color-bg-surface);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.chip:hover {
+  border-color: var(--color-accent-primary);
+  color: var(--color-accent-primary);
+  background: var(--color-bg-surface);
+}
+
+.chipActive {
+  composes: chip;
+  background: var(--color-accent-primary);
+  color: var(--color-bg-surface);
+  border-color: var(--color-accent-primary);
+}
+
+.chipActive:hover {
+  background: var(--color-link-hover);
+  border-color: var(--color-link-hover);
+  color: var(--color-bg-surface);
+}
+
+.chipPositive {
+  composes: chip;
+}
+
+.chipPositiveActive {
+  composes: chip;
+  background: var(--color-accent-positive);
+  color: var(--color-bg-surface);
+  border-color: var(--color-accent-positive);
+}
+
+.chipMuted {
+  composes: chip;
+}
+
+.chipMutedActive {
+  composes: chip;
+  background: var(--color-text-muted);
+  color: var(--color-bg-surface);
+  border-color: var(--color-text-muted);
+}
+
+.columnPickerWrapper {
+  position: relative;
+}
+
+.columnPickerDropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 0.4rem;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius);
+  padding: 0.6rem;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 180px;
+  box-shadow: var(--box-shadow);
+}
+
+.columnPickerItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.3rem;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  padding: 0.3rem 0.4rem;
+  border-radius: var(--radius-sm);
+  text-transform: none;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.columnPickerItem:hover {
+  background: var(--color-bg-primary);
+}
+
+.gridWrapper {
+  height: calc(100vh - 240px);
+  min-height: 400px;
+  width: 100%;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+/* Undo global span/p margin-bottom and line-height reset inside AG Grid */
+.gridWrapper :global(.ag-root-wrapper) span,
+.gridWrapper :global(.ag-root-wrapper) p {
+  margin-bottom: 0;
+}
+
+.gridWrapper :global(.ag-root-wrapper) {
+  line-height: normal;
+}
+
+.gridWrapper :global(.ag-header-cell-text) {
+  font-variant: small-caps;
+  text-transform: lowercase;
+}

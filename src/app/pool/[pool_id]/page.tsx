@@ -1,11 +1,12 @@
-// ABOUTME: Pool detail page showing pool metadata, draft links, and navigation
-// ABOUTME: Displays pool name, admin, point value, draft instances, and links to rosters/teams
+// ABOUTME: Pool detail page showing pool metadata, inline roster, draft cards, and navigation
+// ABOUTME: Embeds the user's roster AG Grid and draft action links for quick access
 import { createClient } from '@utils/supabase-server';
 import styles from './page.module.css';
 import { PoolFullViewRow } from '@lib/api';
 import Link from 'next/link';
 import { formatPointValue } from '@/utils';
 import * as api from '@lib/api';
+import { RosterGrid } from './roster/[roster_id]/roster-grid';
 
 export default async function PoolIdPage({
   params,
@@ -17,7 +18,6 @@ export default async function PoolIdPage({
   const supabase = await createClient();
   const user = await api.supabase.getUser(supabase);
   const user_id = user?.id;
-  console.log('::: user_id', user_id);
   const { data: pool_data, error: pool_error } = await supabase
     .from('pool_full_view')
     .select('*')
@@ -47,84 +47,159 @@ export default async function PoolIdPage({
     : { data: null, error: null };
 
   const roster_id = roster_data?.[0]?.roster_id;
-  console.log('::: roster_id', roster_id, roster_data);
 
-  const { data: draft_data, error } = await supabase
+  const { data: draft_data } = await supabase
     .from('poolrule_draft')
     .select('*')
-    .eq('pool_id', pool_id);
-  const drafts = draft_data?.map((draft) => {
-    return (
-      <div key={draft.draft_num} className={styles.draftInstanceContainer}>
-          <h2 className={styles.draftLink}>Draft {draft.draft_num}</h2>
-          <div>
-            <p>{new Date(draft.draft_time).toLocaleDateString()}</p>
-            <p>{draft.roster_count} players</p>
-          </div>
-          <div>
-            <Link href={`pool/${pool_id}/draft/${draft.draft_num}`}>
-              Your Picks
-            </Link>
-          </div>
-          <div>
-            <Link href={`/pool/${pool_id}/draft/${draft.draft_num}/results`}>
-              Draft Results
-            </Link>
-          </div>
-      </div>
-    );
+    .eq('pool_id', pool_id)
+    .order('draft_num', { ascending: true });
+
+  // Check which drafts the user has submitted rankings for
+  const { data: ranking_counts } = roster_id
+    ? await supabase
+        .from('rosterranking')
+        .select('draft_num')
+        .eq('roster_id', roster_id)
+    : { data: null };
+
+  const submittedDrafts = new Set(
+    (ranking_counts ?? []).map((r) => r.draft_num)
+  );
+
+  // Determine upcoming drafts that need action
+  const now = new Date();
+  const upcomingDrafts = (draft_data ?? []).filter((d) => {
+    const deadline = new Date(d.draft_time);
+    return deadline > now;
   });
+
+  // Show the earliest upcoming draft — always the next one chronologically
+  const ctaDraft = upcomingDrafts[0] ?? null;
+  const ctaHasSubmitted = ctaDraft ? submittedDrafts.has(ctaDraft.draft_num) : false;
+
+  // Fetch roster data for inline display
+  const { data: roster_player_data } = roster_id
+    ? await supabase
+        .from('roster_player_total_scores_view')
+        .select('player_name, team_name, seed, total_player_points, pick_number, team_unique, username, round_eliminated')
+        .eq('pool_id', pool_id)
+        .eq('roster_id', roster_id)
+    : { data: null };
+
+  const rosterRows = (roster_player_data ?? [])
+    .sort((a, b) => (a?.pick_number ?? 0) - (b?.pick_number ?? 0))
+    .map((player) => ({
+      player_name: player.player_name ?? '',
+      total_player_points: player.total_player_points,
+      team_name: player.team_name,
+      team_unique: player.team_unique,
+      seed: player.seed,
+      pick_number: player.pick_number,
+      round_eliminated: player.round_eliminated,
+      pool_id,
+    }));
+
   return (
-    <>
-      <div className={styles.container}>
-        <div className={styles.title}>
-          <h1>{pool_name}</h1>
-        </div>
-        <div className={styles.meta}>
-          <div className={styles.eventName}>
-            <p>{`${display_name} ${identifier}`}</p>
-          </div>
-          <div className={styles.leaderboardLink}>
-            <Link href={`/pool/${pool_id}/leaderboard`}>Leaderboard</Link>
-          </div>
-          <br />
-          <div className={styles.leaderboardLink}>
-            {roster_id ? (
-              <Link href={`/pool/${pool_id}/roster/${roster_id}`}>
-                Your Roster
-              </Link>
-            ) : null}
-          </div>
-          <br />
-          <div className={styles.leaderboardLink}>
-            <Link href={`/pool/${pool_id}/rosters`}>All Rosters</Link>
-          </div>
-          <br />
-          <div className={styles.leaderboardLink}>
-            <Link href={`/pool/${pool_id}/teams`}>All Teams</Link>
-          </div>
-          <br />
-          <br />
-          {admin_username ? <p>Admin: {admin_username}</p> : null}
-          {point_value ? (
-            <p>{formatPointValue(1, currency, point_value)} per point</p>
-          ) : null}
-          {total_draft_count ? (
-            <p>
-              {total_draft_count} draft{total_draft_count > 1 ? 's' : ''}
-            </p>
-          ) : null}
-          {total_roster_count ? (
-            <p>{total_roster_count} total players per roster</p>
-          ) : null}
-          {drafts ? (
-            <>
-              <div className={styles.draftContainer}>{drafts}</div>
-            </>
-          ) : null}
-        </div>
+    <div className={styles.page}>
+      <div className={styles.header}>
+        <h1>{pool_name}</h1>
+        {display_name && <p className={styles.subtitle}>{display_name} {identifier ?? ''}</p>}
       </div>
-      <hr className={styles.divider} />
-    </>
+
+      <div className={styles.topRow}>
+        <div className={styles.meta}>
+          {admin_username && (
+            <div className={styles.metaRow}>
+              <span className={styles.metaLabel}>Admin</span>
+              <span className={styles.metaValue}>{admin_username}</span>
+            </div>
+          )}
+          {point_value != null && (
+            <div className={styles.metaRow}>
+              <span className={styles.metaLabel}>Point value</span>
+              <span className={styles.metaValue}>{formatPointValue(1, currency, point_value)}</span>
+            </div>
+          )}
+          {total_draft_count != null && total_draft_count > 0 && (
+            <div className={styles.metaRow}>
+              <span className={styles.metaLabel}>Drafts</span>
+              <span className={styles.metaValue}>{total_draft_count}</span>
+            </div>
+          )}
+          {total_roster_count != null && total_roster_count > 0 && (
+            <div className={styles.metaRow}>
+              <span className={styles.metaLabel}>Players per roster</span>
+              <span className={styles.metaValue}>{total_roster_count}</span>
+            </div>
+          )}
+        </div>
+
+        <nav className={styles.nav}>
+          <Link href={`/pool/${pool_id}/leaderboard`} className={styles.navLink}>Leaderboard</Link>
+          <Link href={`/pool/${pool_id}/players`} className={styles.navLink}>All Players</Link>
+        </nav>
+      </div>
+
+      {ctaDraft && (
+        <Link href={`/pool/${pool_id}/draft/${ctaDraft.draft_num}`} className={styles.ctaBanner}>
+          <span className={styles.ctaText}>
+            {ctaHasSubmitted
+              ? `Edit your rankings for Draft ${ctaDraft.draft_num}`
+              : `Set your rankings for Draft ${ctaDraft.draft_num}`}
+          </span>
+          <span className={styles.ctaDeadline}>
+            Due {new Date(ctaDraft.draft_time).toLocaleDateString()} at{' '}
+            {new Date(ctaDraft.draft_time).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}
+          </span>
+        </Link>
+      )}
+
+      {draft_data && draft_data.length > 0 && (
+        <div className={styles.draftsSection}>
+          <h2 className={styles.sectionTitle}>Drafts</h2>
+          <div className={styles.draftCards}>
+            {draft_data.map((draft) => {
+              const isPast = new Date(draft.draft_time) <= now;
+              const hasSubmitted = submittedDrafts.has(draft.draft_num);
+              return (
+                <div key={draft.draft_num} className={styles.draftCard}>
+                  <div className={styles.draftCardHeader}>
+                    <h3>Draft {draft.draft_num}</h3>
+                    {isPast ? (
+                      <span className={styles.badgeComplete}>Complete</span>
+                    ) : hasSubmitted ? (
+                      <span className={styles.badgeSubmitted}>Submitted</span>
+                    ) : (
+                      <span className={styles.badgePending}>Pending</span>
+                    )}
+                  </div>
+                  <div className={styles.draftMeta}>
+                    <span>{new Date(draft.draft_time).toLocaleDateString()}</span>
+                    <span>{draft.roster_count} players</span>
+                  </div>
+                  <div className={styles.draftLinks}>
+                    {!isPast && (
+                      <Link href={`/pool/${pool_id}/draft/${draft.draft_num}`} className={styles.draftLink}>
+                        {hasSubmitted ? 'Edit Rankings' : 'Set Rankings'}
+                      </Link>
+                    )}
+                    <Link href={`/pool/${pool_id}/draft/${draft.draft_num}/results`} className={styles.draftLink}>
+                      Draft Results
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {rosterRows.length > 0 && (
+        <div className={styles.rosterSection}>
+          <h2 className={styles.sectionTitle}>Your Roster</h2>
+          <RosterGrid rows={rosterRows} />
+        </div>
+      )}
+    </div>
   );
 }

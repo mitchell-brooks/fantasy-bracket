@@ -7,7 +7,7 @@ export const inkAndPaperTheme = themeQuartz.withParams({
   foregroundColor: '#2a2a2a',
   borderColor: '#d4cfc5',
   headerBackgroundColor: '#f4f1eb',
-  headerFontSize: 14,
+  headerFontSize: 12,
   headerFontWeight: 600,
   fontSize: 14,
   spacing: 12,

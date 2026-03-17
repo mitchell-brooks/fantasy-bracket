@@ -59,10 +59,12 @@ export function RankGrid({
   }, [onRemove]);
 
   const columnDefs = useMemo<ColDef<RankedPlayer>[]>(() => [
-    { field: 'ranking', headerName: '#', width: 60, rowDrag: true, sortable: false },
+    { rowDrag: true, width: 40, sortable: false, resizable: false, headerName: '', suppressHeaderMenuButton: true },
+    { field: 'ranking', headerName: '#', headerTooltip: 'Rank', width: 55, sortable: false },
     {
       field: 'player_name',
       headerName: 'Player',
+      headerTooltip: 'Player Name',
       flex: 2,
       sortable: false,
       cellStyle: { cursor: 'pointer' },
@@ -72,8 +74,8 @@ export function RankGrid({
         }
       },
     },
-    { field: 'team_name', headerName: 'Team', flex: 1, sortable: false },
-    { field: 'seed', headerName: 'Seed', width: 70, sortable: false },
+    { field: 'team_name', headerName: 'Team', headerTooltip: 'Team Name', flex: 1, sortable: false },
+    { field: 'seed', headerName: 'Seed', headerTooltip: 'Tournament Seed', width: 70, sortable: false },
     {
       headerName: '',
       width: 50,
@@ -81,6 +83,7 @@ export function RankGrid({
       filter: false,
       resizable: false,
       cellRenderer: RemoveCellRenderer,
+      suppressHeaderMenuButton: true,
     },
   ], [RemoveCellRenderer, onPlayerClick]);
 
@@ -136,7 +139,7 @@ export function RankGrid({
             getRowClass={getRowClass}
             headerHeight={40}
             rowHeight={36}
-            defaultColDef={{ resizable: false }}
+            defaultColDef={{ resizable: true }}
           />
         </div>
       </div>

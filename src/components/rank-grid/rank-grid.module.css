@@ -14,7 +14,7 @@
 
 .title {
   font-family: var(--font-heading);
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 700;
   margin: 0;
 }
@@ -25,11 +25,26 @@
 }
 
 .gridWrapper {
-  height: 500px;
+  height: calc(100vh - 220px);
   width: 100%;
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius);
   overflow: hidden;
+}
+
+/* Undo global span/p margin-bottom and line-height reset inside AG Grid */
+.gridWrapper :global(.ag-root-wrapper) span,
+.gridWrapper :global(.ag-root-wrapper) p {
+  margin-bottom: 0;
+}
+
+.gridWrapper :global(.ag-root-wrapper) {
+  line-height: normal;
+}
+
+.gridWrapper :global(.ag-header-cell-text) {
+  font-variant: small-caps;
+  text-transform: lowercase;
 }
 
 .emptyState {

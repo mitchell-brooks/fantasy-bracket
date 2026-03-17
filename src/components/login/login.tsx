@@ -59,6 +59,7 @@ export const Login = ({ user }: { user: User | null }) => {
     <div className={styles.container}>
       <div className={styles.card}>
         <h2>Sign in to Bracketude</h2>
+        <p className={styles.notice}>Enter your email to sign in or create an account. We&apos;ll send you a link — no password needed.</p>
         {return_to ? <p className={styles.notice}>You&apos;ll need to log in to continue.</p> : null}
         <form className={styles.form} onSubmit={handleSubmit}>
           <input

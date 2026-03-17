@@ -1,0 +1,75 @@
+/* ABOUTME: Styles for the all rosters page */
+/* ABOUTME: Filter chips and full-height grid layout */
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.page h1 {
+  text-align: left;
+  margin: 0;
+  font-size: 2.8rem;
+}
+
+.chips {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.chip {
+  font-family: var(--font-body);
+  font-size: 1.3rem;
+  font-weight: 600;
+  padding: 0.4rem 1rem;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 2rem;
+  background: var(--color-bg-surface);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.chip:hover {
+  border-color: var(--color-accent-primary);
+  color: var(--color-accent-primary);
+  background: var(--color-bg-surface);
+}
+
+.chipActive {
+  composes: chip;
+  background: var(--color-accent-primary);
+  color: var(--color-bg-surface);
+  border-color: var(--color-accent-primary);
+}
+
+.chipActive:hover {
+  background: var(--color-link-hover);
+  border-color: var(--color-link-hover);
+  color: var(--color-bg-surface);
+}
+
+.gridWrapper {
+  height: calc(100vh - 240px);
+  width: 100%;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+/* Undo global span/p margin-bottom and line-height reset inside AG Grid */
+.gridWrapper :global(.ag-root-wrapper) span,
+.gridWrapper :global(.ag-root-wrapper) p {
+  margin-bottom: 0;
+}
+
+.gridWrapper :global(.ag-root-wrapper) {
+  line-height: normal;
+}
+
+.gridWrapper :global(.ag-header-cell-text) {
+  font-variant: small-caps;
+  text-transform: lowercase;
+}

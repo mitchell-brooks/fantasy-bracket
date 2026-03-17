@@ -2,7 +2,7 @@
 // ABOUTME: Shows all draftable players with rank status, dimmed styling for already-ranked players
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type MouseEvent } from 'react';
 import { AgGridReact, AgGridProvider } from 'ag-grid-react';
 import {
   AllCommunityModule,
@@ -25,6 +25,11 @@ export interface ExplorePlayer {
   tournament_points: number | null;
   points: number | null;
   overall_seed: number | null;
+  position: string | null;
+  wins: number | null;
+  losses: number | null;
+  assists: number | null;
+  rebounds: number | null;
 }
 
 interface ExploreGridProps {
@@ -42,6 +47,10 @@ export function ExploreGrid({
 }: ExploreGridProps) {
   const gridRef = useRef<AgGridReact<ExplorePlayer>>(null);
   const [selectedCount, setSelectedCount] = useState(0);
+  const [showColumnPicker, setShowColumnPicker] = useState(false);
+  const [hiddenColumns, setHiddenColumns] = useState<Set<string>>(
+    () => new Set(['region', 'tournament_points', 'overall_seed', 'position', 'wins', 'losses', 'assists', 'rebounds'])
+  );
   const theme = useMemo(() => inkAndPaperTheme, []);
   const rankedPlayerMapRef = useRef(rankedPlayerMap);
   rankedPlayerMapRef.current = rankedPlayerMap;
@@ -51,10 +60,12 @@ export function ExploreGrid({
     headerCheckbox: false,
   }), []);
 
-  // Column defs are stable — rank column reads from ref to avoid full column rebuild
-  const columnDefs = useMemo<ColDef<ExplorePlayer>[]>(() => [
+  // All available columns — hide state driven by hiddenColumns set
+  const allColumnDefs = useMemo<Array<ColDef<ExplorePlayer> & { field?: string }>>(() => [
     {
+      colId: 'rank',
       headerName: 'Rank',
+      headerTooltip: 'Your current ranking for this player',
       width: 80,
       valueGetter: (params) => {
         if (!params.data) return null;
@@ -67,13 +78,27 @@ export function ExploreGrid({
       },
       sortable: true,
     },
-    { field: 'player_name', headerName: 'Player', flex: 2, filter: 'agTextColumnFilter' },
-    { field: 'team_name', headerName: 'Team', flex: 1, filter: 'agTextColumnFilter' },
-    { field: 'seed', headerName: 'Seed', width: 80 },
-    { field: 'region', headerName: 'Region', flex: 1, filter: 'agTextColumnFilter' },
-    { field: 'tournament_points', headerName: 'Tourn. Pts', width: 110 },
-    { field: 'points', headerName: 'Reg. Pts', width: 100 },
+    { field: 'player_name', headerName: 'Player', headerTooltip: 'Player Name', flex: 2, filter: 'agTextColumnFilter' },
+    { field: 'team_name', headerName: 'Team', headerTooltip: 'Team Name', flex: 1, filter: 'agTextColumnFilter' },
+    { field: 'seed', headerName: 'Seed', headerTooltip: 'Tournament Seed', width: 80 },
+    { field: 'points', headerName: 'Reg. Pts', headerTooltip: 'Regular Season Points', width: 100 },
+    { field: 'position', headerName: 'Pos', headerTooltip: 'Position', width: 70, filter: 'agTextColumnFilter' },
+    { field: 'region', headerName: 'Region', headerTooltip: 'Tournament Region', flex: 1, filter: 'agTextColumnFilter' },
+    { field: 'tournament_points', headerName: 'Tourn. Pts', headerTooltip: 'Tournament Points', width: 110 },
+    { field: 'overall_seed', headerName: 'Overall', headerTooltip: 'Overall Seed', width: 90 },
+    { field: 'wins', headerName: 'W', headerTooltip: 'Team Wins', width: 60 },
+    { field: 'losses', headerName: 'L', headerTooltip: 'Team Losses', width: 60 },
+    { field: 'assists', headerName: 'Ast', headerTooltip: 'Assists Per Game', width: 70 },
+    { field: 'rebounds', headerName: 'Reb', headerTooltip: 'Rebounds Per Game', width: 70 },
   ], []);
+
+  const columnDefs = useMemo<ColDef<ExplorePlayer>[]>(
+    () => allColumnDefs.map((col) => ({
+      ...col,
+      hide: col.field ? hiddenColumns.has(col.field) : false,
+    })),
+    [allColumnDefs, hiddenColumns]
+  );
 
   const getRowStyle = useCallback((params: RowClassParams<ExplorePlayer>) => {
     if (params.data && rankedPlayerMap.has(params.data.player_unique)) {
@@ -119,6 +144,18 @@ export function ExploreGrid({
     }
   }, [rankedPlayerMap]);
 
+  const toggleColumn = useCallback((field: string) => {
+    setHiddenColumns((prev) => {
+      const next = new Set(prev);
+      if (next.has(field)) {
+        next.delete(field);
+      } else {
+        next.add(field);
+      }
+      return next;
+    });
+  }, []);
+
   // Scroll to highlighted player when it changes
   useEffect(() => {
     if (highlightedId && gridRef.current?.api) {
@@ -135,11 +172,40 @@ export function ExploreGrid({
       <div className={styles.container}>
         <div className={styles.header}>
           <h3 className={styles.title}>All Players</h3>
-          {selectedCount > 0 && (
-            <button className={styles.addButton} onClick={handleAddSelected}>
-              Add {selectedCount} player{selectedCount !== 1 ? 's' : ''}
-            </button>
-          )}
+          <div className={styles.headerActions}>
+            {selectedCount > 0 && (
+              <button className={styles.addButton} onClick={handleAddSelected}>
+                Add {selectedCount} player{selectedCount !== 1 ? 's' : ''}
+              </button>
+            )}
+            <div className={styles.columnPickerWrapper}>
+              <button
+                className={styles.columnPickerButton}
+                onClick={() => setShowColumnPicker((prev) => !prev)}
+                title="Show or hide columns"
+              >
+                Columns
+              </button>
+              {showColumnPicker && (
+                <div className={styles.columnPickerDropdown}>
+                  {allColumnDefs.map((col) => {
+                    const field = col.field;
+                    if (!field) return null;
+                    return (
+                      <label key={field} className={styles.columnPickerItem}>
+                        <input
+                          type="checkbox"
+                          checked={!hiddenColumns.has(field)}
+                          onChange={() => toggleColumn(field)}
+                        />
+                        {col.headerTooltip ?? col.headerName ?? field}
+                      </label>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
         <div className={styles.gridWrapper}>
           <AgGridReact<ExplorePlayer>
@@ -152,6 +218,7 @@ export function ExploreGrid({
               resizable: true,
               filter: true,
             }}
+            tooltipShowDelay={300}
             rowSelection={rowSelection}
             onSelectionChanged={onSelectionChanged}
             onRowDoubleClicked={onRowDoubleClicked}
