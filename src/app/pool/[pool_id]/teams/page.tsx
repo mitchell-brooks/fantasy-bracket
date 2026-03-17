@@ -32,11 +32,11 @@ export default async function AllTeamsPage({
     pool_id,
   }));
 
-  const teams = [...new Set(
+  const teams = Array.from(new Set(
     (roster_data ?? [])
       .map((r) => r.team_name)
       .filter((t): t is string => t != null)
-  )].sort();
+  )).sort();
 
   return (
     <div className={styles.page}>

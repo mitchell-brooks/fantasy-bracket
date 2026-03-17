@@ -30,11 +30,11 @@ export default async function AllRostersPage({
     round_eliminated: player.round_eliminated,
   }));
 
-  const participants = [...new Set(
+  const participants = Array.from(new Set(
     (roster_data ?? [])
       .map((r) => r.username)
       .filter((u): u is string => u != null)
-  )].sort();
+  )).sort();
 
   return (
     <div className={styles.page}>

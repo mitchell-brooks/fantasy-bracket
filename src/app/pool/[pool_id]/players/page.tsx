@@ -75,19 +75,19 @@ export default async function AllPlayersPage({
     };
   });
 
-  const participants = [...new Set(
+  const participants = Array.from(new Set(
     rows.map((r) => r.username).filter((u): u is string => u != null)
-  )].sort();
+  )).sort();
 
-  const teams = [...new Set(
+  const teams = Array.from(new Set(
     rows.map((r) => r.team_name).filter((t): t is string => t != null)
-  )].sort();
+  )).sort();
 
-  const regions = [...new Set(
+  const regions = Array.from(new Set(
     rows.map((r) => r.region).filter((r): r is string => r != null)
-  )].sort();
+  )).sort();
 
-  const statuses = [...new Set(rows.map((r) => r.status))].sort();
+  const statuses = Array.from(new Set(rows.map((r) => r.status))).sort();
   const draftStatuses = ['Drafted', 'Undrafted'];
 
   const filterGroups = [
