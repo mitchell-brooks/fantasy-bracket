@@ -345,3 +345,13 @@ def _no_data_found():
           'found. Has the season begun, and is the data available on '
           'www.sports-reference.com?')
     return
+
+
+def request_through_api_gateway(url):
+    """Fetch a URL through the configured session.
+
+    Maintained for compatibility with vendored scraper modules that
+    call this function directly. Delegates to the injected _session.
+    """
+    response = _session.get(url)
+    return response.text
