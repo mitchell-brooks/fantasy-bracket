@@ -16,7 +16,7 @@ export default async function Home() {
   const user = await getUser(supabase);
   // console.log('roster', roster);
   if (!user) {
-    return <Redirect to="/login" />;
+    return <Redirect to="/how-it-works" />;
   }
   const user_id = user.id;
   const { data: userprofile_data, error: userprofile_error } = await supabase

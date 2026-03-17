@@ -19,6 +19,9 @@ export const Header: React.FC<HeaderProps> = ({ user_id }) => {
           </Link>
         </div>
         <div className={styles.login}>
+          <Link className={styles.headerlink} href="/how-it-works">
+            Rules
+          </Link>
           <LogoutLink user_id={user_id} />
         </div>
       </nav>

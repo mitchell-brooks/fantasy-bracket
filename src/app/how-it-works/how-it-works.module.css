@@ -86,16 +86,34 @@
   text-align: right;
 }
 
-.backLink {
-  font-size: 1.4rem;
-  margin: 0;
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
 }
 
-.backLink a {
+.primaryLink {
+  font-family: var(--font-body);
+  font-size: 1.6rem;
+  font-weight: 700;
+  padding: 1rem 2rem;
+  background-color: var(--color-accent-primary);
+  color: var(--color-bg-surface);
+  border-radius: var(--radius);
+  text-decoration: none;
+}
+
+.primaryLink:hover {
+  background-color: var(--color-link-hover);
+  color: var(--color-bg-surface);
+}
+
+.secondaryLink {
+  font-size: 1.4rem;
   color: var(--color-accent-primary);
   text-decoration: none;
 }
 
-.backLink a:hover {
+.secondaryLink:hover {
   text-decoration: underline;
 }

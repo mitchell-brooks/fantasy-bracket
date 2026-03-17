@@ -1,13 +1,17 @@
 // ABOUTME: How It Works page explaining Bracketude rules, scoring, and draft mechanics
-// ABOUTME: Static content page with FAQ-style sections
+// ABOUTME: Doubles as landing page for unauthenticated users with login CTA
 import styles from './how-it-works.module.css';
 import Link from 'next/link';
+import { createClient } from '@utils/supabase-server';
 
 export const metadata = {
   title: 'How It Works — Bracketude',
 };
 
-export default function HowItWorksPage() {
+export default async function HowItWorksPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  const isLoggedIn = !!user;
   return (
     <div className={styles.page}>
       <h1>How It Works</h1>
@@ -104,39 +108,13 @@ export default function HowItWorksPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
-        <h2>Quick Reference</h2>
-        <div className={styles.refGrid}>
-          <div className={styles.refItem}>
-            <span className={styles.refLabel}>Draft type</span>
-            <span className={styles.refValue}>Snake draft</span>
-          </div>
-          <div className={styles.refItem}>
-            <span className={styles.refLabel}>Scoring</span>
-            <span className={styles.refValue}>Player&apos;s actual points in tournament games</span>
-          </div>
-          <div className={styles.refItem}>
-            <span className={styles.refLabel}>Points count from</span>
-            <span className={styles.refValue}>Games after the draft that selected them</span>
-          </div>
-          <div className={styles.refItem}>
-            <span className={styles.refLabel}>Eliminated players</span>
-            <span className={styles.refValue}>Stop scoring, no penalty</span>
-          </div>
-          <div className={styles.refItem}>
-            <span className={styles.refLabel}>Roster changes</span>
-            <span className={styles.refValue}>Locked after draft</span>
-          </div>
-          <div className={styles.refItem}>
-            <span className={styles.refLabel}>Payout</span>
-            <span className={styles.refValue}>Differential from 1st &times; point value, split among top finishers</span>
-          </div>
-        </div>
-      </section>
-
-      <p className={styles.backLink}>
-        <Link href="/">Back to home</Link>
-      </p>
+      <div className={styles.actions}>
+        {isLoggedIn ? (
+          <Link href="/" className={styles.secondaryLink}>Back to home</Link>
+        ) : (
+          <Link href="/login" className={styles.primaryLink}>Log in or Register</Link>
+        )}
+      </div>
     </div>
   );
 }
