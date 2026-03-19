@@ -1,6 +1,3 @@
-# Season configuration for March Radness 2025
-# Copy this file and update values for a new season.
-
 [competition]
 id = 6
 unique = "ncaambb-d1-championship"
@@ -14,4 +11,38 @@ id = 19
 name = "March Radness 2025"
 
 [paths]
-data_dir = "data/2025"
+data_dir = "output/2025"
+
+[http]
+ip_rotation = true
+
+[http.retry]
+max_attempts = 5
+backoff_base_seconds = 3.0
+
+[http.delay]
+between_teams = 3.0
+between_players = 0.5
+
+[extraction]
+stats_thru = "2025-03-16"
+teams = [
+    "Auburn", "Duke", "Houston", "Florida",
+    "Tennessee", "Alabama", "Michigan-State", "St-Johns-NY",
+    "Texas-Tech", "Iowa-State", "Kentucky", "Wisconsin",
+    "Texas-AM", "Purdue", "Maryland", "Arizona",
+    "Michigan", "Clemson", "Oregon", "Memphis",
+    "Brigham-Young", "Illinois", "Missouri", "Mississippi",
+    "UCLA", "Marquette", "Saint-Marys-CA", "Kansas",
+    "Louisville", "Gonzaga", "Connecticut", "Mississippi-State",
+    "Creighton", "Georgia", "Baylor", "Oklahoma",
+    "Arkansas", "New-Mexico", "Vanderbilt", "Utah-State",
+    "Texas", "Xavier", "California-San-Diego", "Drake",
+    "Virginia-Commonwealth", "North-Carolina", "San-Diego", "Colorado-State",
+    "McNeese-State", "Liberty", "Yale", "High-Point",
+    "Akron", "Grand-Canyon", "Lipscomb", "Troy",
+    "North-Carolina-Wilmington", "Montana", "Robert-Morris", "Wofford",
+    "Nebraska-Omaha", "Bryant", "Norfolk-State",
+    "Southern-Illinois-Edwardsville", "American", "Mount-St-Marys",
+    "Alabama-State", "Saint-Francis-Pa",
+]

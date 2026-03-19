@@ -1,7 +1,7 @@
 # ABOUTME: Loads and validates season configuration from TOML files
 # ABOUTME: Each season has a TOML config with competition, pool, and path settings
 import sys
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 if sys.version_info >= (3, 11):
@@ -25,6 +25,13 @@ class SeasonConfig:
     pool_id: int
     pool_name: str
     data_dir: str
+    ip_rotation: bool = False
+    retry_max_attempts: int = 5
+    retry_backoff_base_seconds: float = 3.0
+    delay_between_teams: float = 3.0
+    delay_between_players: float = 0.5
+    teams: list = field(default_factory=list)
+    stats_thru: str = ""
 
 
 def load_season_config(path: str) -> SeasonConfig:
@@ -50,6 +57,10 @@ def load_season_config(path: str) -> SeasonConfig:
     comp = data["competition"]
     pool = data["pool"]
     paths = data["paths"]
+    http = data.get("http", {})
+    retry = http.get("retry", {})
+    delay = http.get("delay", {})
+    extraction = data.get("extraction", {})
 
     return SeasonConfig(
         competition_id=comp["id"],
@@ -61,6 +72,13 @@ def load_season_config(path: str) -> SeasonConfig:
         pool_id=pool["id"],
         pool_name=pool["name"],
         data_dir=paths["data_dir"],
+        ip_rotation=http.get("ip_rotation", False),
+        retry_max_attempts=retry.get("max_attempts", 5),
+        retry_backoff_base_seconds=retry.get("backoff_base_seconds", 3.0),
+        delay_between_teams=delay.get("between_teams", 3.0),
+        delay_between_players=delay.get("between_players", 0.5),
+        teams=extraction.get("teams", []),
+        stats_thru=extraction.get("stats_thru", ""),
     )
 
 
