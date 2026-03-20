@@ -45,50 +45,63 @@ export default async function PoolIdDraftNumResults({
   const currency = pool_data?.[0]?.currency || "cent";
   const point_value = pool_data?.[0]?.point_value || 1;
 
-  // Compute "yet to play today" — players with a game today that hasn't been scored
-  const today = new Date().toISOString().split('T')[0];
+  // Compute "yet to play this round" — drafted players with an unscored game in the current round
   const yetToPlayDict: Record<number, number> = {};
-  if (competition_id && today) {
-    // Get today's games
-    const { data: todaysGames } = await supabase
+  if (competition_id) {
+    // Find the current round: the latest round that has any games with today's date or earlier
+    const today = new Date().toISOString().split('T')[0] ?? '';
+    const { data: roundData } = await supabase
       .from('game')
-      .select('game_id')
+      .select('round_num')
       .eq('competition_id', competition_id)
-      .eq('game_date', today);
+      .lte('game_date', today)
+      .order('round_num', { ascending: false })
+      .limit(1);
 
-    if (todaysGames && todaysGames.length > 0) {
-      const gameIds = todaysGames.map((g) => g.game_id);
+    const currentRound = roundData?.[0]?.round_num;
 
-      // Get players in today's games
-      const { data: playersInTodaysGames } = await supabase
-        .from('players_in_games_view')
-        .select('player_unique, game_id')
-        .eq('competition_id', competition_id)
-        .in('game_id', gameIds);
-
-      // Get which of today's games have been scored
-      const { data: scoredGames } = await supabase
-        .from('player_game')
+    if (currentRound != null) {
+      // Get all games in the current round
+      const { data: roundGames } = await supabase
+        .from('game')
         .select('game_id')
-        .in('game_id', gameIds);
-      const scoredGameIds = new Set((scoredGames ?? []).map((sg) => sg.game_id));
+        .eq('competition_id', competition_id)
+        .eq('round_num', currentRound);
 
-      // Get roster membership for all players
-      const { data: rosterPlayers } = await supabase
-        .from('roster_player_total_scores_view')
-        .select('player_unique, roster_id')
-        .eq('pool_id', pool_id);
-      const playerToRoster = new Map(
-        (rosterPlayers ?? []).map((rp) => [rp.player_unique, rp.roster_id])
-      );
+      if (roundGames && roundGames.length > 0) {
+        const gameIds = roundGames.map((g) => g.game_id);
 
-      // Count players per roster who have an unscored game today
-      for (const pig of (playersInTodaysGames ?? [])) {
-        if (!pig.player_unique || !pig.game_id) continue;
-        if (scoredGameIds.has(pig.game_id)) continue;
-        const rosterId = playerToRoster.get(pig.player_unique);
-        if (rosterId != null) {
-          yetToPlayDict[rosterId] = (yetToPlayDict[rosterId] ?? 0) + 1;
+        // Get players in this round's games
+        const { data: playersInRound } = await supabase
+          .from('players_in_games_view')
+          .select('player_unique, game_id')
+          .eq('competition_id', competition_id)
+          .in('game_id', gameIds);
+
+        // Get which games have been scored
+        const { data: scoredGames } = await supabase
+          .from('player_game')
+          .select('game_id')
+          .in('game_id', gameIds);
+        const scoredGameIds = new Set((scoredGames ?? []).map((sg) => sg.game_id));
+
+        // Get roster membership
+        const { data: rosterPlayers } = await supabase
+          .from('roster_player_total_scores_view')
+          .select('player_unique, roster_id')
+          .eq('pool_id', pool_id);
+        const playerToRoster = new Map(
+          (rosterPlayers ?? []).map((rp) => [rp.player_unique, rp.roster_id])
+        );
+
+        // Count players per roster with unscored games this round
+        for (const pig of (playersInRound ?? [])) {
+          if (!pig.player_unique || !pig.game_id) continue;
+          if (scoredGameIds.has(pig.game_id)) continue;
+          const rosterId = playerToRoster.get(pig.player_unique);
+          if (rosterId != null) {
+            yetToPlayDict[rosterId] = (yetToPlayDict[rosterId] ?? 0) + 1;
+          }
         }
       }
     }

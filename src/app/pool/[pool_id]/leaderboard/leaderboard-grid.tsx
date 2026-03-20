@@ -46,7 +46,7 @@ export function LeaderboardGrid({ rows }: { rows: LeaderboardRow[] }) {
     { field: 'trailing', headerName: 'Trailing', headerTooltip: 'Points Behind 1st Place', flex: 1, minWidth: 70 },
     { field: 'owes', headerName: 'Owes', headerTooltip: 'Amount Owed to Prize Pool', flex: 1, minWidth: 70 },
     { field: 'active_players', headerName: 'Active', headerTooltip: 'Active Players Remaining', flex: 1, minWidth: 60 },
-    { field: 'yet_to_play', headerName: 'Today', headerTooltip: 'Players Yet to Play Today', flex: 1, minWidth: 60 },
+    { field: 'yet_to_play', headerName: 'Left', headerTooltip: 'Players Yet to Play This Round', flex: 1, minWidth: 60 },
   ], []);
 
   const columnDefs = useMemo<ColDef<LeaderboardRow>[]>(
