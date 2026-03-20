@@ -18,22 +18,18 @@ export const Login = ({ user }: { user: User | null }) => {
   const [error, setError] = useState<string | null>(null);
 
   if (user) {
-    return (
-      <>
-        <h1>Logged in</h1>
-        <Redirect to={return_to || '/'} />
-      </>
-    );
+    return <Redirect to={return_to || '/'} />;
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
 
+    const redirectPath = return_to || '/';
     const { error: authError } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${window.location.origin}/`,
+        emailRedirectTo: `${window.location.origin}${redirectPath}`,
       },
     });
 
@@ -50,6 +46,9 @@ export const Login = ({ user }: { user: User | null }) => {
         <div className={styles.card}>
           <h2>Check your email</h2>
           <p>We sent a login link to <strong>{email}</strong></p>
+          {return_to && (
+            <p className={styles.notice}>You&apos;ll be taken to your destination after signing in.</p>
+          )}
         </div>
       </div>
     );
