@@ -78,24 +78,34 @@ export function ScheduleView({ games, gameDates, defaultDate }: ScheduleViewProp
                   {game.team_1.team_name} vs {game.team_2.team_name}
                 </span>
               </div>
-              <div className={styles.playerList}>
-                {game.players
-                  .sort((a, b) => (b.points_scored ?? 0) - (a.points_scored ?? 0))
-                  .map((player) => (
-                    <div
-                      key={player.player_unique}
-                      className={player.is_current_user ? styles.playerOwn : styles.playerRow}
-                    >
-                      <span>
-                        {player.is_current_user ? '\u2605 ' : ''}
-                        {player.player_name} ({player.is_current_user ? 'yours' : player.username})
-                      </span>
-                      {player.points_scored != null && (
-                        <span className={styles.pointsBadge}>{player.points_scored} pts</span>
-                      )}
-                    </div>
-                  ))}
-              </div>
+              {[game.team_1, game.team_2].map((team) => {
+                const teamPlayers = game.players
+                  .filter((p) => p.team_unique === team.team_unique)
+                  .sort((a, b) => (b.points_scored ?? 0) - (a.points_scored ?? 0));
+                if (teamPlayers.length === 0) return null;
+                return (
+                  <div key={team.team_unique} className={styles.teamGroup}>
+                    <span className={styles.teamName}>{team.team_name}</span>
+                    {teamPlayers.map((player) => (
+                      <div
+                        key={player.player_unique}
+                        className={player.is_current_user ? styles.playerOwn : styles.playerRow}
+                      >
+                        <span className={styles.playerName}>
+                          {player.is_current_user ? '\u2605 ' : ''}
+                          {player.player_name}
+                        </span>
+                        <span className={player.is_current_user ? styles.playerOwnParticipant : styles.participantName}>
+                          {player.is_current_user ? 'yours' : player.username}
+                        </span>
+                        {player.points_scored != null && (
+                          <span className={styles.pointsBadge}>{player.points_scored}</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                );
+              })}
             </div>
           );
         })}
