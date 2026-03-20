@@ -7,6 +7,8 @@ import Link from 'next/link';
 import { formatPointValue } from '@/utils';
 import * as api from '@lib/api';
 import { RosterGrid } from './roster/[roster_id]/roster-grid';
+import { getGamesForPool, getTodaysGames } from '@lib/api/games';
+import { TodaysGames } from '@components/todays-games/todays-games';
 
 export default async function PoolIdPage({
   params,
@@ -86,6 +88,9 @@ export default async function PoolIdPage({
         .eq('roster_id', roster_id)
     : { data: null };
 
+  const allGames = await getGamesForPool(supabase, pool_id, user_id);
+  const todaysGames = getTodaysGames(allGames);
+
   const rosterRows = (roster_player_data ?? [])
     .sort((a, b) => (a?.pick_number ?? 0) - (b?.pick_number ?? 0))
     .map((player) => ({
@@ -137,6 +142,7 @@ export default async function PoolIdPage({
         <nav className={styles.nav}>
           <Link href={`/pool/${pool_id}/leaderboard`} className={styles.navLink}>Leaderboard</Link>
           <Link href={`/pool/${pool_id}/players`} className={styles.navLink}>All Players</Link>
+          <Link href={`/pool/${pool_id}/schedule`} className={styles.navLink}>Schedule</Link>
         </nav>
       </div>
 
@@ -192,6 +198,10 @@ export default async function PoolIdPage({
             })}
           </div>
         </div>
+      )}
+
+      {todaysGames.length > 0 && (
+        <TodaysGames games={todaysGames} pool_id={pool_id} />
       )}
 
       {rosterRows.length > 0 && (
