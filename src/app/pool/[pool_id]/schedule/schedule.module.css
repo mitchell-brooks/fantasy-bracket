@@ -118,11 +118,8 @@
   justify-content: space-between;
   align-items: baseline;
   padding: 0.3rem 0;
+  border-top: 1px dotted var(--color-border-subtle);
   border-bottom: 1px dotted var(--color-border-subtle);
-}
-
-.playerRow:last-child {
-  border-bottom: none;
 }
 
 .playerOwn {
