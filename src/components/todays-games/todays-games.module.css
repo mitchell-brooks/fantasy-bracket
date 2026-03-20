@@ -1,0 +1,92 @@
+/* ABOUTME: Styles for the Today's Games widget on the pool page */
+/* ABOUTME: Compact game list with time, matchup, and player details */
+.widget {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 1.2rem 1.5rem;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius);
+}
+
+.widgetTitle {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+  text-align: left;
+}
+
+.gameItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.gameItem:last-of-type {
+  border-bottom: none;
+}
+
+.gameHeader {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.gameTime {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  min-width: 7rem;
+}
+
+.gameScore {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  min-width: 7rem;
+}
+
+.matchup {
+  font-size: 1.4rem;
+  color: var(--color-text-primary);
+}
+
+.playerList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding-left: 8rem;
+}
+
+.playerRow {
+  font-size: 1.2rem;
+  color: var(--color-text-muted);
+  display: flex;
+  justify-content: space-between;
+}
+
+.playerOwn {
+  composes: playerRow;
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.playerPoints {
+  font-weight: 600;
+  color: var(--color-accent-positive);
+}
+
+.scheduleLink {
+  font-size: 1.3rem;
+  color: var(--color-accent-primary);
+  text-decoration: none;
+  padding-top: 0.3rem;
+}
+
+.scheduleLink:hover {
+  text-decoration: underline;
+}

@@ -39,8 +39,10 @@ game_date,team_1_id,team_2_id,game_time,round_num,competition_id
 ```
 
 - `team_1_id` and `team_2_id` use lowercase sportsipy abbreviations (same as `team_unique` in Supabase)
-- `game_time` is tip-off in HH:MM
+- `game_time` is tip-off in HH:MM ET
 - Upload via: `supabase.table("game").upsert(rows).execute()`
+
+**GET TIP-OFF TIMES RIGHT THE FIRST TIME.** Use the browser tool to fetch exact times from ESPN before creating the CSV. Game times are part of the upsert key — changing them later creates new game_ids, which invalidates scoring sheets and requires regeneration. Create the full round's schedule at once (e.g., all 32 Round of 64 games for both days).
 
 ## Step 2: Generate Scoring Sheets
 
@@ -64,10 +66,14 @@ This pre-populates ALL rostered players (13-17 per team). Players who don't play
 
 ```
 Use superpowers-chrome:browser-user subagent to:
-1. Search Google for "{team1} {team2} box score {date} {year}"
+1. Search Google for "ESPN {team1} {team2} box score {date} {year}"
 2. Navigate to ESPN box score page
 3. Extract every player's points from the rendered stats table
 ```
+
+**Parallelize box score fetching** — dispatch multiple browser subagents for different games simultaneously (2-3 games per agent works well). Each agent should verify its own totals before returning.
+
+**Partial day recording** — if only some games are final, fetch and upload only those. Leave unplayed games blank in the scoring sheet. The scoring sheet covers the full day; you fill in games as they complete and re-run upload for newly finished games.
 
 ### Source Reliability
 
@@ -98,6 +104,30 @@ If totals don't match, find a more complete box score source. Common causes:
 - Missing bench players who scored
 - Wrong point values from incomplete sources
 - Players on roster but not in box score (these get 0, which is correct)
+
+**Player name → player_unique mapping:** Box scores use display names ("Cameron Boozer") but the database uses IDs ("cameron-boozer-3"). The suffix numbers ("-1", "-2", "-3") differentiate players who share the same name across all of college basketball — they are NOT sequential within a team. You MUST match by BOTH player name AND team to get the correct suffix:
+
+```python
+# CORRECT: Read scoring sheet to get exact player_unique per team
+roster_players = {}  # {team_unique: {name_prefix: player_unique}}
+with open(scoring_sheet) as f:
+    for row in csv.DictReader(f):
+        if row['game_id'] == game_id:
+            team = row['team_unique']
+            player_id = row['player_unique']
+            # Strip suffix to get name prefix for matching
+            prefix = '-'.join(player_id.rsplit('-', 1)[:-1])
+            if team not in roster_players:
+                roster_players[team] = {}
+            roster_players[team][prefix] = player_id
+
+# Then map box score names using team context:
+# "Dion Brown" on saint-louis → look up "dion-brown" in roster_players['saint-louis'] → "dion-brown-3"
+```
+
+**Never guess suffix numbers.** If "dion-brown" appears in the box score, don't assume "-1" — look up which suffix exists for that team in the scoring sheet. ESPN's "Dion Brown" could be `dion-brown-1`, `dion-brown-2`, or `dion-brown-3` depending on how many Dion Browns play college basketball.
+
+**After mapping, always verify totals again.** Suffix mismatches are the #1 cause of totals not adding up — the points go to 0 (unmatched) instead of the correct player.
 
 ## Step 5: Upload to Supabase
 
@@ -169,3 +199,17 @@ game_time,team_unique,lost,player_unique,points,inactive,game_id
 | 5 | Elite Eight | Sat-Sun (week 2) |
 | 6 | Final Four | Saturday |
 | 7 | Championship | Monday |
+
+## Common Mistakes
+
+| Mistake | Fix |
+|---------|-----|
+| Guessing tip-off times | Use browser tool to get exact times from ESPN BEFORE creating schedule CSV |
+| Changing game times after schedule upload | Creates new game_ids, invalidates scoring sheets — get times right first |
+| Trusting Fox Sports or search snippets | Use ESPN box scores via browser tool — only source with complete player stats |
+| Uploading without verifying totals | ALWAYS check that player points sum to actual game score before uploading |
+| Recording all games at once | OK to record partial days — only upload games that are FINAL |
+| Forgetting to mark eliminated teams | Every losing team must be marked with `round_eliminated` after upload |
+| Not creating schedule before scoring sheet | Scoring sheets depend on game_ids from the schedule — schedule must exist first |
+| Guessing player_unique suffix numbers | ALWAYS look up the actual suffix from the scoring sheet by team — never assume "-1" |
+| Matching player name without team context | Same name can have different suffixes on different teams — match on BOTH name AND team |

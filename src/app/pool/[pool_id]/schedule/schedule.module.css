@@ -1,0 +1,134 @@
+/* ABOUTME: Styles for the tournament schedule page with date tabs and game cards */
+/* ABOUTME: Highlights games with drafted players and shows per-game scoring */
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin: 0;
+  text-align: left;
+}
+
+.tabs {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--color-border-subtle);
+  background: var(--color-bg-primary);
+}
+
+.tab {
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0.5rem 1.2rem;
+  background: none;
+  border: none;
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: var(--color-text-primary);
+  background: none;
+  border-radius: 0;
+}
+
+.tabActive {
+  composes: tab;
+  color: var(--color-accent-primary);
+  border-bottom-color: var(--color-accent-primary);
+}
+
+.dateGames {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.gameCard {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.gameCardHeader {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.gameTime {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  min-width: 7rem;
+}
+
+.gameScore {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  min-width: 7rem;
+}
+
+.matchup {
+  font-size: 1.4rem;
+  color: var(--color-text-primary);
+}
+
+.playerList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding-left: 8rem;
+}
+
+.playerRow {
+  font-size: 1.2rem;
+  color: var(--color-text-muted);
+  display: flex;
+  justify-content: space-between;
+}
+
+.playerOwn {
+  composes: playerRow;
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.pointsBadge {
+  font-weight: 600;
+  color: var(--color-accent-positive);
+}
+
+.gameRow {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.4rem 0;
+  color: var(--color-text-muted);
+  font-size: 1.3rem;
+}
+
+.noPlayers {
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--color-text-muted);
+}
