@@ -94,13 +94,13 @@ export function ScheduleView({ games, gameDates, defaultDate }: ScheduleViewProp
                         <span className={styles.playerName}>
                           {player.is_current_user ? '\u2605 ' : ''}
                           {player.player_name}
+                          {player.points_scored != null && (
+                            <span className={styles.pointsInline}> {player.points_scored} pts</span>
+                          )}
                         </span>
                         <span className={player.is_current_user ? styles.playerOwnParticipant : styles.participantName}>
                           {player.is_current_user ? 'yours' : player.username}
                         </span>
-                        {player.points_scored != null && (
-                          <span className={styles.pointsBadge}>{player.points_scored}</span>
-                        )}
                       </div>
                     ))}
                   </div>

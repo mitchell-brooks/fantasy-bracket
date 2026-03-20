@@ -114,11 +114,15 @@
 .playerRow {
   font-size: 1.3rem;
   color: var(--color-text-muted);
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  gap: 0.8rem;
+  display: flex;
+  justify-content: space-between;
   align-items: baseline;
-  padding: 0.15rem 0;
+  padding: 0.3rem 0;
+  border-bottom: 1px dotted var(--color-border-subtle);
+}
+
+.playerRow:last-child {
+  border-bottom: none;
 }
 
 .playerOwn {
@@ -131,23 +135,23 @@
   white-space: nowrap;
 }
 
+.pointsInline {
+  font-weight: 700;
+  color: var(--color-accent-positive);
+}
+
 .participantName {
   font-size: 1.1rem;
   color: var(--color-accent-primary);
   font-weight: 600;
+  flex-shrink: 0;
 }
 
 .playerOwnParticipant {
   font-size: 1.1rem;
   color: var(--color-text-primary);
   font-weight: 700;
-}
-
-.pointsBadge {
-  font-weight: 700;
-  color: var(--color-accent-positive);
-  text-align: right;
-  min-width: 4rem;
+  flex-shrink: 0;
 }
 
 .gameRow {
