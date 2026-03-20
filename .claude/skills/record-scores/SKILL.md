@@ -105,7 +105,29 @@ If totals don't match, find a more complete box score source. Common causes:
 - Wrong point values from incomplete sources
 - Players on roster but not in box score (these get 0, which is correct)
 
-**Player name → player_unique mapping:** Box scores use display names ("Cameron Boozer") but the database uses IDs ("cameron-boozer-3"). Read the scoring sheet first to get the list of player_unique values per team, then map box score names to IDs. Most map directly (lowercased, hyphenated). Watch for suffix numbers — some players share names across teams (e.g., "-1", "-2", "-3").
+**Player name → player_unique mapping:** Box scores use display names ("Cameron Boozer") but the database uses IDs ("cameron-boozer-3"). The suffix numbers ("-1", "-2", "-3") differentiate players who share the same name across all of college basketball — they are NOT sequential within a team. You MUST match by BOTH player name AND team to get the correct suffix:
+
+```python
+# CORRECT: Read scoring sheet to get exact player_unique per team
+roster_players = {}  # {team_unique: {name_prefix: player_unique}}
+with open(scoring_sheet) as f:
+    for row in csv.DictReader(f):
+        if row['game_id'] == game_id:
+            team = row['team_unique']
+            player_id = row['player_unique']
+            # Strip suffix to get name prefix for matching
+            prefix = '-'.join(player_id.rsplit('-', 1)[:-1])
+            if team not in roster_players:
+                roster_players[team] = {}
+            roster_players[team][prefix] = player_id
+
+# Then map box score names using team context:
+# "Dion Brown" on saint-louis → look up "dion-brown" in roster_players['saint-louis'] → "dion-brown-3"
+```
+
+**Never guess suffix numbers.** If "dion-brown" appears in the box score, don't assume "-1" — look up which suffix exists for that team in the scoring sheet. ESPN's "Dion Brown" could be `dion-brown-1`, `dion-brown-2`, or `dion-brown-3` depending on how many Dion Browns play college basketball.
+
+**After mapping, always verify totals again.** Suffix mismatches are the #1 cause of totals not adding up — the points go to 0 (unmatched) instead of the correct player.
 
 ## Step 5: Upload to Supabase
 
@@ -189,3 +211,5 @@ game_time,team_unique,lost,player_unique,points,inactive,game_id
 | Recording all games at once | OK to record partial days — only upload games that are FINAL |
 | Forgetting to mark eliminated teams | Every losing team must be marked with `round_eliminated` after upload |
 | Not creating schedule before scoring sheet | Scoring sheets depend on game_ids from the schedule — schedule must exist first |
+| Guessing player_unique suffix numbers | ALWAYS look up the actual suffix from the scoring sheet by team — never assume "-1" |
+| Matching player name without team context | Same name can have different suffixes on different teams — match on BOTH name AND team |
