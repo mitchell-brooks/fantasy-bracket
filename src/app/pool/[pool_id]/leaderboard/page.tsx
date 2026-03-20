@@ -1,5 +1,5 @@
 // ABOUTME: Pool leaderboard page showing participant rankings and prize split
-// ABOUTME: Server component that fetches roster scores and renders via AG Grid
+// ABOUTME: Server component that fetches roster scores, active players, and yet-to-play counts
 import React from "react";
 import styles from "./page.module.css";
 import { createClient } from "@utils/supabase-server";
@@ -41,8 +41,58 @@ export default async function PoolIdDraftNumResults({
     .select("*")
     .eq("pool_id", pool_id);
 
+  const competition_id = pool_data?.[0]?.competition_id;
   const currency = pool_data?.[0]?.currency || "cent";
   const point_value = pool_data?.[0]?.point_value || 1;
+
+  // Compute "yet to play today" — players with a game today that hasn't been scored
+  const today = new Date().toISOString().split('T')[0];
+  const yetToPlayDict: Record<number, number> = {};
+  if (competition_id && today) {
+    // Get today's games
+    const { data: todaysGames } = await supabase
+      .from('game')
+      .select('game_id')
+      .eq('competition_id', competition_id)
+      .eq('game_date', today);
+
+    if (todaysGames && todaysGames.length > 0) {
+      const gameIds = todaysGames.map((g) => g.game_id);
+
+      // Get players in today's games
+      const { data: playersInTodaysGames } = await supabase
+        .from('players_in_games_view')
+        .select('player_unique, game_id')
+        .eq('competition_id', competition_id)
+        .in('game_id', gameIds);
+
+      // Get which of today's games have been scored
+      const { data: scoredGames } = await supabase
+        .from('player_game')
+        .select('game_id')
+        .in('game_id', gameIds);
+      const scoredGameIds = new Set((scoredGames ?? []).map((sg) => sg.game_id));
+
+      // Get roster membership for all players
+      const { data: rosterPlayers } = await supabase
+        .from('roster_player_total_scores_view')
+        .select('player_unique, roster_id')
+        .eq('pool_id', pool_id);
+      const playerToRoster = new Map(
+        (rosterPlayers ?? []).map((rp) => [rp.player_unique, rp.roster_id])
+      );
+
+      // Count players per roster who have an unscored game today
+      for (const pig of (playersInTodaysGames ?? [])) {
+        if (!pig.player_unique || !pig.game_id) continue;
+        if (scoredGameIds.has(pig.game_id)) continue;
+        const rosterId = playerToRoster.get(pig.player_unique);
+        if (rosterId != null) {
+          yetToPlayDict[rosterId] = (yetToPlayDict[rosterId] ?? 0) + 1;
+        }
+      }
+    }
+  }
 
   const sortedRosterData = roster_total_score_data?.sort(
     (a, b) => (b?.total_roster_points || 0) - (a?.total_roster_points || 0)
@@ -60,6 +110,7 @@ export default async function PoolIdDraftNumResults({
       const trailing = highestScore - (row?.total_roster_points || 0);
       totalWinnings += trailing;
       const owes = formatPointValue(trailing, currency, point_value);
+      const yet_to_play = row.roster_id ? (yetToPlayDict[row.roster_id] ?? 0) : 0;
       return {
         roster_id: row.roster_id || 0,
         username: row.username || '',
@@ -67,6 +118,7 @@ export default async function PoolIdDraftNumResults({
         trailing,
         owes,
         active_players,
+        yet_to_play,
         pool_id,
       };
     }) || [];
