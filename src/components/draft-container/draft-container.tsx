@@ -40,6 +40,7 @@ function toExplorePlayer(row: ViewPoolPlayersFullRow): ExplorePlayer {
     player_name: row.player_name ?? '',
     team_name: row.team_name ?? '',
     seed: row.seed,
+    note: row.note ?? null,
     region: row.region,
     tournament_points: row.tournament_points,
     points: extractNum(row.player_stats, 'points'),
@@ -59,6 +60,7 @@ function toRankedPlayer(row: RankingFullViewRow): RankedPlayer | null {
     player_name: row.player_name ?? '',
     team_name: row.team_name ?? '',
     seed: row.seed,
+    note: row.note ?? null,
     ranking: row.ranking,
   };
 }
@@ -173,6 +175,7 @@ export const DraftContainer: React.FC<DraftContainerProps> = ({
           player_name: source.player_name ?? '',
           team_name: source.team_name ?? '',
           seed: source.seed,
+          note: source.note ?? null,
           ranking: nextRanking,
         });
         nextRanking++;
@@ -246,6 +249,7 @@ export const DraftContainer: React.FC<DraftContainerProps> = ({
         player_name: source.player_name ?? '',
         team_name: source.team_name ?? '',
         seed: source.seed,
+        note: source.note ?? null,
         ranking: rankNum,
       });
     }

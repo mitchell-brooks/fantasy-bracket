@@ -21,6 +21,7 @@ export interface ExplorePlayer {
   player_name: string;
   team_name: string;
   seed: number | null;
+  note: string | null;
   region: string | null;
   tournament_points: number | null;
   points: number | null;
@@ -81,6 +82,7 @@ export function ExploreGrid({
     { field: 'player_name', headerName: 'Player', headerTooltip: 'Player Name', flex: 2, filter: 'agTextColumnFilter' },
     { field: 'team_name', headerName: 'Team', headerTooltip: 'Team Name', flex: 1, filter: 'agTextColumnFilter' },
     { field: 'seed', headerName: 'Seed', headerTooltip: 'Tournament Seed', width: 80 },
+    { field: 'note', headerName: 'Notes', headerTooltip: 'Injury/eligibility notes', flex: 2, filter: 'agTextColumnFilter', sortable: true },
     { field: 'points', headerName: 'Reg. Pts', headerTooltip: 'Regular Season Points', width: 100 },
     { field: 'position', headerName: 'Pos', headerTooltip: 'Position', width: 70, filter: 'agTextColumnFilter' },
     { field: 'region', headerName: 'Region', headerTooltip: 'Tournament Region', flex: 1, filter: 'agTextColumnFilter' },

@@ -20,6 +20,7 @@ export interface RankedPlayer {
   player_name: string;
   team_name: string;
   seed: number | null;
+  note: string | null;
   ranking: number;
 }
 
@@ -76,6 +77,7 @@ export function RankGrid({
     },
     { field: 'team_name', headerName: 'Team', headerTooltip: 'Team Name', flex: 1, sortable: false },
     { field: 'seed', headerName: 'Seed', headerTooltip: 'Tournament Seed', width: 70, sortable: false },
+    { field: 'note', headerName: 'Notes', headerTooltip: 'Injury/eligibility notes', flex: 2, sortable: false },
     {
       headerName: '',
       width: 50,

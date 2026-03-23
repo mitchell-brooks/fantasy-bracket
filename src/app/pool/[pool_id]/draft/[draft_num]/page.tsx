@@ -44,6 +44,7 @@ const transformPlayerRowForCsv = (
       tournament_points: null,
       team_name: null,
       seed: null,
+      note: null,
       region: null,
       overall_seed: null,
     },
