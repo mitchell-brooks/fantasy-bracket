@@ -62,11 +62,11 @@
   background: var(--color-bg-surface);
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius);
-  padding: 1rem 1.2rem;
+  padding: 0.8rem 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  max-width: 600px;
+  gap: 0.4rem;
+  max-width: 520px;
 }
 
 .gameCardHeader {
@@ -99,26 +99,30 @@
 .teamGroup {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
 }
 
 .teamName {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.04rem;
-  padding-bottom: 0.1rem;
+  padding: 0.3rem 0 0.1rem;
 }
 
 .playerRow {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
+  line-height: 1.4;
   color: var(--color-text-muted);
   display: flex;
-  justify-content: space-between;
   align-items: baseline;
+  gap: 0.5rem;
   padding: 0.15rem 0;
   border-bottom: 1px dotted var(--color-border-subtle);
+}
+
+.playerRow:last-child {
+  border-bottom: none;
 }
 
 .playerOwn {
@@ -134,20 +138,23 @@
 .pointsInline {
   font-weight: 700;
   color: var(--color-accent-positive);
+  font-size: 1.1rem;
 }
 
 .participantName {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: var(--color-accent-primary);
   font-weight: 600;
   flex-shrink: 0;
+  margin-left: auto;
 }
 
 .playerOwnParticipant {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: var(--color-text-primary);
   font-weight: 700;
   flex-shrink: 0;
+  margin-left: auto;
 }
 
 .gameRow {

@@ -59,7 +59,7 @@ export function ScheduleView({ games, gameDates, defaultDate }: ScheduleViewProp
               <div key={game.game_id} className={styles.gameRow}>
                 <span className={styles.gameTime}>{formatTime(game.game_time)}</span>
                 <span className={styles.matchup}>
-                  {game.team_1.team_name} vs {game.team_2.team_name}
+                  {game.team_1.seed ? `(${game.team_1.seed}) ` : ''}{game.team_1.team_name} vs {game.team_2.seed ? `(${game.team_2.seed}) ` : ''}{game.team_2.team_name}
                 </span>
                 <span className={styles.noPlayers}>(no drafted players)</span>
               </div>
@@ -75,7 +75,7 @@ export function ScheduleView({ games, gameDates, defaultDate }: ScheduleViewProp
                   <span className={styles.gameTime}>{formatTime(game.game_time)}</span>
                 )}
                 <span className={styles.matchup}>
-                  {game.team_1.team_name} vs {game.team_2.team_name}
+                  {game.team_1.seed ? `(${game.team_1.seed}) ` : ''}{game.team_1.team_name} vs {game.team_2.seed ? `(${game.team_2.seed}) ` : ''}{game.team_2.team_name}
                 </span>
               </div>
               {[game.team_1, game.team_2].map((team) => {
@@ -85,7 +85,7 @@ export function ScheduleView({ games, gameDates, defaultDate }: ScheduleViewProp
                 if (teamPlayers.length === 0) return null;
                 return (
                   <div key={team.team_unique} className={styles.teamGroup}>
-                    <span className={styles.teamName}>{team.team_name}</span>
+                    <span className={styles.teamName}>{team.seed ? `(${team.seed}) ` : ''}{team.team_name}</span>
                     {teamPlayers.map((player) => (
                       <div
                         key={player.player_unique}

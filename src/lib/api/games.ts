@@ -9,8 +9,8 @@ export interface GameWithPlayers {
   game_date: string;
   game_time: string | null;
   round_num: number;
-  team_1: { team_unique: string; team_name: string };
-  team_2: { team_unique: string; team_name: string };
+  team_1: { team_unique: string; team_name: string; seed: number | null };
+  team_2: { team_unique: string; team_name: string; seed: number | null };
   players: GamePlayer[];
 }
 
@@ -74,10 +74,15 @@ export function assembleGamesWithPlayers(
   players: RawPlayer[],
   rosterData: RawRosterEntry[],
   playerGameData: RawPlayerGame[],
-  user_id: string | undefined
+  user_id: string | undefined,
+  teamSeeds?: Array<{ team_unique: string; seed: number }>
 ): GameWithPlayers[] {
   const teamLookup = new Map(
     teams.map((t) => [t.team_unique, t.team_name])
+  );
+
+  const seedLookup = new Map(
+    (teamSeeds ?? []).map((ts) => [ts.team_unique, ts.seed])
   );
 
   const playerNameLookup = new Map(
@@ -132,10 +137,12 @@ export function assembleGamesWithPlayers(
       team_1: {
         team_unique: game.team_1_id,
         team_name: teamLookup.get(game.team_1_id) ?? game.team_1_id,
+        seed: seedLookup.get(game.team_1_id) ?? null,
       },
       team_2: {
         team_unique: game.team_2_id,
         team_name: teamLookup.get(game.team_2_id) ?? game.team_2_id,
+        seed: seedLookup.get(game.team_2_id) ?? null,
       },
       players: enrichedPlayers,
     };
@@ -171,16 +178,23 @@ export async function getGamesForPool(
 
   if (!games?.length) return [];
 
-  // 3. Fetch team names
+  // 3. Fetch team names and seeds
   const teamIds = new Set<string>();
   for (const g of games) {
     teamIds.add(g.team_1_id);
     teamIds.add(g.team_2_id);
   }
+  const teamIdArray = Array.from(teamIds);
   const { data: teams } = await supabase
     .from('team')
     .select('team_unique, team_name')
-    .in('team_unique', Array.from(teamIds));
+    .in('team_unique', teamIdArray);
+
+  const { data: teamSeeds } = await supabase
+    .from('team_competition')
+    .select('team_unique, seed')
+    .eq('competition_id', competition_id)
+    .in('team_unique', teamIdArray);
 
   // 4. Fetch all players in games for this competition
   const { data: playersInGames } = await supabase
@@ -218,7 +232,8 @@ export async function getGamesForPool(
     players ?? [],
     rosterData ?? [],
     playerGameData ?? [],
-    user_id
+    user_id,
+    (teamSeeds ?? []).map((ts) => ({ team_unique: ts.team_unique, seed: ts.seed }))
   );
 }
 
