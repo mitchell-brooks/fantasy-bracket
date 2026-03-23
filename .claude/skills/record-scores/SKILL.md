@@ -131,32 +131,29 @@ with open(scoring_sheet) as f:
 
 ## Step 5: Upload to Supabase
 
-Three operations per game day:
+**USE THE PIPELINE FUNCTION — do NOT write ad hoc upload code.**
 
 ```python
-# 1. Record player scores
-player_game_rows = [{"player_unique": p, "game_id": g, "points": pts} for ...]
-supabase.table("player_game").upsert(
-    player_game_rows, ignore_duplicates=False, on_conflict="game_id, player_unique"
-).execute()
+from pipeline.game_recording import update_scores_from_csv
+from pipeline.supabase_client import get_client
 
-# 2. Record competition progress
-supabase.table("competition_updated").insert({
-    "competition_id": comp_id, "current_round": round_num
-}).execute()
-
-# 3. Mark eliminated teams
-for team in losing_teams:
-    supabase.table("team_competition").update({
-        "round_eliminated": round_num
-    }).eq("team_unique", team).eq("competition_id", comp_id).execute()
-
-# 4. Mark inactive/injured players (if any)
-for player in inactive_players:
-    supabase.table("player_competition").update({
-        "inactive": True
-    }).eq("player_unique", player).eq("competition_id", comp_id).execute()
+supabase = get_client()
+result = update_scores_from_csv(
+    csv_path="output/2026/scores/2026-03-21-game-scoring-2026-ncaa-tournament.csv",
+    current_round=3,
+    competition_id=8,
+    supabase=supabase,
+)
+print(f"Scores: {len(result.player_games)}, Eliminated: {result.losing_teams}, Inactive: {result.inactive_players}")
 ```
+
+This function handles ALL of:
+1. Upsert player_game scores
+2. Insert competition_updated row (with auto-timestamp)
+3. Mark eliminated teams (round_eliminated)
+4. Mark inactive players
+
+**Do NOT inline these operations.** The function ensures nothing is forgotten (especially the competition_updated timestamp which has been inconsistent when scripting ad hoc).
 
 ## Scoring Sheet CSV Format
 
@@ -213,3 +210,4 @@ game_time,team_unique,lost,player_unique,points,inactive,game_id
 | Not creating schedule before scoring sheet | Scoring sheets depend on game_ids from the schedule — schedule must exist first |
 | Guessing player_unique suffix numbers | ALWAYS look up the actual suffix from the scoring sheet by team — never assume "-1" |
 | Matching player name without team context | Same name can have different suffixes on different teams — match on BOTH name AND team |
+| Writing ad hoc upload code | ALWAYS use `update_scores_from_csv()` from `pipeline.game_recording` — it handles scores, eliminations, inactive players, and the timestamp in one call |
