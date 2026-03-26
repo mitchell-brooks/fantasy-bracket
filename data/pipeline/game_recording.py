@@ -131,10 +131,7 @@ def update_game_schedule(csv_path: str, supabase: Any) -> None:
             if row.get("game_date", "").strip() and row.get("team_1_id", "").strip():
                 game_insert.append(row)
 
-    supabase.table("game").upsert(
-        game_insert,
-        on_conflict="game_date, team_1_id, team_2_id",
-    ).execute()
+    supabase.table("game").upsert(game_insert).execute()
 
 
 def generate_game_scoring_sheet(
